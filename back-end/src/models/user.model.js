@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+	email: {
+		type: String,
+		unique: true
+	},
   avatar: {
     type: String,
     default: null
@@ -43,6 +47,15 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   }
+});
+
+userSchema.pre('save', async function (next) {
+	try {
+		this.password = await bcrypt.hash(this.password);
+		next();
+	} catch (error) {
+		next(error);
+	}
 });
 
 const userModel = mongoose.model('user', userSchema, 'users');

@@ -1,5 +1,6 @@
-const passportMiddleware = require('passport');
 const jwt = require('jsonwebtoken');
+
+const userModel = require('../models/user.model');
 
 const jwtAuthentication = async (req, res, next) => {
     res.locals.isAuth = false;
@@ -11,9 +12,8 @@ const jwtAuthentication = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (decoded) {
-        console.log(decoded.sub);
-        const { accountId } = decoded.sub;
-        const user = await AccountModel.findById(accountId);
+        const { userId } = decoded;
+        const user = await userModel.findById(userId);
         if (user) {
             res.locals.isAuth = true;
             req.user = user;
@@ -21,3 +21,5 @@ const jwtAuthentication = async (req, res, next) => {
     }
     next();
 };
+
+module.exports = jwtAuthentication;
