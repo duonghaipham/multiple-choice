@@ -25,7 +25,7 @@ const workSchema = new Schema({
   },
   options: [
     {
-      question: Schema.Types.ObjectId,
+      question: String,
       option: Schema.Types.ObjectId
     }
   ],
