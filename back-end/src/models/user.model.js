@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    enum: ['active', 'inactive'],
+    enum: ['active', 'inactive', 'deleted'],
     default: 'inactive'
   },
   createAt: {
@@ -58,6 +58,6 @@ userSchema.pre('save', async function (next) {
 	}
 });
 
-const userModel = mongoose.model('user', userSchema, 'users');
+const userModel = mongoose.model('User', userSchema, 'users');
 
 module.exports = userModel;

@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const examSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId
-  },
   openedAt: {
     type: Date,
     default: Date.now()
@@ -15,7 +12,7 @@ const examSchema = new Schema({
   },
   creator: {
     type: Schema.Types.ObjectId,
-    default: null
+    ref: 'User'
   },
   attemptLimit: {
     type: Number,
@@ -25,12 +22,16 @@ const examSchema = new Schema({
     type: Number,
     default: 0
   },
+  questions: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Question'
+  }],
   subject: {
     type: String,
     default: null
   }
 });
 
-const examModel = mongoose.model('exam', examSchema, 'exams');
+const examModel = mongoose.model('Exam', examSchema, 'exams');
 
 module.exports = examModel;

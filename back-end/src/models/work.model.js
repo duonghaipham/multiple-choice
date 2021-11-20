@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const workSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId
-  },
   candidate: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   },
   exam: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'Exam'
   },
   attempt: {
     type: Number,
@@ -25,8 +24,14 @@ const workSchema = new Schema({
   },
   options: [
     {
-      question: String,
-      option: Schema.Types.ObjectId
+      question: {
+        type: Schema.Types.ObjectId,
+        ref: 'Question'
+      },
+      option: {
+        type: Schema.Types.ObjectId,
+        ref: 'Option'
+      }
     }
   ],
   outOf: {
@@ -35,6 +40,6 @@ const workSchema = new Schema({
   }
 });
 
-const workModel = mongoose.model('work', workSchema, 'works');
+const workModel = mongoose.model('Work', workSchema, 'works');
 
 module.exports = workModel;

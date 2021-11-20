@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const questionSchema = new Schema({
-  exam: {
-    type: Schema.Types.ObjectId
-  },
   order: {
     type: Number,
     default: 1
@@ -14,14 +11,15 @@ const questionSchema = new Schema({
     default: null
   },
   options: [{
-    _id: Schema.Types.ObjectId,
-    content: String
+    type: Schema.Types.ObjectId,
+    ref: 'Option'
   }],
   correctOption: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'Option'
   }
 });
 
-const questionModel = new mongoose.model('question', questionSchema, 'questions');
+const questionModel = new mongoose.model('Question', questionSchema, 'questions');
 
 module.exports = questionModel;

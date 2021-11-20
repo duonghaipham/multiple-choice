@@ -12,6 +12,7 @@ const cors = require('cors');
 const loginApi = require('./src/apis/login.api');
 const userApi = require('./src/apis/user.api');
 const examApi = require('./src/apis/exam.api');
+const adminApi = require('./src/apis/admin.api');
 
 // Configurations
 const app = express()
@@ -35,3 +36,4 @@ app.listen(process.env.PORT, () => {
 app.use('/login', loginApi);
 app.use('/user', userApi);
 app.use('/exam', examApi);
+app.use('/admin', adminApi);

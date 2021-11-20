@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const ObjectId = require('mongoose').Types.ObjectId;
 
 const examModel = require('../models/exam.model');
 const workModel = require('../models/work.model');
 const questionModel = require('../models/question.model');
+const optionModel = require('../models/option.model');
 
 const getExamView = async (req, res, next) => {
   try {
@@ -25,11 +25,18 @@ const getExamTake = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 
-		const exam = await examModel.findById(id);
-		const questions = await questionModel.find({ exam: id });
-		const fullExam = { ...exam._doc, questions };
+		const exam = await examModel
+      .findById(id)
+      .populate('creator', 'name')
+      .populate({
+        path: 'questions',
+        select: 'order content',
+        populate: {
+          path: 'options'
+        }
+      });
 
-		return res.status(200).json(fullExam);
+		return res.status(200).json(exam);
 	} catch (error) {
 		return res.status(400).json({ message: 'Cannot fetch data' });
 	}
@@ -41,19 +48,22 @@ const getExamReview = async (req, res, next) => {
     const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
     const { userId } = decodedAuth;
 
-    const questions = await questionModel.find({ exam: id });
-    const works = await Promise.all(
-      questions.map(async (question) => {
-        const optionChoosed = await workModel.findOne({
-          candidate: userId,
-          exam: id,
-          'options.question': question._id
-        });
-        return { ...question._doc, optionChoosed };
+    const works = await workModel
+      .findOne({
+        candidate: userId,
+        exam: id,
+        attempt: attempt
       })
-    );
+      .populate({
+        path: 'options.question',
+        select: 'order content',
+        populate: {
+          path: 'correctOption'
+        }
+      })
+      .populate('options.option');
 
-    return res.status(200).json({ ...works });
+    return res.status(200).json(works);
   } catch (error) {
     return res.status(400).json({ message: 'Cannot fetch data' });
   }
