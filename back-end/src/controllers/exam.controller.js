@@ -69,4 +69,8 @@ const getExamReview = async (req, res, next) => {
   }
 };
 
-module.exports = { getExamView, getExamTake, getExamReview };
+module.exports = {
+  getExamView,
+  getExamTake,
+  getExamReview,
+};

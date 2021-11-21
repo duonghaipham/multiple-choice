@@ -10,12 +10,12 @@ const postCreateExam = async (req, res, next) => {
   }
 };
 
-const getRetrieveExam = async (req, res, next) => {
+const getRetrieveExams = async (req, res, next) => {
   try {
     const { page } = req.query;
 
     const exams = await examModel
-      .find()
+      .find({})
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE)
       .populate('creator', 'name');
@@ -24,14 +24,14 @@ const getRetrieveExam = async (req, res, next) => {
   } catch (error) {
     return res.status(400).json({ 'message': 'Failed' });
   }
-}
+};
 
 const putUpdateExam = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { attemptLimit, minuteLimit, subject } = req.body;
 
-    examModel.findByIdAndUpdate(id, { attemptLimit, minuteLimit, subject });
+    await examModel.findByIdAndUpdate(id, { attemptLimit, minuteLimit, subject });
 
     return res.status(200).json({ 'message': `Update exam ${id} successfully` });
   } catch (error) {
@@ -43,12 +43,73 @@ const deleteExam = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    examModel.findByIdAndUpdate(id, { isDeleted: true });
+    await examModel.findByIdAndUpdate(id, { isDeleted: true });
 
     return res.status(200).json({ 'message': `Deleted exam ${id} successfully` });
   } catch (error) {
-    return res.status(400).json({ 'message': `Cannot find and delete exam ${id}` });
+    return res.status(400).json({ 'message': `Cannot find and delete exam` });
   }
 };
 
-module.exports = { postCreateExam, getRetrieveExam, putUpdateExam, deleteExam };
+const postCreateUser = async (req, res, next) => {
+  try {
+    const { name, gender, city, phone, email, password, roles, state } = req.body;
+
+    await userModel.create({ name, gender, city, phone, email, password, roles, state });
+
+    return res.status(201).json({ 'message': 'Success' });
+  } catch (error) {
+    return res.status(400).json({ 'message': 'Failed' });
+  }
+};
+
+const getRetrieveUsers = async (req, res, next) => {
+  try {
+    const { page } = req.query;
+
+    const exams = await userModel
+      .find({})
+      .skip((page - 1) * ITEM_PER_PAGE)
+      .limit(ITEM_PER_PAGE);
+
+    return res.status(200).json(exams);
+  } catch (error) {
+    return res.status(400).json({ 'message': `Failed` });
+  }
+};
+
+const putUpdateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, gender, city, phone, email, avatar } = req.body;
+
+    await userModel.findByIdAndUpdate(id, { name, gender, city, phone, email, avatar });
+
+    return res.status(200).json({ 'message': `Update user ${id} successfully` });
+  } catch (error) {
+    return res.status(400).json({ 'message': `Cannot find and update user` });
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    await userModel.findByIdAndUpdate(id, { state: 'deleted' });
+
+    return res.status(200).json({ 'message': `Delete user ${id} successfully` });
+  } catch (error) {
+    return res.status(400).json({ 'message': `Cannot find and delete user` });
+  }
+};
+
+module.exports = {
+  postCreateExam,
+  getRetrieveExams,
+  putUpdateExam,
+  deleteExam,
+  postCreateUser,
+  getRetrieveUsers,
+  putUpdateUser,
+  deleteUser,
+};
