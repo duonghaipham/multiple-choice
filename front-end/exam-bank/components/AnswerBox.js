@@ -2,7 +2,7 @@ function AnswerBox({ question, answer }) {
 	return (
 		<div
 			className={`${
-				answer ? "bg-answer" : "bg-yellow-300"
+				answer ? "bg-green-400" : "bg-yellow-300"
 			} relative flex justify-center w-8 h-8 rounded-lg transition delay-50 ease-in`}
 		>
 			<span className="block text-sm text-black font-bold bg-white shadow-sm rounded-full w-5 h-5 leading-5 text-center absolute -top-2 -left-2 ">

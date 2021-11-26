@@ -51,13 +51,13 @@ export default function CreateExamForm() {
 	const onSubmit = (data) => {
 		// exam = modifiedQuestion(data);
 		console.log(data);
-		// router.push({
-		// 	pathname: "makeExam",
-		// 	query: {
-		// 		// type: "edit",
-		// 		exam: JSON.stringify(exam),
-		// 	},
-		// });
+		router.push({
+			pathname: "makeExam",
+			query: {
+				// type: "edit",
+				exam: JSON.stringify(exam),
+			},
+		});
 	};
 
 	return (

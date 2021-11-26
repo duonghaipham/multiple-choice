@@ -36,8 +36,8 @@ function Time({ hours, minutes, seconds }) {
 	});
 
 	return (
-		<div className="h-52 w-52 flex justify-center">
-			<div className="h-16 w-40 border-2 border-green-400 flex flex-col items-center rounded-xl justify-center">
+		<div className="py-10 w-52 flex justify-center ">
+			<div className="bg-gray-100 h-16 w-40 border-2 border-green-400 flex flex-col items-center rounded-xl justify-center">
 				<p
 					className={`text-[35px] font-bold text-green-400 ${
 						hours === 0 &&

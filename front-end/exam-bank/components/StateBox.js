@@ -63,9 +63,9 @@ function StateBox({ timeout, setTimeout }) {
 		if (completed) {
 			// Render a completed state
 			return (
-				<div className="h-52 w-52 flex justify-center">
+				<div className="py-10 w-52 flex justify-center">
 					<div className="h-16 w-40 border-2 border-red-500 flex flex-col items-center rounded-xl justify-center">
-						<h1 className="text-red-600 font-bold text-3xl">TIME'S UP</h1>
+						<h1 className="text-red-600 font-bold text-3xl">HẾT GIỜ</h1>
 					</div>
 				</div>
 			);
@@ -76,12 +76,10 @@ function StateBox({ timeout, setTimeout }) {
 	};
 
 	return (
-		<div className="flex flex-col w-1/4 items-center justify-start">
-			<h1>Questions Box</h1>
-			<button onClick={createExam}>Create Exam</button>
+		<div className="flex flex-col items-center justify-start fixed top-100 right-0 bg-indigo-600 bg-opacity-20 rounded-lg p-2">
 			<AnswersBox />
 			<Countdown
-				date={timeout ? 0 : Date.now() + time * 1000}
+				date={timeout ? 0 : Date.now() + 1 * 1000}
 				renderer={renderer}
 				onComplete={() => setTimeout(true)}
 			/>

@@ -14,6 +14,8 @@ import { initAnswers } from "../store/slices/answerSlice";
 
 const customStyles = {
 	content: {
+		textAlign: "center",
+		padding: "30px 60px",
 		top: "50%",
 		left: "50%",
 		right: "auto",
@@ -25,6 +27,31 @@ const customStyles = {
 
 export default function ExamForm({ timeout }) {
 	const arr = [
+		{
+			question: "What is your name?",
+			correctAnswer: "A",
+			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
+		},
+		{
+			question: "How old are you?",
+			correctAnswer: "C",
+			answers: ["12", "18", "20", "22"],
+		},
+		{
+			question: "Where are you live?",
+			correctAnswer: "B",
+			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
+		},
+		{
+			question: "Which major are you studying? ",
+			correctAnswer: "D",
+			answers: [
+				"Computer Sience",
+				"Information Systems",
+				"Information Technology",
+				"Software Engineering",
+			],
+		},
 		{
 			question: "What is your name?",
 			correctAnswer: "A",
@@ -124,7 +151,7 @@ export default function ExamForm({ timeout }) {
 	}, [timeout]);
 
 	return (
-		<div>
+		<div className="mt-5 flex-1">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{arr?.map((e, i) => (
 					<Question
@@ -144,24 +171,40 @@ export default function ExamForm({ timeout }) {
 				</button>
 			</form>
 			{/* button submit giả cho user click để hiện Modal xác nhận nộp bài*/}
-			<button onClick={() => setSubmit(true)}>Submit</button>
+			<div className="flex justify-center mr-44">
+				<button
+					className="bg-blue-400 py-2 px-8 mt-4 font-bold text-gray-50 text-xl rounded-lg"
+					onClick={() => setSubmit(true)}
+				>
+					NỘP BÀI
+				</button>
+			</div>
 			<Modal
 				isOpen={submit}
 				style={customStyles}
 				contentLabel="Modal"
 				ariaHideApp={false}
 			>
-				<h2>Xác nhận nộp bài</h2>
+				<h2 className="font-bold text-xl text-red-500">Xác nhận nộp bài</h2>
 				{/* nếu click thì gọi ref của button submit thật để submit */}
-				<button
-					onClick={() => {
-						buttonSubmit.current.click();
-						router.push("/result");
-					}}
-				>
-					Nộp bài
-				</button>
-				<button onClick={() => setSubmit(false)}>Làm bài tiếp</button>
+
+				<div className="flex justify-around mt-5">
+					<button
+						className="bg-blue-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
+						onClick={() => {
+							buttonSubmit.current.click();
+							router.push("/result");
+						}}
+					>
+						Nộp bài
+					</button>
+					<button
+						className="bg-yellow-400 py-2 px-8 mt-4 ml-3 font-bold text-gray-50 text-lg rounded-lg"
+						onClick={() => setSubmit(false)}
+					>
+						Làm bài tiếp
+					</button>
+				</div>
 			</Modal>
 		</div>
 	);

@@ -37,7 +37,17 @@ function BodyExam({ timeout }) {
 
 	const router = useRouter();
 	return (
-		<div className="w-3/4 flex justify-center">
+		<div className="flex-1 flex flex-col ml-40">
+			<div className="">
+				<h1 className="text-3xl font-bold text-green-800 ">Lịch Sử</h1>
+
+				<h3
+					className="text-yellow-500 text-2xl font-semibold cursor-pointer mt-3"
+					onClick={() => router.push("takeExam")}
+				>
+					Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
+				</h3>
+			</div>
 			<ExamForm timeout={timeout} />
 			<Modal
 				isOpen={timeout}
@@ -45,8 +55,20 @@ function BodyExam({ timeout }) {
 				contentLabel="Modal"
 				ariaHideApp={false}
 			>
-				<h2>Bài thi của bạn đã được nộp</h2>
-				<button onClick={() => router.push("/result")}>Xem kết quả</button>
+				<h2 className="font-bold text-xl text-red-500">
+					Bài thi của bạn đã được nộp
+				</h2>
+
+				<div className="flex justify-around mt-5">
+					<button
+						className="bg-green-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
+						onClick={() => {
+							router.push("/result");
+						}}
+					>
+						Xem kết quả
+					</button>
+				</div>
 			</Modal>
 		</div>
 	);
