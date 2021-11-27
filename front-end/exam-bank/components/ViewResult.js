@@ -1,38 +1,7 @@
-import ViewQuestion from "./ViewQuestion";
+import router from "next/router";
+import ViewQuestionResult from "./ViewQuestionResult";
 
-function ViewExam() {
-	const arr = [
-		{
-			question: "What is your name?",
-			chosenAnswer: "B",
-			correctAnswer: "A",
-			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-		},
-		{
-			question: "How old are you?",
-			chosenAnswer: "C",
-			correctAnswer: "C",
-			answers: ["12", "18", "20", "22"],
-		},
-		{
-			question: "Where are you live?",
-			chosenAnswer: "C",
-			correctAnswer: "B",
-			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-		},
-		{
-			question: "Which major are you studying? ",
-			chosenAnswer: "D",
-			correctAnswer: "D",
-			answers: [
-				"Computer Sience",
-				"Information Systems",
-				"Information Technology",
-				"Software Engineering",
-			],
-		},
-	];
-
+function ViewResult() {
 	return (
 		<div className="grid place-content-center my-24">
 			<div className="">
@@ -86,22 +55,18 @@ function ViewExam() {
 				</table>
 			</div>
 			<div className="flex justify-center mb-5">
+				<button
+					className="bg-green-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
+					onClick={() => router.push("resultDetail")}
+				>
+					Xem đáp án
+				</button>
 				<button className="bg-blue-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg">
 					Làm lại
 				</button>
 			</div>
-			{/* {arr.map((e, i) => (
-				<ViewQuestion
-					key={i}
-					index={i}
-					question={e.question}
-					chosenAnswer={e.chosenAnswer}
-					correctAnswer={e.correctAnswer}
-					answers={e.answers}
-				/>
-			))} */}
 		</div>
 	);
 }
 
-export default ViewExam;
+export default ViewResult;

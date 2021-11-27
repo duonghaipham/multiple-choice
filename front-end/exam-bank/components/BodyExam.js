@@ -37,7 +37,7 @@ function BodyExam({ timeout }) {
 
 	const router = useRouter();
 	return (
-		<div className="flex-1 flex flex-col ml-40">
+		<div className="flex-1 flex flex-col mx-40">
 			<div className="">
 				<h1 className="text-3xl font-bold text-green-800 ">Lịch Sử</h1>
 

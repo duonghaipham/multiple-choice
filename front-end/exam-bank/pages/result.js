@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import ViewExam from "../components/ViewExam";
+import ViewResult from "../components/ViewResult";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
@@ -15,7 +15,7 @@ export default function Home() {
 			</Head>
 
 			<Header />
-			<ViewExam />
+			<ViewResult />
 			<Footer />
 		</div>
 	);
