@@ -18,15 +18,18 @@ export default function Home() {
 
 			<Header />
 			<section className="bg-home h-[918px] bg-cover flex justify-center items-center">
-				<div className="w-1/2 text-center justify-center bg-gray-50 bg-opacity-20 py-10 rounded-3xl shadow-lg">
-					<h1 className="text-[60px] text-green-500 font-bold ">
+				<div className="w-1/2 text-center justify-center bg-gray-100 bg-opacity-60 py-10 rounded-3xl shadow-lg">
+					<h1 className="text-[60px] text-red-500 font-bold ">
 						LUYỆN THI ĐẠI HỌC
 					</h1>
-					<p className="text-gray-700 text-md">
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde ipsam
-						quasi minima quis.
+					<p className="text-gray-700 text-lg font-medium px-32">
+						Đây là những giờ phút vô cùng quan trọng của cuộc đời, hãy tập trung
+						ôn thi và đừng để bất cứ điều gì làm xao nhãng bạn nhé.
 					</p>
-					<button className="border-4 border-green-300 mt-10 text-green-300 text-xl font-bold rounded-full px-10 py-2 hover:bg-green-400 hover:bg-opacity-50 hover:text-green-50  transition ease-out ">
+					<button
+						className="border-4 border-red-500 mt-10 text-red-600 text-xl font-bold rounded-full px-10 py-2 relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border-2 before:border-transparent before:rounded-full before:tranform hover:before:scale-x-110 hover:before:scale-y-150
+                        before:transition before:ease-out hover:before:border-red-400"
+					>
 						Tham gia miễn phí
 					</button>
 				</div>
@@ -186,7 +189,6 @@ export default function Home() {
 				</div>
 			</div>
 			<Footer />
-			{/* <button onClick={() => router.push("/makeExam")}>Làm Đề</button> */}
 		</div>
 	);
 }

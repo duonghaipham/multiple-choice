@@ -77,7 +77,7 @@ export default function Home() {
 			</Head>
 
 			<Header />
-			<div className="flex-1 flex flex-col ml-40 my-10">
+			<div className="flex-1 flex flex-col ml-40 mr-20 my-10 py-10 px-10 bg-gray-200 bg-opacity-25">
 				<div className="">
 					<h1 className="text-3xl font-bold text-green-800 ">Lịch Sử</h1>
 
@@ -110,7 +110,7 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-				<div className="mt-5 flex-1 w-3/5">
+				<div className="mt-5 flex-1 w-3/5 ">
 					{arr.map((e, i) => (
 						<ViewQuestionResult
 							key={i}
@@ -123,7 +123,7 @@ export default function Home() {
 					))}
 				</div>
 
-				<div className="flex flex-col items-center justify-start fixed top-100 right-0 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-10 shadow-lg">
+				<div className="flex flex-col items-center justify-start fixed top-24 right-20 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-10 shadow-lg">
 					<h1 className="text-3xl text-indigo-500 font-bold mb-3 p-2">
 						Kết quả
 					</h1>

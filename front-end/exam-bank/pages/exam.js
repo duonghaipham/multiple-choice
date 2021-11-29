@@ -19,8 +19,8 @@ export default function Home() {
 			<Header />
 
 			<section className="flex py-5 px-5">
-				<div className=" flex-1 py-20 px-20">
-					<div className="w-2/3 ">
+				<div className="flex-1 py-10 px-20 ">
+					<div className="w-4/5  bg-gray-200 bg-opacity-40 p-10 shadow-md">
 						<div className="flex justify-between">
 							<h1 className="text-3xl font-bold text-green-800 mb-3">
 								Đề thi theo môn học
@@ -41,7 +41,7 @@ export default function Home() {
 							</svg>
 						</div>
 
-						<div className="py-3">
+						<div className="py-3 border-b-2">
 							<div className="flex jutify-between items-center">
 								<div className="flex flex-1 jutify-between items-center">
 									<svg
@@ -95,7 +95,7 @@ export default function Home() {
 								</h4>
 							</div>
 						</div>
-						<div className="py-3">
+						<div className="py-3 border-b-2">
 							<div className="flex jutify-between items-center">
 								<div className="flex flex-1 jutify-between items-center">
 									<svg
@@ -146,7 +146,7 @@ export default function Home() {
 								</h4>
 							</div>
 						</div>
-						<div className="py-3">
+						<div className="py-3 border-b-2">
 							<div className="flex jutify-between items-center">
 								<div className="flex flex-1 jutify-between items-center">
 									<svg
@@ -200,158 +200,156 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div>
-					<div className="grid place-content-center my-10">
-						{/* <h1 className="text-3xl font-bold text-green-800 mb-3">
-							Đề thi theo môn học
-						</h1> */}
-						<div className="grid grid-cols-1 gap-3 place-items-center">
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "math",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/math.jpg"
-									alt="math"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Toán</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "english",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/english.jpg"
-									alt="english"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Tiếng Anh</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "history",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/history.jpg"
-									alt="history"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Lịch Sử</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "geography",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/geography.jpg"
-									alt="geography"
-								/>
-								<h3 className="text-center w-full py-1 text-md">Địa Lý</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "physics",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/physics.jpg"
-									alt="physics"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Vật Lý</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "chemistry",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/chemistry.jpg"
-									alt="chemistry"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Hóa Học</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "biology",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/biology.jpg"
-									alt="biology"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">Sinh Học</h3>
-							</div>
-							<div
-								className="border border-gray-300 cursor-pointer"
-								onClick={() =>
-									router.push({
-										pathname: "exam",
-										query: {
-											page: "civicEducation",
-										},
-									})
-								}
-							>
-								<img
-									className="object-cover w-64 h-16"
-									src="/img/civiceducation.jpg"
-									alt="civic education"
-								/>
-								<h3 className="text-center w-full py-1 text-md ">
-									Giáo Dục Công Dân
-								</h3>
-							</div>
+				<div className="border-l-2 border-gray-200 pl-10 pr-3 grid place-content-center mb-10">
+					<h1 className="text-2xl font-bold text-green-800 mb-3">
+						Đề thi theo môn học
+					</h1>
+					<div className="grid grid-cols-1 gap-3 place-items-center">
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "math",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/math.jpg"
+								alt="math"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Toán</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "english",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/english.jpg"
+								alt="english"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Tiếng Anh</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "history",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/history.jpg"
+								alt="history"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Lịch Sử</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "geography",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/geography.jpg"
+								alt="geography"
+							/>
+							<h3 className="text-center w-full py-1 text-md">Địa Lý</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "physics",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/physics.jpg"
+								alt="physics"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Vật Lý</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "chemistry",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/chemistry.jpg"
+								alt="chemistry"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Hóa Học</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "biology",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/biology.jpg"
+								alt="biology"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Sinh Học</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "civicEducation",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/civiceducation.jpg"
+								alt="civic education"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">
+								Giáo Dục Công Dân
+							</h3>
 						</div>
 					</div>
 				</div>

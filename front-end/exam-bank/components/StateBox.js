@@ -76,7 +76,7 @@ function StateBox({ timeout, setTimeout }) {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-start fixed top-100 right-0 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-10">
+		<div className="flex flex-col items-center justify-start fixed top-100 right-5 bg-indigo-300 bg-opacity-40 rounded-lg p-2 m-10">
 			<AnswersBox />
 			<Countdown
 				date={timeout ? 0 : Date.now() + 100 * 1000}

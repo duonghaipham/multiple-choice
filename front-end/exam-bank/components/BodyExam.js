@@ -37,14 +37,11 @@ function BodyExam({ timeout }) {
 
 	const router = useRouter();
 	return (
-		<div className="flex-1 flex flex-col mx-40">
+		<div className="flex-1 flex flex-col mx-10 px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">
 			<div className="">
 				<h1 className="text-3xl font-bold text-green-800 ">Lịch Sử</h1>
 
-				<h3
-					className="text-yellow-500 text-2xl font-semibold cursor-pointer mt-3"
-					onClick={() => router.push("takeExam")}
-				>
+				<h3 className="text-yellow-500 text-2xl font-semibold mt-3">
 					Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
 				</h3>
 			</div>
