@@ -27,7 +27,7 @@ function Footer() {
 			</div>
 			<div>
 				<span className="block text-gray-400">Copyright© 2021</span>
-				<span className="block text-gray-400">Developed by DKH team</span>
+				<span className="block text-gray-400">Developed by DKG team</span>
 			</div>
 		</footer>
 	);

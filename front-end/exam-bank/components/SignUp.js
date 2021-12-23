@@ -1,7 +1,7 @@
 function SignUp() {
 	return (
 		<div>
-			<div class="w-80 max-w-xs absolute top-10 right-0">
+			<div class="w-80 max-w-xs absolute top-12 right-0">
 				<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 					<div class="mb-4">
 						<label

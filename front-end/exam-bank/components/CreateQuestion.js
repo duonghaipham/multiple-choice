@@ -19,10 +19,20 @@ function CreateQuestion({ register, errors, index, label }) {
 
 	return (
 		<div className="w-full">
-			<ErrorMessage errors={errors} name={labelQuestion} />
+			<ErrorMessage
+				errors={errors}
+				name={labelQuestion}
+				render={() => (
+					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+						Hãy thêm nội dung cho câu hỏi.
+					</span>
+				)}
+			/>
 			<textarea
-				className="w-full h-48 p-2 text-lg border border-gray-600 rounded-lg focus:outline-none "
-				{...register(labelQuestion, { required: "This is required." })}
+				className="w-full h-24 p-2 text-lg border border-gray-600 rounded-lg focus:outline-none"
+				{...register(labelQuestion, {
+					required: true,
+				})}
 				type="text"
 			/>
 			{/* <div className="flex items-center">
@@ -37,81 +47,124 @@ function CreateQuestion({ register, errors, index, label }) {
 			<ErrorMessage
 				errors={errors}
 				name={labelCorrectAnswer}
-				render={() => <p>Hãy chọn đáp án đúng</p>}
+				render={() => (
+					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+						Hãy chọn đáp án đúng.
+					</span>
+				)}
 			/>
 			<div className="flex flex-col mt-4">
-				<ErrorMessage errors={errors} name={labelAnswers[0]} />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer, { required: true })}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="A"
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="A"
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án A
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[0], { required: true })}
+							type="text"
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[0]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án A.
+							</span>
+						)}
 					/>
-					<span className="absolute -top-2 left-16 text-lg px-3 font-bold">
-						Đáp án A
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[0], { required: "Hãy thêm đáp án A" })}
-						type="text"
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="B"
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án B
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[1], { required: true })}
+							type="text"
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[1]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án B.
+							</span>
+						)}
 					/>
-				</label>
-
-				<ErrorMessage errors={errors} name={labelAnswers[1]} />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer, { required: true })}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="B"
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="C"
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án C
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[2], { required: "Hãy thêm đáp án C" })}
+							type="text"
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[2]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án C.
+							</span>
+						)}
 					/>
-					<span className="absolute -top-2 left-16 text-lg px-3 font-bold">
-						Đáp án B
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[1], { required: "Hãy thêm đáp án B" })}
-						type="text"
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="D"
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án D
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[3], { required: true })}
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[3]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án D.
+							</span>
+						)}
 					/>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[2]} />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer, { required: "Hãy thêm đáp án C" })}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="C"
-					/>
-					<span className="absolute -top-2 left-16 text-lg px-3 font-bold">
-						Đáp án C
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[2], { required: "Hãy thêm đáp án C" })}
-						type="text"
-					/>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[3]} />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer, { required: true })}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="D"
-					/>
-					<span className="absolute -top-2 left-16 text-lg px-3 font-bold">
-						Đáp án D
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[3], { required: "Hãy thêm đáp án D" })}
-					/>
-				</label>
+				</div>
 			</div>
 		</div>
 	);

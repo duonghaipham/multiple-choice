@@ -17,7 +17,7 @@ export default function Home() {
 			</Head>
 
 			<Header />
-			<section className="bg-home h-60 bg-cover bg-no-repeat sm:h-80 md:h-[600px] lg:h-[918px] lg:bg-cover flex justify-center items-center">
+			<section className="bg-home h-60 bg-cover bg-no-repeat sm:h-80 md:h-[500px] lg:h-[700px] xl:h-[918px] lg:bg-cover flex justify-center items-center">
 				<div className=" text-center justify-center bg-gray-100 bg-opacity-60 rounded-3xl shadow-lg w-4/5 py-5 md:py-10 md:w-2/3 lg:w-1/2 ">
 					<h1 className="text-lg text-red-500 font-bold sm:text-[30px] lg:text-[40px] md:mb-5">
 						LUYỆN THI ĐẠI HỌC
