@@ -17,18 +17,18 @@ export default function Home() {
 			</Head>
 
 			<Header />
-			<section className="bg-home h-[918px] bg-cover flex justify-center items-center">
-				<div className="w-1/2 text-center justify-center bg-gray-100 bg-opacity-60 py-10 rounded-3xl shadow-lg">
-					<h1 className="text-[60px] text-red-500 font-bold ">
+			<section className="bg-home h-60 bg-cover bg-no-repeat sm:h-80 md:h-[600px] lg:h-[918px] lg:bg-cover flex justify-center items-center">
+				<div className=" text-center justify-center bg-gray-100 bg-opacity-60 rounded-3xl shadow-lg w-4/5 py-5 md:py-10 md:w-2/3 lg:w-1/2 ">
+					<h1 className="text-lg text-red-500 font-bold sm:text-[30px] lg:text-[40px] md:mb-5">
 						LUYỆN THI ĐẠI HỌC
 					</h1>
-					<p className="text-gray-700 text-lg font-medium px-32">
+					<p className="text-gray-700 text-[10px] px-5 font-medium md:text-lg md:px-10 lg:text-lg lg:px-22 xl:px-32">
 						Đây là những giờ phút vô cùng quan trọng của cuộc đời, hãy tập trung
 						ôn thi và đừng để bất cứ điều gì làm xao nhãng bạn nhé.
 					</p>
 					<button
-						className="border-4 border-red-500 mt-10 text-red-600 text-xl font-bold rounded-full px-10 py-2 relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border-2 before:border-transparent before:rounded-full before:tranform hover:before:scale-x-110 hover:before:scale-y-150
-                        before:transition before:ease-out hover:before:border-red-400"
+						className="border-4 border-red-500 mt-5 text-red-600 text-sm font-bold rounded-full px-4 py-1 md:px-10 md:py-2 md:text-lg relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border-2 before:border-transparent before:rounded-full before:tranform hover:before:scale-x-110 hover:before:scale-y-150
+                        before:transition before:ease-out hover:before:border-red-400 "
 					>
 						Tham gia miễn phí
 					</button>
@@ -36,10 +36,10 @@ export default function Home() {
 			</section>
 
 			<div className="grid place-content-center my-10">
-				<h1 className="text-3xl font-bold text-green-800 mb-3">
+				<h1 className="text-lg pl-2 text-center sm:text-left sm:text-xl sm:pl-10 md:pl-10 md:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
 					Đề thi theo môn học
 				</h1>
-				<div className="grid grid-cols-2 gap-3 place-items-center">
+				<div className="grid px-2 sm:px-0 grid-cols-1 sm:grid-cols-2 gap-3 place-items-center">
 					<div
 						className="border border-gray-300 cursor-pointer"
 						onClick={() =>
@@ -51,12 +51,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/math.jpg"
-							alt="math"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Toán</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/math.jpg"
+								alt="math"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl">
+							Toán
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -69,12 +73,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/english.jpg"
-							alt="english"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Tiếng Anh</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/english.jpg"
+								alt="english"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Tiếng Anh
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -87,12 +95,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/history.jpg"
-							alt="history"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Lịch Sử</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/history.jpg"
+								alt="history"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Lịch Sử
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -105,12 +117,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/geography.jpg"
-							alt="geography"
-						/>
-						<h3 className="text-center w-full py-3 text-xl">Địa Lý</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/geography.jpg"
+								alt="geography"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl">
+							Địa Lý
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -123,12 +139,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/physics.jpg"
-							alt="physics"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Vật Lý</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/physics.jpg"
+								alt="physics"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Vật Lý
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -141,12 +161,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/chemistry.jpg"
-							alt="chemistry"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Hóa Học</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/chemistry.jpg"
+								alt="chemistry"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Hóa Học
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -159,12 +183,16 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/biology.jpg"
-							alt="biology"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">Sinh Học</h3>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/biology.jpg"
+								alt="biology"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Sinh Học
+						</h3>
 					</div>
 					<div
 						className="border border-gray-300 cursor-pointer"
@@ -177,12 +205,14 @@ export default function Home() {
 							})
 						}
 					>
-						<img
-							className="object-cover w-96 h-48"
-							src="/img/civiceducation.jpg"
-							alt="civic education"
-						/>
-						<h3 className="text-center w-full py-3 text-xl ">
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/civiceducation.jpg"
+								alt="civic education"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
 							Giáo Dục Công Dân
 						</h3>
 					</div>

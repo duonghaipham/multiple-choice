@@ -24,7 +24,7 @@ function Question({ index, register, question, label, type, answers }) {
 				Câu {index + 1}
 			</h4>
 
-			<div className=" flex-1 ml-1 bg-blue-50 p-3 ">
+			<div className=" flex-1 ml-1 bg-blue-200 bg-opacity-30 p-3 ">
 				<h4 className="text-xl mb-2 font-bold py-2 px-9 border-b-2">
 					{question}
 				</h4>
