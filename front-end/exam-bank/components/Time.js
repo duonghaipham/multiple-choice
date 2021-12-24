@@ -4,7 +4,6 @@
 //                       student leave the TakeExam page
 
 import moment from "moment";
-import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 
 function Time({ hours, minutes, seconds }) {
@@ -36,7 +35,7 @@ function Time({ hours, minutes, seconds }) {
 	});
 
 	return (
-		<div className="py-10 w-52 flex justify-center ">
+		<div className="py-10 w-52 flex justify-center">
 			<div className="bg-gray-100 h-16 w-40 border-2 border-green-400 flex flex-col items-center rounded-xl justify-center">
 				<p
 					className={`text-[35px] font-bold text-green-400 ${
