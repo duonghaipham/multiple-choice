@@ -6,7 +6,7 @@
 
 import { ErrorMessage } from "@hookform/error-message";
 
-function CreateQuestion({ register, errors, index, label }) {
+function CreateQuestion({ register, errors, label }) {
 	const labelQuestion = label + "question";
 	const labelCorrectAnswer = label + "correctAnswer";
 	const labelAnswers = [
@@ -43,7 +43,7 @@ function CreateQuestion({ register, errors, index, label }) {
 					{...register(mulChoice)}
 				/>
 				<label htmlFor="">Câu hỏi nhiều đáp án</label>
-			</div> */}{" "}
+			</div> */}
 			<ErrorMessage
 				errors={errors}
 				name={labelCorrectAnswer}

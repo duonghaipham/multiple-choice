@@ -86,7 +86,7 @@ export default function ExamForm({ timeout }) {
 
 	const router = useRouter();
 
-	const [submit, setSubmit] = useState(false);
+	const [submit, setSubmit] = useState(false); // Xử lý hết thời gian
 	// const [confirmSubmit, setConfirmSubmit] = useState(false);
 	// const [correctAnswer, setCorrectAnswer] = useState(0);
 	const dispatch = useDispatch();
@@ -107,9 +107,10 @@ export default function ExamForm({ timeout }) {
 	};
 
 	useEffect(() => {
-		const fields = JSON.parse(localStorage.getItem("fields"));
-		if (fields) setValueRadioButton(fields);
-		const selectedAnswers = fields ? Object?.values(fields) : [];
+		const fields = JSON.parse(localStorage.getItem("fields")); // Lấy dữ liệu "fields" (fields là 1 object chứa các đáp án được chọn) từ localStorage
+		if (fields) setValueRadioButton(fields); // set các đáp án được chọn vào đề thì băng hàm setValue của React Hook Form
+		const selectedAnswers = fields ? Object?.values(fields) : []; // tạo mảng selectedAnswers để lưu vào Redux
+		// Tạo action để dispatch vào Redux (mục đích để tạo mảng đáp án truyền qua component StateBox)
 		const action =
 			arr?.length != null
 				? selectedAnswers.some(
@@ -121,31 +122,36 @@ export default function ExamForm({ timeout }) {
 		dispatch(action);
 	}, []);
 
-	const watchAllFields = watch();
+	const watchAllFields = watch(); // trạng thái hiện tại của đề thi
 
+	// Khi thay đổi trạng thái đề thi (chọn hoặc thay đổi đáp án) thì sẽ lưu lại vào localStorage
 	useEffect(() => {
 		localStorage.setItem("fields", JSON.stringify(watchAllFields));
 	}, [watchAllFields]);
 
 	const onSubmit = (data) => {
 		console.log("data", data);
+
+		// Submit thành công thì xóa các field trong localStorage
 		localStorage.removeItem("fields");
 		localStorage.removeItem("remainTimeSaved");
 		localStorage.removeItem("currentTimeSaved");
-		const answers = modifiedAnswer(data);
+
+		const answers = modifiedAnswer(data); //  Mođified mảng đáp án đã chọn
 		let noOfCorrectAnswer = 0;
 		arr.forEach((e, i) => {
-			if (e.correctAnswer === answers[i]) noOfCorrectAnswer++;
+			if (e.correctAnswer === answers[i]) noOfCorrectAnswer++; // Tính số câu đúng
 		});
 		console.log(noOfCorrectAnswer);
 		// setCorrectAnswer(noOfCorrectAnswer);
 	};
 
-	const buttonSubmit = useRef();
+	const buttonSubmit = useRef(); // sử dụng useRef để lấy ra button submit (tương tự document.getElement...)
 
+	// Xử lý hết thời gian làm bài
 	useEffect(() => {
 		if (timeout == true) {
-			buttonSubmit.current.click();
+			buttonSubmit.current.click(); // Hết thời gian thì sẽ click vào button Submit
 			setSubmit(false);
 		}
 	}, [timeout]);

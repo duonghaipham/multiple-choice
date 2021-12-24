@@ -1,6 +1,9 @@
-function Footer() {
+function Footer({ disable }) {
 	return (
-		<footer className="bg-gray-800 px-32 py-5">
+		<footer className="bg-gray-800 px-32 py-5 relative">
+			{disable && (
+				<span className="absolute left-0 top-0 w-full h-full z-20"></span>
+			)}
 			<div className="mb-4 flex">
 				<img
 					className="w-8 h-8 mx-1 cursor-pointer"

@@ -9,14 +9,10 @@ import { useState } from "react";
 function EditQuestion({
 	register,
 	errors,
-	index,
 	label,
 	question,
 	correctAnswer,
-	answerA,
-	answerB,
-	answerC,
-	answerD,
+	answers,
 }) {
 	const labelQuestion = label + "question";
 	const labelCorrectAnswer = label + "correctAnswer";
@@ -32,10 +28,10 @@ function EditQuestion({
 	const [correctAnswerChange, setCorrectAnswersChange] =
 		useState(correctAnswer);
 	const [answersChange, setAnswersChange] = useState([
-		answerA,
-		answerB,
-		answerC,
-		answerD,
+		answers[0],
+		answers[1],
+		answers[2],
+		answers[3],
 	]);
 
 	const updateAnswersChanged = (index) => (e) => {
@@ -47,15 +43,24 @@ function EditQuestion({
 
 	return (
 		<div className="w-full">
+			<ErrorMessage
+				errors={errors}
+				name={labelQuestion}
+				render={() => (
+					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+						Hãy thêm nội dung cho câu hỏi.
+					</span>
+				)}
+			/>
 			<textarea
-				className="w-full h-48 p-2 text-lg border border-gray-600 rounded-lg focus:outline-none "
-				{...register(labelQuestion)}
+				className="w-full h-24 p-2 text-lg border border-gray-600 rounded-lg focus:outline-none"
+				{...register(labelQuestion, {
+					required: true,
+				})}
 				type="text"
 				value={questionChange}
 				onChange={(e) => setQuestionChange(e.target.value)}
 			/>
-			<ErrorMessage errors={errors} name={label} as="p" />
-			{/* <p>{errors.q1 && errors.q1.message}</p> */}
 			{/* <div className="flex items-center">
 				<input
 					className="mx-3 h-5 w-5"
@@ -65,108 +70,152 @@ function EditQuestion({
 				/>
 				<label htmlFor="">Câu hỏi nhiều đáp án</label>
 			</div> */}
+			<ErrorMessage
+				errors={errors}
+				name={labelCorrectAnswer}
+				render={() => (
+					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+						Hãy chọn đáp án đúng.
+					</span>
+				)}
+			/>
 			<div className="flex flex-col mt-4">
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer)}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="0"
-						checked={correctAnswerChange === "A"}
-						onClick={(e) => {
-							setCorrectAnswersChange(e.target.value);
-						}}
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="A"
+							checked={correctAnswerChange === "A"}
+							onClick={(e) => {
+								setCorrectAnswersChange(e.target.value);
+							}}
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án A
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[0], { required: true })}
+							type="text"
+							value={answersChange[0]}
+							onChange={updateAnswersChanged(0)}
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[0]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án A.
+							</span>
+						)}
 					/>
-					<span className="absolute -top-2 left-16 bg-green-300 text-lg px-3 font-bold">
-						Đáp án A
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[0])}
-						type="text"
-						value={answersChange[0]}
-						onChange={updateAnswersChanged(0)}
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="B"
+							checked={correctAnswerChange === "B"}
+							onClick={(e) => {
+								setCorrectAnswersChange(e.target.value);
+							}}
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án B
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[1], { required: true })}
+							type="text"
+							value={answersChange[1]}
+							onChange={updateAnswersChanged(1)}
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[1]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án B.
+							</span>
+						)}
 					/>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[0]} as="p" />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer)}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="1"
-						checked={correctAnswerChange === "B"}
-						onClick={(e) => {
-							setCorrectAnswersChange(e.target.value);
-						}}
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="C"
+							checked={correctAnswerChange === "C"}
+							onClick={(e) => {
+								setCorrectAnswersChange(e.target.value);
+							}}
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án C
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[2], { required: true })}
+							type="text"
+							value={answersChange[2]}
+							onChange={updateAnswersChanged(2)}
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[2]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án C.
+							</span>
+						)}
 					/>
-					<span className="absolute -top-2 left-16 bg-green-300 text-lg px-3 font-bold">
-						Đáp án B
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[1])}
-						type="text"
-						value={answersChange[1]}
-						onChange={updateAnswersChanged(1)}
+				</div>
+				<div className="mb-4">
+					<label className="flex items-center relative mt-2">
+						<input
+							className="mr-3 h-6 w-6 "
+							{...register(labelCorrectAnswer, { required: true })}
+							// type={checkBox ? 'checkbox' : 'radio'}
+							type="radio"
+							value="D"
+							checked={correctAnswerChange === "D"}
+							onClick={(e) => {
+								setCorrectAnswersChange(e.target.value);
+							}}
+						/>
+						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
+							Đáp án D
+						</span>
+						<textarea
+							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							{...register(labelAnswers[3], { required: true })}
+							type="text"
+							value={answersChange[3]}
+							onChange={updateAnswersChanged(3)}
+						/>
+					</label>
+					<ErrorMessage
+						errors={errors}
+						name={labelAnswers[3]}
+						render={() => (
+							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								Hãy thêm nội dung cho đáp án D.
+							</span>
+						)}
 					/>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[1]} as="p" />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer)}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="2"
-						checked={correctAnswerChange === "C"}
-						onClick={(e) => {
-							setCorrectAnswersChange(e.target.value);
-						}}
-					/>
-					<span className="absolute -top-2 left-16 bg-green-300 text-lg px-3 font-bold">
-						Đáp án C
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[2])}
-						type="text"
-						value={answersChange[2]}
-						onChange={updateAnswersChanged(2)}
-					/>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[2]} as="p" />
-				<label className="flex items-center relative">
-					<input
-						className="mr-3 h-6 w-6 "
-						{...register(labelCorrectAnswer)}
-						// type={checkBox ? 'checkbox' : 'radio'}
-						type="radio"
-						value="3"
-						checked={correctAnswerChange === "D"}
-						onClick={(e) => {
-							setCorrectAnswersChange(e.target.value);
-						}}
-					/>
-					<span className="absolute -top-2 left-16 bg-green-300 text-lg px-3 font-bold">
-						Đáp án D
-					</span>
-					<textarea
-						className="m-3 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg"
-						{...register(labelAnswers[3])}
-						type="text"
-						value={answersChange[3]}
-						onChange={updateAnswersChanged(3)}
-					></textarea>
-				</label>
-				<ErrorMessage errors={errors} name={labelAnswers[3]} as="p" />
-				<ErrorMessage
-					errors={errors}
-					name={labelCorrectAnswer}
-					render={() => <p>Hãy chọn đáp án đúng</p>}
-				/>
+				</div>
 			</div>
 		</div>
 	);

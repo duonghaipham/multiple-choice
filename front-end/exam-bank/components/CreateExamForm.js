@@ -51,15 +51,13 @@ export default function CreateExamForm() {
 	});
 
 	const router = useRouter();
-	let exam = null;
 	const onSubmit = (data) => {
-		// exam = modifiedQuestion(data);
+		modifiedQuestion(data);
 		console.log(data);
 		router.push({
-			pathname: "makeExam",
+			pathname: "editExam",
 			query: {
-				// type: "edit",
-				exam: JSON.stringify(exam),
+				questions: JSON.stringify(data.questions),
 			},
 		});
 	};
@@ -90,7 +88,7 @@ export default function CreateExamForm() {
 		// 	<input type="submit" />
 		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
+			{/* <div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
@@ -148,11 +146,11 @@ export default function CreateExamForm() {
 						</label>
 					</div>
 				</div>
-			</div>
+			</div> */}
 			<ul className="w-full flex flex-col items-center b">
 				{fields?.map((item, index) => (
 					<li
-						className="w-1/2 flex border py-2 px-5 mt-2 rounded shadow-sm"
+						className="w-full lg:w-2/3 xl:w-1/2 flex border py-2 px-5 mt-2 rounded shadow-sm"
 						key={item.id}
 					>
 						<div className="flex-1">
@@ -163,13 +161,12 @@ export default function CreateExamForm() {
 							<CreateQuestion
 								register={register}
 								errors={errors}
-								index={index}
 								label={`questions.${index}.`}
 								// mulChoice={`q${i}mul`}
 							/>
 							<div className="text-center">
 								<button
-									className="m-2 p-1 bg-red-400 rounded-full"
+									className="m-2 p-1 bg-red-400 rounded-full relative group"
 									type="button"
 									onClick={() => remove(index)}
 								>
@@ -189,10 +186,13 @@ export default function CreateExamForm() {
 											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
 										/>
 									</svg>
+									<span className="invisible w-28 bg-gray-500 text-white text-center rounded absolute z-10 top-1 right-[120%] after:absolute after:top-1/2 after:left-[96%] after:-mt-1 after:border-4 after:border-gray-500 after:rotate-45 group-hover:visible">
+										Xóa câu hỏi
+									</span>
 								</button>
 
 								<button
-									className="m-2 p-1 bg-indigo-400 rounded-full"
+									className="m-2 p-1 bg-indigo-400 rounded-full relative group"
 									type="button"
 									onClick={() =>
 										insert(index + 1, {
@@ -220,12 +220,15 @@ export default function CreateExamForm() {
 											d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
 										/>
 									</svg>
+									<span className="invisible w-28 bg-gray-500 text-white text-center rounded absolute z-10 -top-2 left-[120%] after:absolute after:top-1/2 after:right-[96%] after:-mt-1 after:border-4 after:border-gray-500 after:rotate-45 group-hover:visible">
+										Chèn câu hỏi mới ở dưới
+									</span>
 								</button>
 							</div>
 						</div>
 						<div className="flex flex-col justify-between">
 							<button
-								className="m-2 p-1 bg-blue-400 rounded-full"
+								className="m-2 p-1 bg-blue-400 rounded-full relative group"
 								type="button"
 								onClick={() => move(index, index - 1)}
 							>
@@ -245,10 +248,13 @@ export default function CreateExamForm() {
 										d="M5 10l7-7m0 0l7 7m-7-7v18"
 									/>
 								</svg>
+								<span className="invisible w-36 bg-gray-500 text-white text-center rounded absolute z-10 -top-2 right-[120%] lg:left-[120%] after:absolute after:top-1/2 after:left-[96%] lg:after:right-[96%] after:-mt-1 after:border-4 after:border-gray-500 after:rotate-45 group-hover:visible">
+									Di chuyển câu hỏi lên trên
+								</span>
 							</button>
 
 							<button
-								className="m-2 p-1 bg-yellow-400 rounded-full"
+								className="m-2 p-1 bg-yellow-400 rounded-full relative group"
 								type="button"
 								onClick={() => move(index, index + 1)}
 							>
@@ -268,13 +274,16 @@ export default function CreateExamForm() {
 										d="M19 14l-7 7m0 0l-7-7m7 7V3"
 									/>
 								</svg>
+								<span className="invisible w-36 bg-gray-500 text-white text-center rounded absolute z-10 -top-2 right-[120%] lg:left-[120%] after:absolute after:top-1/2 after:left-[96%] lg:after:right-[96%] after:-mt-1 after:border-4 after:border-gray-500 after:rotate-45 group-hover:visible">
+									Di chuyển câu hỏi xuống dưới
+								</span>
 							</button>
 						</div>
 					</li>
 				))}
 				<div className="text-center">
 					<button
-						className="m-2 p-1 bg-green-400 rounded-full"
+						className="m-2 p-1 bg-green-400 rounded-full relative group"
 						type="button"
 						onClick={() => {
 							append({
@@ -302,10 +311,13 @@ export default function CreateExamForm() {
 								d="M12 4v16m8-8H4"
 							/>
 						</svg>
+						<span className="invisible w-28 bg-gray-500 text-white text-center rounded absolute z-10 top-0.5 left-[120%] after:absolute after:top-1/2 after:right-[96%] after:-mt-1 after:border-4 after:border-gray-500 after:rotate-45 group-hover:visible">
+							Thêm câu hỏi
+						</span>
 					</button>
 
 					<button
-						className="block px-2 py-1 bg-green-400 rounded text-xl text-white font-semibold"
+						className="block px-2 py-1 bg-blue-400 rounded text-xl text-white font-semibold"
 						type="submit"
 					>
 						Thêm Đề

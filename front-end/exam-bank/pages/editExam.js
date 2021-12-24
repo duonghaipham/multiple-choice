@@ -1,6 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
-import CreateExamForm from "../components/CreateExamForm";
+import EditExamForm from "../components/EditExamForm";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -18,7 +18,7 @@ export default function CreateExam() {
 			</Head>
 			<Header />
 			<div className="p-5">
-				<CreateExamForm />
+				<EditExamForm />
 			</div>
 			<Footer />
 		</div>

@@ -1,5 +1,4 @@
 import moment from "moment";
-import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import AnswersBox from "./AnswersBox";
@@ -12,16 +11,6 @@ import Time from "./Time";
 //                       student leave the TakeExam page
 
 function StateBox({ timeout, setTimeout }) {
-	const router = useRouter();
-	const createExam = () => {
-		router.push({
-			pathname: "/createExam",
-			query: {
-				type: "create",
-			},
-		});
-	};
-
 	const [time, setTime] = useState(72);
 
 	useEffect(() => {
@@ -32,6 +21,7 @@ function StateBox({ timeout, setTimeout }) {
 		const currentTimeLoaded = JSON.parse(
 			localStorage.getItem("currentTimeSaved"),
 		);
+
 		// Chỉ tính thời gian còn lại khi bài thi đang được làm
 		if (remainTimeLoaded != null) {
 			const now = moment().format("DD/MM/YYYY HH:mm:ss");
@@ -79,7 +69,7 @@ function StateBox({ timeout, setTimeout }) {
 		<div className="flex flex-col items-center justify-start fixed top-100 right-5 bg-indigo-300 bg-opacity-40 rounded-lg p-2 m-10">
 			<AnswersBox />
 			<Countdown
-				date={timeout ? 0 : Date.now() + 100 * 1000}
+				date={timeout ? 0 : Date.now() + time * 1000}
 				renderer={renderer}
 				onComplete={() => setTimeout(true)}
 			/>
