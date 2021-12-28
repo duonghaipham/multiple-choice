@@ -1,4 +1,6 @@
+import { ErrorMessage } from "@hookform/error-message";
 import { useRouter } from "next/dist/client/router";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import EditQuestion from "./EditQuestion";
 
@@ -117,7 +119,13 @@ export default function EditExamForm() {
 	// );
 
 	const router = useRouter();
-	const questions = JSON.parse(router.query.questions);
+	const data = JSON.parse(router.query.data);
+
+	const [title, setTitle] = useState(data.title);
+	const [time, setTime] = useState(data.time);
+	const [subject, setSubject] = useState(data.subject);
+	const [__class, set__Class] = useState(data.class);
+	const [schoolYear, setSchoolYear] = useState(data.schoolYear);
 
 	const {
 		register,
@@ -126,7 +134,7 @@ export default function EditExamForm() {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			questions: questions,
+			questions: data.questions,
 		},
 	});
 
@@ -174,65 +182,111 @@ export default function EditExamForm() {
 		// 	<input type="submit" />
 		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
-			{/* <div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
+			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
 						required
+						{...register("title", { required: true })}
 						type="text"
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
 					/>
 					<label
 						className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700
-                        peer-focus:text-gray-700 "
+                        peer-focus:text-gray-700"
 					>
 						Tên Đề Thi
 					</label>
 				</div>
 
 				<div className="mt-8 xl:mt-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:ml-2">
-					<div className="flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
+						<select
 							required
-						/>
+							{...register("time")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+							value={time}
+							onChange={(e) => setTime(e.target.value)}
+						>
+							<option value=""></option>
+							<option value="15">15 phút</option>
+							<option value="30">30 phút</option>
+							<option value="45">45 phút</option>
+							<option value="60">60 phút</option>
+							<option value="90">90 phút</option>
+							<option value="120">120 phút</option>
+						</select>
+						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-focus:-translate-y-8 peer-valid:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
+							Thời gian (phút)
+						</label>
+					</div>
+
+					<div className="flex flex-col relative mx-2 w-ms-40">
+						<select
+							required
+							{...register("subject")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+							value={subject}
+							onChange={(e) => setSubject(e.target.value)}
+						>
+							<option></option>
+							<option value="Toán">Toán</option>
+							<option value="Ngữ Văn">Ngữ Văn</option>
+							<option value="Tiếng Anh">Tiếng Anh</option>
+							<option value="Vật Lý">Vật Lý</option>
+							<option value="Hóa Học">Hóa Học</option>
+							<option value="Sinh Học">Sinh Học</option>
+							<option value="Lịch Sử">Lịch Sử</option>
+							<option value="Địa Lý">Địa Lý</option>
+							<option value="Giáo Dục Công Dân">Giáo Dục Công Dân</option>
+						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Môn thi
 						</label>
 					</div>
 
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
+						<select
+							required
+							{...register("class")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							type="number"
-							required
-						/>
+							value={__class}
+							onChange={(e) => set__Class(e.target.value)}
+						>
+							<option></option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-focus:-translate-y-8 peer-valid:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Thời gian (phút)
+							Lớp
 						</label>
 					</div>
 
 					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+						<select
 							required
-							type="number"
-						/>
-						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Học kỳ
-						</label>
-					</div>
-
-					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							required
-						/>
+							{...register("schoolYear")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+							value={schoolYear}
+							onChange={(e) => setSchoolYear(e.target.value)}
+						>
+							<option></option>
+							<option value="2020-2021">2020-2021</option>
+							<option value="2021-2022">2021-2022</option>
+							<option value="2022-2023">2022-2023</option>
+						</select>
 						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Năm học
 						</label>
 					</div>
 				</div>
-			</div> */}
+			</div>
 			<ul className="w-full flex flex-col items-center b">
 				{fields?.map((item, index) => (
 					<li
@@ -243,6 +297,7 @@ export default function EditExamForm() {
 							<span className="inline-block mt-3 mb-1 rounded p-2 bg-green-300 text-xl font-semibold">
 								Câu hỏi {index + 1}
 							</span>
+
 							<EditQuestion
 								register={register}
 								errors={errors}
@@ -253,6 +308,17 @@ export default function EditExamForm() {
 
 								// mulChoice={`q${i}mul`}
 							/>
+							{/* ) : (
+								<EditQuestion
+									register={register}
+									errors={errors}
+									label={`questions.${index}.`}
+									question={null}
+									correctAnswer={null}
+									answers={[null, null, null, null]}
+								/>
+							)} */}
+
 							<div className="text-center">
 								<button
 									className="m-2 p-1 bg-red-400 rounded-full relative group"
@@ -375,13 +441,7 @@ export default function EditExamForm() {
 						className="m-2 p-1 bg-green-400 rounded-full relative group"
 						type="button"
 						onClick={() => {
-							append({
-								question: "",
-								answerA: "",
-								answerB: "",
-								answerC: "",
-								answerD: "",
-							});
+							append({});
 						}}
 					>
 						{/* Add icon */}

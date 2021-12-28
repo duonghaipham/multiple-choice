@@ -28,10 +28,10 @@ function EditQuestion({
 	const [correctAnswerChange, setCorrectAnswersChange] =
 		useState(correctAnswer);
 	const [answersChange, setAnswersChange] = useState([
-		answers[0],
-		answers[1],
-		answers[2],
-		answers[3],
+		answers != undefined ? answers[0] : null,
+		answers != undefined ? answers[1] : null,
+		answers != undefined ? answers[2] : null,
+		answers != undefined ? answers[3] : null,
 	]);
 
 	const updateAnswersChanged = (index) => (e) => {

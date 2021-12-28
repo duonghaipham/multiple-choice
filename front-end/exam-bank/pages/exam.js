@@ -247,42 +247,6 @@ export default function Home() {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "history",
-									},
-								})
-							}
-						>
-							<img
-								className="object-cover w-64 h-16"
-								src="/img/history.jpg"
-								alt="history"
-							/>
-							<h3 className="text-center w-full py-1 text-md ">Lịch Sử</h3>
-						</div>
-						<div
-							className="border border-gray-300 cursor-pointer"
-							onClick={() =>
-								router.push({
-									pathname: "exam",
-									query: {
-										page: "geography",
-									},
-								})
-							}
-						>
-							<img
-								className="object-cover w-64 h-16"
-								src="/img/geography.jpg"
-								alt="geography"
-							/>
-							<h3 className="text-center w-full py-1 text-md">Địa Lý</h3>
-						</div>
-						<div
-							className="border border-gray-300 cursor-pointer"
-							onClick={() =>
-								router.push({
-									pathname: "exam",
-									query: {
 										page: "physics",
 									},
 								})
@@ -331,6 +295,43 @@ export default function Home() {
 							/>
 							<h3 className="text-center w-full py-1 text-md ">Sinh Học</h3>
 						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "history",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/history.jpg"
+								alt="history"
+							/>
+							<h3 className="text-center w-full py-1 text-md ">Lịch Sử</h3>
+						</div>
+						<div
+							className="border border-gray-300 cursor-pointer"
+							onClick={() =>
+								router.push({
+									pathname: "exam",
+									query: {
+										page: "geography",
+									},
+								})
+							}
+						>
+							<img
+								className="object-cover w-64 h-16"
+								src="/img/geography.jpg"
+								alt="geography"
+							/>
+							<h3 className="text-center w-full py-1 text-md">Địa Lý</h3>
+						</div>
+
 						<div
 							className="border border-gray-300 cursor-pointer"
 							onClick={() =>

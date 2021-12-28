@@ -90,50 +90,6 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "history",
-								},
-							})
-						}
-					>
-						<div className=" overflow-hidden">
-							<img
-								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
-								src="/img/history.jpg"
-								alt="history"
-							/>
-						</div>
-						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
-							Lịch Sử
-						</h3>
-					</div>
-					<div
-						className="border border-gray-300 cursor-pointer"
-						onClick={() =>
-							router.push({
-								pathname: "exam",
-								query: {
-									page: "geography",
-								},
-							})
-						}
-					>
-						<div className=" overflow-hidden">
-							<img
-								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
-								src="/img/geography.jpg"
-								alt="geography"
-							/>
-						</div>
-						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl">
-							Địa Lý
-						</h3>
-					</div>
-					<div
-						className="border border-gray-300 cursor-pointer"
-						onClick={() =>
-							router.push({
-								pathname: "exam",
-								query: {
 									page: "physics",
 								},
 							})
@@ -194,6 +150,51 @@ export default function Home() {
 							Sinh Học
 						</h3>
 					</div>
+					<div
+						className="border border-gray-300 cursor-pointer"
+						onClick={() =>
+							router.push({
+								pathname: "exam",
+								query: {
+									page: "history",
+								},
+							})
+						}
+					>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/history.jpg"
+								alt="history"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl ">
+							Lịch Sử
+						</h3>
+					</div>
+					<div
+						className="border border-gray-300 cursor-pointer"
+						onClick={() =>
+							router.push({
+								pathname: "exam",
+								query: {
+									page: "geography",
+								},
+							})
+						}
+					>
+						<div className=" overflow-hidden">
+							<img
+								className="object-cover w-96 h-48 sm:w-64 sm md:w-72 md:h-40 lg:w-96 lg:h-48 transform hover:scale-125 hover:transition-all duration-200"
+								src="/img/geography.jpg"
+								alt="geography"
+							/>
+						</div>
+						<h3 className="text-center w-full py-3 text-sm sm:text-md md:text-xl">
+							Địa Lý
+						</h3>
+					</div>
+
 					<div
 						className="border border-gray-300 cursor-pointer"
 						onClick={() =>
