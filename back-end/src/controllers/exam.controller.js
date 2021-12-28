@@ -5,6 +5,7 @@ const workModel = require('../models/work.model');
 const questionModel = require('../models/question.model');
 const optionModel = require('../models/option.model');
 
+// Xem một đề thi, chỉ những thông tin mô tả, không bao gồm các câu hỏi
 const getExamView = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -17,10 +18,12 @@ const getExamView = async (req, res, next) => {
 
     return res.status(200).json(statusExam);
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: 'Cannot find the exam' });
   }
 }
 
+// Lấy tất cả thông tin của đề thi, bao gồm câu hỏi
 const getExamTake = async (req, res, next) => {
 	try {
 		const { id } = req.params;
@@ -42,6 +45,7 @@ const getExamTake = async (req, res, next) => {
 	}
 };
 
+// Xem thông tin làm bài
 const getExamReview = async (req, res, next) => {
   try {
     const { id, attempt } = req.params;

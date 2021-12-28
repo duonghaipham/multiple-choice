@@ -1,11 +1,38 @@
 const userModel = require('../models/user.model');
 const examModel = require('../models/exam.model');
+const questionModel = require('../models/question.model');
+const optionModel = require('../models/option.model');
+
 const { ITEM_PER_PAGE } = require('../configs/constant.config');
 
+// Tạo một đề thi mới
 const postCreateExam = async (req, res, next) => {
   try {
+    const { creator, attemptLimit, minuteLimit, subject, questions } = req.body;
 
+    const examQuestions = [];
+
+    for (const question of questions) {
+      const options = [];
+      let correctOption;
+
+      for (const option of question.options) {
+        const {_id} = await optionModel.create({content: option});
+        options.push(_id);
+
+        if (question.correctOption === option)
+          correctOption = _id;
+      }
+
+      const { _id } = await questionModel.create({ content: question.content, correctOption, options });
+      examQuestions.push(_id);
+    }
+
+    const exam = await examModel.create({ creator, attemptLimit, minuteLimit, subject, questions: examQuestions });
+
+    return res.status(200).json({ 'message': 'Successfully' });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ 'message': 'Failed' });
   }
 };
