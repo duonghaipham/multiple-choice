@@ -51,8 +51,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
 	try {
-		this.password = await bcrypt.hash(this.password);
-		next();
+    const saltRounds = parseInt(process.env.SALT_ROUND);
+    const hashPassword = await bcrypt.hash(this.password, saltRounds);
+    this.password = hashPassword;
+
+    next();
 	} catch (error) {
 		next(error);
 	}

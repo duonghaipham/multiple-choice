@@ -2,20 +2,20 @@ const router = require('express').Router();
 
 const adminController = require('../controllers/admin.controller');
 
-router.post('/exam/create', adminController.postCreateExam);
+router.post('/exams/create', adminController.postCreateExam);
 
-router.get('/exam/retrieve', adminController.getRetrieveExams);
+router.get('/exams', adminController.getRetrieveExams);
 
-router.put('/exam/update/:id', adminController.putUpdateExam);
+router.put('/exams/:id/update', adminController.putUpdateExam);
 
-router.delete('/exam/delete/:id', adminController.deleteExam);
+router.delete('/exams/:id/delete', adminController.deleteExam);
 
-router.post('/user/create', adminController.postCreateUser);
+router.post('/users/create', adminController.postCreateUser);
 
-router.get('/user/retrieve', adminController.getRetrieveUsers);
+router.get('/users', adminController.getRetrieveUsers);
 
-router.put('/user/update/:id', adminController.putUpdateUser);
+router.put('/users/:id/update', adminController.putUpdateUser);
 
-router.delete('/user/delete/:id', adminController.deleteUser);
+router.delete('/users/:id/delete', adminController.deleteUser);
 
 module.exports = router;

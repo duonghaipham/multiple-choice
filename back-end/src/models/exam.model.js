@@ -29,6 +29,10 @@ const examSchema = new Schema({
   subject: {
     type: String,
     default: null
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 });
 

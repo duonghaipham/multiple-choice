@@ -1,6 +1,6 @@
 const userModel = require('../models/user.model');
 const examModel = require('../models/exam.model');
-const { ITEM_PER_PAGE } = require("../configs/constant.config");
+const { ITEM_PER_PAGE } = require('../configs/constant.config');
 
 const postCreateExam = async (req, res, next) => {
   try {
@@ -10,18 +10,23 @@ const postCreateExam = async (req, res, next) => {
   }
 };
 
+// Lấy danh sách đề thi
 const getRetrieveExams = async (req, res, next) => {
   try {
-    const { page } = req.query;
+    let { page } = req.query;
+    if (page === undefined) {
+      page = 1;
+    }
 
     const exams = await examModel
-      .find({})
+      .find({ isDeleted: false })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE)
       .populate('creator', 'name');
 
     return res.status(200).json(exams);
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ 'message': 'Failed' });
   }
 };
@@ -39,6 +44,7 @@ const putUpdateExam = async (req, res, next) => {
   }
 };
 
+// Xóa một đề bằng cách gán isDeleted bằng true
 const deleteExam = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -51,6 +57,7 @@ const deleteExam = async (req, res, next) => {
   }
 };
 
+// Tạo một người dùng mới
 const postCreateUser = async (req, res, next) => {
   try {
     const { name, gender, city, phone, email, password, roles, state } = req.body;
@@ -59,16 +66,20 @@ const postCreateUser = async (req, res, next) => {
 
     return res.status(201).json({ 'message': 'Success' });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ 'message': 'Failed' });
   }
 };
 
+// Lấy danh sách người dùng theo phân trang
 const getRetrieveUsers = async (req, res, next) => {
   try {
-    const { page } = req.query;
+    let { page } = req.query;
+    if (page === undefined)
+      page = 1;
 
     const exams = await userModel
-      .find({})
+      .find({ state: 'deleted' })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE);
 
@@ -78,12 +89,13 @@ const getRetrieveUsers = async (req, res, next) => {
   }
 };
 
+// Cập nhật thông tin người dùng
 const putUpdateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, gender, city, phone, email, avatar } = req.body;
+    const { name, gender, city, phone } = req.body;
 
-    await userModel.findByIdAndUpdate(id, { name, gender, city, phone, email, avatar });
+    await userModel.findByIdAndUpdate(id, { name, gender, city, phone });
 
     return res.status(200).json({ 'message': `Update user ${id} successfully` });
   } catch (error) {
@@ -91,6 +103,7 @@ const putUpdateUser = async (req, res, next) => {
   }
 };
 
+// Xóa người dùng bằng cách đặt trạng thái là deleted
 const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;

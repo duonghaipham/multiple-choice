@@ -21,15 +21,23 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cookieParser());
 app.use(cors());
 
-// Mongodb connection via Mongoose
-mongoose.connect(process.env.MONGO_CONNECTION_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-});
+// Connect to mongodb via mongoose
+(async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    console.log('Connect to MongoDB successfully');
+  } catch (error) {
+    console.log(error);
+  }
+})();
 
 // Listening
 app.listen(process.env.PORT, () => {
-	console.log(`Server is listening on port ${process.env.PORT}!!`);
+	console.log(`Server is listening on port ${process.env.PORT}`);
 });
 
 // APIs
