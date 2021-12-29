@@ -1,11 +1,11 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { modifiedAnswer } from "../pages/api/modifiedAnswer";
 import Modal from "react-modal";
-import Question from "./Question";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { modifiedAnswer } from "../pages/api/modifiedAnswer";
 import { initAnswers } from "../store/slices/answerSlice";
+import Question from "./Question";
 
 // Create form: question-answer-rightAnswer - 14-10-2021
 // Update form: auto submit when timeout - 19-10-2021

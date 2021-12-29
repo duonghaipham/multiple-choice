@@ -5,10 +5,10 @@
 // Update form: remove yup, use "required" of useForm - 11-07-2021
 
 import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
-import CreateQuestion from "./CreateQuestion";
+import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { modifiedQuestion } from "../pages/api/modifiedQuestion";
+import CreateQuestion from "./CreateQuestion";
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import * as yup from "yup";
 
@@ -57,7 +57,7 @@ export default function CreateExamForm() {
 		router.push({
 			pathname: "editExam",
 			query: {
-				questions: JSON.stringify(data.questions),
+				data: JSON.stringify(data),
 			},
 		});
 	};
@@ -88,65 +88,99 @@ export default function CreateExamForm() {
 		// 	<input type="submit" />
 		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
-			{/* <div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
+			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
 						required
+						{...register("title", { required: true })}
 						type="text"
 					/>
 					<label
 						className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700
-                        peer-focus:text-gray-700 "
+                        peer-focus:text-gray-700"
 					>
 						Tên Đề Thi
 					</label>
 				</div>
-
 				<div className="mt-8 xl:mt-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:ml-2">
-					<div className="flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
+						<select
 							required
-						/>
+							{...register("time")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+						>
+							<option value=""></option>
+							<option value="15">15 phút</option>
+							<option value="30">30 phút</option>
+							<option value="45">45 phút</option>
+							<option value="60">60 phút</option>
+							<option value="90">90 phút</option>
+							<option value="120">120 phút</option>
+						</select>
+						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-focus:-translate-y-8 peer-valid:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
+							Thời gian (phút)
+						</label>
+					</div>
+					<div className="flex flex-col relative mx-2 w-ms-40">
+						<select
+							required
+							{...register("subject")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+						>
+							<option></option>
+							<option value="Toán">Toán</option>
+							<option value="Ngữ Văn">Ngữ Văn</option>
+							<option value="Tiếng Anh">Tiếng Anh</option>
+							<option value="Vật Lý">Vật Lý</option>
+							<option value="Hóa Học">Hóa Học</option>
+							<option value="Sinh Học">Sinh Học</option>
+							<option value="Lịch Sử">Lịch Sử</option>
+							<option value="Địa Lý">Địa Lý</option>
+							<option value="Giáo Dục Công Dân">Giáo Dục Công Dân</option>
+						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Môn thi
 						</label>
 					</div>
 
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
+						<select
+							required
+							{...register("class")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							type="number"
-							required
-						/>
+						>
+							<option></option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-focus:-translate-y-8 peer-valid:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Thời gian (phút)
+							Lớp
 						</label>
 					</div>
 
 					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+						<select
 							required
-							type="number"
-						/>
-						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Học kỳ
-						</label>
-					</div>
-
-					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<input
-							className="border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							required
-						/>
+							{...register("schoolYear")}
+							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
+						>
+							<option></option>
+							<option value="2020-2021">2020-2021</option>
+							<option value="2021-2022">2021-2022</option>
+							<option value="2022-2023">2022-2023</option>
+						</select>
 						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Năm học
 						</label>
 					</div>
 				</div>
-			</div> */}
+			</div>
 			<ul className="w-full flex flex-col items-center b">
 				{fields?.map((item, index) => (
 					<li

@@ -1,11 +1,21 @@
 import router from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { logout } from "../store/slices/userSlice";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
 function Header({ disable }) {
 	const [signIn, setSignIn] = useState(false);
 	const [signUp, setSignUp] = useState(false);
+
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
+
+	const handleLogout = () => {
+		dispatch(logout());
+	};
 
 	return (
 		<header className="bg-gray-50 shadow-sm flex justify-between items-center px-5 py-3 sticky top-0 left-0 z-10 sm:px-10">
@@ -41,50 +51,78 @@ function Header({ disable }) {
 					>
 						Trang chủ
 					</h3>
-					<h3 className="mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer">
-						Đề thi
-					</h3>
 					<h3 className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer">
 						Giới thiệu
 					</h3>
-					<h3 className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer">
-						Liên lạc
-					</h3>
-					<h3
-						className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
-						onClick={() => router.push("/createExam")}
-					>
-						Thêm đề
-					</h3>
+					{user?.type == "teacher" && (
+						<h3
+							className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
+							onClick={() => router.push("/createExam")}
+						>
+							Thêm đề
+						</h3>
+					)}
 				</div>
-				<div className="flex">
-					<div className="relative">
-						<button
-							className="bg-blue-500 text-white font-bold rounded relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border-2 before:border-transparent before:rounded before:tranform hover:before:scale-x-110 hover:before:scale-y-125
+				{user != null ? (
+					<div className="flex items-center ">
+						<div className="flex items-center bg-red-200 bg-opacity-30 p-2 rounded-xl ">
+							<img
+								src={user?.avatar}
+								alt="avatar"
+								className="w-8 h-8 rounded-full mr-2"
+							/>
+							<h1>{user?.name}</h1>
+						</div>
+						<div
+							className="cursor-pointer ml-1 hover:bg-red-200 p-2 rounded-full"
+							onClick={handleLogout}
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+						</div>
+					</div>
+				) : (
+					<div className="flex">
+						<div className="relative">
+							<button
+								className="bg-blue-500 text-white font-bold rounded relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border-2 before:border-transparent before:rounded before:tranform hover:before:scale-x-110 hover:before:scale-y-125
                         before:transition before:ease-out hover:before:border-blue-500 text-sm mr-1 lg:text-lg sm:mr-5 px-2 py-1"
-							onClick={() => {
-								setSignIn(!signIn);
-								signUp ? setSignUp(false) : null;
-							}}
-						>
-							Đăng nhập
-						</button>
-						{signIn && <SignIn />}
-					</div>
-					<div className="relative">
-						<button
-							className="bg-yellow-500 text-white font-bold rounded relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded before:border-2 before:border-transparent before:tranform hover:before:scale-x-110 hover:before:scale-y-125
+								onClick={() => {
+									setSignIn(!signIn);
+									signUp ? setSignUp(false) : null;
+								}}
+							>
+								Đăng nhập
+							</button>
+							{signIn && <SignIn />}
+						</div>
+						<div className="relative">
+							<button
+								className="bg-yellow-500 text-white font-bold rounded relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded before:border-2 before:border-transparent before:tranform hover:before:scale-x-110 hover:before:scale-y-125
                         before:transition before:ease-out hover:before:border-yellow-500 text-sm lg:text-lg sm:mr-5 px-2 py-1"
-							onClick={() => {
-								setSignUp(!signUp);
-								signIn ? setSignIn(false) : null;
-							}}
-						>
-							Đăng ký
-						</button>
-						{signUp && <SignUp />}
+								onClick={() => {
+									setSignUp(!signUp);
+									signIn ? setSignIn(false) : null;
+								}}
+							>
+								Đăng ký
+							</button>
+							{signUp && <SignUp />}
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</header>
 	);
