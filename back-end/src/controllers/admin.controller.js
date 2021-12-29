@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const userModel = require('../models/user.model');
 const examModel = require('../models/exam.model');
 const questionModel = require('../models/question.model');
@@ -58,15 +60,68 @@ const getRetrieveExams = async (req, res, next) => {
   }
 };
 
+const getUpdateExam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const exam = await examModel
+      .findById(id)
+      .populate('creator', 'name')
+      .populate({
+        path: 'questions',
+        select: 'order content',
+        populate: {
+          path: 'options'
+        }
+      });
+
+    return res.status(200).json(exam);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: 'Cannot fetch data' });
+  }
+}
+
+// Cập nhật một đề thi
 const putUpdateExam = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { attemptLimit, minuteLimit, subject } = req.body;
+    const { attemptLimit, minuteLimit, subject, questions } = req.body;
 
-    await examModel.findByIdAndUpdate(id, { attemptLimit, minuteLimit, subject });
+    const examQuestions = [];
+
+    for (const question of questions) {
+      const questionOptions = [];
+      let correctOption;
+
+      for (const option of question.options) {
+        const { _id: newOptionId } = await optionModel.findOneAndUpdate(
+          { content: option },
+          { content: option },
+          { upsert: true, new: true }
+        );
+
+        if (option === question.correctOption) {
+          correctOption = newOptionId;
+        }
+
+        questionOptions.push(newOptionId);
+      }
+
+      const { _id: newQuestionId } = await questionModel.findOneAndUpdate(
+        { content: question.content },
+        { content: question.content, correctOption, options: questionOptions },
+        { upsert: true, new: true }
+      );
+
+      examQuestions.push(newQuestionId);
+    }
+
+    const exam = await examModel.findByIdAndUpdate(id, { attemptLimit, minuteLimit, subject, questions: examQuestions });
 
     return res.status(200).json({ 'message': `Update exam ${id} successfully` });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ 'message': `Cannot find delete exam ${id}` });
   }
 };
@@ -146,6 +201,7 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
   postCreateExam,
   getRetrieveExams,
+  getUpdateExam,
   putUpdateExam,
   deleteExam,
   postCreateUser,

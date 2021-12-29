@@ -6,6 +6,8 @@ router.post('/exams/create', adminController.postCreateExam);
 
 router.get('/exams', adminController.getRetrieveExams);
 
+router.get('/exams/:id/update', adminController.getUpdateExam);
+
 router.put('/exams/:id/update', adminController.putUpdateExam);
 
 router.delete('/exams/:id/delete', adminController.deleteExam);
