@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 const userModel = require('../models/user.model');
 const examModel = require('../models/exam.model');
 const questionModel = require('../models/question.model');
@@ -60,6 +58,7 @@ const getRetrieveExams = async (req, res, next) => {
   }
 };
 
+// Lấy trang cập nhật đề thi
 const getUpdateExam = async (req, res, next) => {
   try {
     const { id } = req.params;

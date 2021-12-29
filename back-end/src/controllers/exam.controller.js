@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const examModel = require('../models/exam.model');
 const workModel = require('../models/work.model');
@@ -45,6 +46,47 @@ const getExamTake = async (req, res, next) => {
 	}
 };
 
+// Nộp bài
+const postExamTake = async (req, res, next) => {
+  try  {
+    const { id } = req.params;
+    const { secondTaken, options } = req.body;
+
+    const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+    const { userId } = decodedAuth;
+
+    const works = await workModel.find(
+      { exam: mongoose.Types.ObjectId(id), candidate: mongoose.Types.ObjectId(userId) },
+      'attempt'
+    );
+    const attempts = [ 0 ];
+    attempts.push(...works.map(work => work.attempt));
+    const nextAttempt = Math.max(...attempts) + 1;
+
+    let outOf = 0;
+    for (const option of options) {
+      const { correctOption } = await questionModel.findById(option.question);
+
+      if (correctOption.toString() === option.option)
+        outOf++;
+    }
+
+    const work = await workModel.create({
+      candidate: userId,
+      exam: id,
+      attempt: nextAttempt,
+      secondTaken,
+      options,
+      outOf
+    });
+
+    return res.status(200).json({ message: 'Sucessfully' });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: 'Submission denied' });
+  }
+};
+
 // Xem thông tin làm bài
 const getExamReview = async (req, res, next) => {
   try {
@@ -60,9 +102,9 @@ const getExamReview = async (req, res, next) => {
       })
       .populate({
         path: 'options.question',
-        select: 'order content',
+        select: 'content correctOption options',
         populate: {
-          path: 'correctOption'
+          path: 'correctOption options'
         }
       })
       .populate('options.option');
@@ -76,5 +118,6 @@ const getExamReview = async (req, res, next) => {
 module.exports = {
   getExamView,
   getExamTake,
+  postExamTake,
   getExamReview,
 };
