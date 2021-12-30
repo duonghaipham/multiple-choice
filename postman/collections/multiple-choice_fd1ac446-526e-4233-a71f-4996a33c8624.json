@@ -1,0 +1,498 @@
+{
+    "info": {
+        "_postman_id": "7ba62100-4ddf-42a5-a341-f9e51918d1d0",
+        "name": "multiple-choice",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "Lấy danh sách tài khoản",
+                    "id": "58c58bc6-38f6-43a3-b271-629cfb7feec1",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/admin/users",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Tạo tài khoản",
+                    "id": "b24d1b7d-1697-4bb8-abe1-1c6a37ae0b64",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"Lê Tuấn\",\r\n    \"gender\": \"Nam\",\r\n    \"city\": \"Hà Nội\",\r\n    \"phone\": \"0909789456\",\r\n    \"email\": \"leetuan@gmail.com\",\r\n    \"password\": \"tuan\",\r\n    \"roles\": \"student\",\r\n    \"state\": \"active\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}/admin/users/create",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users",
+                                "create"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Cập nhật tài khoản",
+                    "id": "df90f568-019b-4fb4-a1c3-507856e3e67e",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"Lê Tuần\",\r\n    \"gender\": \"Nam\",\r\n    \"city\": \"Hà Nội\",\r\n    \"phone\": \"0909789456\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}/admin/users/:userId/update",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users",
+                                ":userId",
+                                "update"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "userId",
+                                    "value": "61990fc93e72a7c4bca03943"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Xóa tài khoản",
+                    "id": "68f9a9a7-bc09-4923-82ab-50c5b00649db",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/admin/users/:userId/delete",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users",
+                                ":userId",
+                                "delete"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "userId",
+                                    "value": "61990fc93e72a7c4bca03943"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "6676e821-3dd3-43e9-b2b3-fa98f8eb6347"
+        },
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "Xem đề thi",
+                    "id": "d920068a-e072-4065-9256-b4472f3484c7",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/exams/:examId",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "exams",
+                                ":examId"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61cb27844e269af4d8615bf7"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Xem kết quả làm bài",
+                    "id": "aff68758-e1a4-436e-b2ab-89bf25afa152",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/exams/:examId/review/:attempt",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "exams",
+                                ":examId",
+                                "review",
+                                ":attempt"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61990fc93e72a7c4bca03948"
+                                },
+                                {
+                                    "key": "attempt",
+                                    "value": "4"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Làm đề thi",
+                    "id": "a5c9fa24-9ea6-46cf-9e0f-928f2d4dfab5",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/exams/:examId/take",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "exams",
+                                ":examId",
+                                "take"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61cb27844e269af4d8615bf7"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Nộp bài",
+                    "id": "5b665aea-f6ad-4b43-8bbb-cc479ecc9dff",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"secondTaken\": 120,\r\n    \"options\": [\r\n        {\r\n            \"question\": \"61990fc93e72a7c4bca0394a\",\r\n            \"option\": \"61990fc93e72a7c4bca0394e\"\r\n        },\r\n        {\r\n            \"question\": \"61990fc93e72a7c4bca0394b\",\r\n            \"option\": \"61990fc93e72a7c4bca03951\"\r\n        }\r\n    ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}/exams/:examId/take",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "exams",
+                                ":examId",
+                                "take"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61990fc93e72a7c4bca03948"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Đăng nhập",
+                    "id": "220221b9-f170-4340-aa60-3c393cd700d2",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "email",
+                                    "value": "nlchi@gmail.com",
+                                    "type": "string"
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "chi",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{url}}/login",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Đăng xuất",
+                    "id": "868146e4-5e6d-47c4-b82a-e5ae57363edd",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/login/logout",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "login",
+                                "logout"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "f8cf1074-31f2-4037-9de3-cb378de265ba"
+        },
+        {
+            "name": "Teacher",
+            "item": [
+                {
+                    "name": "Tạo đề thi",
+                    "id": "a9ee08a2-d161-42a7-994c-13bbbcac1559",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"creator\": \"61990fc93e72a7c4bca03944\",\r\n    \"attemptLimit\": \"2\",\r\n    \"minuteLimit\": \"60\",\r\n    \"subject\": \"Lịch sử\",\r\n    \"grade\": 10,\r\n    \"questions\": [\r\n        {\r\n            \"content\": \"Đại Cách mạng văn hóa diễn ra ở nước nào?\",\r\n            \"correctOption\": \"Việt Nam\",\r\n            \"options\": [\r\n                \"Trung Quốc\",\r\n                \"Nhật Bản\",\r\n                \"Hoa Kỳ\",\r\n                \"Việt Nam\"\r\n            ]\r\n        },\r\n        {\r\n            \"content\": \"Chiến dịch diệt chim sẻ do ai đề xuất?\",\r\n            \"correctOption\": \"Mao Trạch Đông\",\r\n            \"options\": [\r\n                \"Tôn Trung Sơn\",\r\n                \"Mao Trạch Đông\",\r\n                \"Đặng Tiểu Bình\",\r\n                \"Tưởng Giới Thạch\"\r\n            ]\r\n        }\r\n    ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}/admin/exams/create",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "exams",
+                                "create"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Sửa đề thi",
+                    "id": "5c92fd71-c152-43a0-a798-4dde6560f743",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/admin/exams/:examId/update",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "exams",
+                                ":examId",
+                                "update"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61990fc93e72a7c4bca03948"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Sửa đề thi",
+                    "id": "f337fc9b-bf9d-48b4-b127-977b9f637365",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"attemptLimit\": 1,\r\n    \"minuteLimit\": 10,\r\n    \"questions\": [\r\n        {\r\n            \"_id\": \"61990fc93e72a7c4bca0394a\",\r\n            \"content\": \"Ai là người phát hiện ra Châu Mỹ?\",\r\n            \"correctOption\": \"Christopher Columbus\",\r\n            \"options\": [\r\n                \"Christopher Columbus\",\r\n                \"Ferdinand Magellan\",\r\n                \"Vasco da Gama\"\r\n            ]\r\n        },\r\n        {\r\n            \"_id\": \"61990fc93e72a7c4bca0394b\",\r\n            \"content\": \"Tam Đại trong lịch sử Trung Quốc?\",\r\n            \"correctOption\": \"Nhà Hạ, nhà Thương, nhà Chu\",\r\n            \"options\": [\r\n                \"Nhà Hạ, nhà Thương, nhà Tần\",\r\n                \"Nhà Hạ, nhà Thương, nhà Chu\"\r\n            ]\r\n        },\r\n        {\r\n            \"_id\": \"\",\r\n            \"content\": \"Litte boy là tên của?\",\r\n            \"correctOption\": \"Một quả bom nguyên tử\",\r\n            \"options\": [\r\n                \"Một quả bom nguyên tử của Mỹ\",\r\n                \"Một chiến dịch chiến tranh\",\r\n                \"Một chiêu bài chính trị\"\r\n            ]\r\n        }\r\n    ],\r\n    \"subject\": \"Lịch sử\",\r\n    \"grade\": 11\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}/admin/exams/:examId/update",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "exams",
+                                ":examId",
+                                "update"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61990fc93e72a7c4bca03948"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Xóa đề thi",
+                    "id": "798ab2d6-0a0a-4ac3-9dcd-70f71df88d3e",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/admin/exams/:examId/delete",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "exams",
+                                ":examId",
+                                "delete"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "examId",
+                                    "value": "61990fc93e72a7c4bca03948"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "80bdcdd0-ed89-4db9-b7f9-67241f02a687"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "b8913526-510b-4ea6-b1b4-ffa4c81ad4af",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "135e3646-9768-4aa5-b930-36f9a71fa447",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "id": "e4611b3f-6f7f-4105-af8c-347334469785",
+            "key": "url",
+            "value": "http://localhost:5000",
+            "type": "string"
+        }
+    ]
+}
