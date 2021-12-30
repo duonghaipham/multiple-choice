@@ -14,7 +14,9 @@ const getExamView = async (req, res, next) => {
     const { userId } = decodedAuth;
 
     const exam = await examModel.findById(id);
-    const works = await workModel.find({ candidate: userId, exam: exam._id }).select('attempt submittedAt secondTaken outOf');
+    const works = await workModel
+      .find({ candidate: userId, exam: exam._id })
+      .select('attempt submittedAt secondTaken outOf');
     const statusExam = { ...exam._doc, works };
 
     return res.status(200).json(statusExam);

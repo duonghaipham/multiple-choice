@@ -30,6 +30,10 @@ const examSchema = new Schema({
     type: String,
     default: null
   },
+  grade: {
+    type: Number,
+    default: 12
+  },
   isDeleted: {
     type: Boolean,
     default: false
