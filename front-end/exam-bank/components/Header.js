@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { logout } from "../store/slices/userSlice";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import axios from "axios";
 
 function Header({ disable }) {
 	const [signIn, setSignIn] = useState(false);
@@ -13,7 +14,18 @@ function Header({ disable }) {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
+		// try {
+		// 	//const url = `http://localhost:5000/login`;
+		// 	const res = await axios.post("http://localhost:5000/login/logout");
+		// 	localStorage.removeItem("REFRESH_TOKEN");
+		// 	console.log(res);
+		// 	if (res.data.message == "Success") {
+		// 		//dispatch(logout());
+		// 	}
+		// } catch (error) {
+		// 	console.log("Failed to logout:", error);
+		// }
 		dispatch(logout());
 	};
 
@@ -54,7 +66,7 @@ function Header({ disable }) {
 					<h3 className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer">
 						Giới thiệu
 					</h3>
-					{user?.type == "teacher" && (
+					{user?.role == "teacher" && (
 						<h3
 							className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
 							onClick={() => router.push("/createExam")}

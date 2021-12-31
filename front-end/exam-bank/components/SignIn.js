@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/userSlice";
 import axios from "axios";
+import { useState } from "react";
 
 function SignIn() {
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
+	const [error, setError] = useState();
 
 	const onSubmit = (data) => {
-		console.log(data);
 		const handleLogin = async () => {
 			try {
 				//const url = `http://localhost:5000/login`;
@@ -17,14 +18,20 @@ function SignIn() {
 						"Content-Type": "application/json",
 					},
 				});
-				localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
-				console.log(res);
-				if (res.message === "Success") {
-					//dispatch(login(user));
+
+				if (res.data.message === "Success") {
+					localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
+
+					const user = res.data.user;
+					const action = login(user);
+					dispatch(action);
 				} else {
 				}
 			} catch (error) {
-				console.log("Failed to fetch exam:", error);
+				if (error.toString().includes("401")) setError("Sai mật khẩu");
+				else if (error.toString().includes("406"))
+					setError("Tài khoản không tồn tại");
+				console.log("Failed to login", error);
 			}
 		};
 		handleLogin();
@@ -36,6 +43,8 @@ function SignIn() {
 				avatar: "./img/biology.jpg",
 				type: "student",
 			};
+			const action = login(user);
+			dispatch(action);
 		}
 		if (data.email == "gv" && data.password == "gv") {
 			const user = {
@@ -59,7 +68,7 @@ function SignIn() {
 					<div class="mb-4">
 						<label
 							class="block text-gray-700 text-sm font-bold mb-2"
-							for="email"
+							htmlFor="email"
 						>
 							Tài khoản
 						</label>
@@ -73,7 +82,7 @@ function SignIn() {
 					<div class="mb-6">
 						<label
 							class="block text-gray-700 text-sm font-bold mb-2"
-							for="password"
+							htmlFor="password"
 						>
 							Mật khẩu
 						</label>
@@ -83,6 +92,11 @@ function SignIn() {
 							{...register("password", (require = true))}
 							type="password"
 						/>
+						{error && (
+							<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+								{error}
+							</span>
+						)}
 					</div>
 					<div class="flex items-center justify-between">
 						<button
