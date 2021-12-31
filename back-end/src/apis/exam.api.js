@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const examController = require('../controllers/exam.controller');
 
+router.get('/', examController.getRetrieveExams);
+
 router.get('/:id', examController.getExamView);
 
 router.get('/:id/take', examController.getExamTake);

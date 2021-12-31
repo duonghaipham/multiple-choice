@@ -5,6 +5,27 @@ const examModel = require('../models/exam.model');
 const workModel = require('../models/work.model');
 const questionModel = require('../models/question.model');
 const optionModel = require('../models/option.model');
+const {ITEM_PER_PAGE} = require("../configs/constant.config");
+
+const getRetrieveExams = async (req, res, next) => {
+  try {
+    let { page } = req.query;
+    if (page === undefined) {
+      page = 1;
+    }
+
+    const exams = await examModel
+      .find({ isDeleted: false })
+      .skip((page - 1) * ITEM_PER_PAGE)
+      .limit(ITEM_PER_PAGE)
+      .populate('creator', 'name');
+
+    return res.status(200).json(exams);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ 'message': 'Failed' });
+  }
+};
 
 // Xem một đề thi, chỉ những thông tin mô tả, không bao gồm các câu hỏi
 const getExamView = async (req, res, next) => {
@@ -118,6 +139,7 @@ const getExamReview = async (req, res, next) => {
 };
 
 module.exports = {
+  getRetrieveExams,
   getExamView,
   getExamTake,
   postExamTake,
