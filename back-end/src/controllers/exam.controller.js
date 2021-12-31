@@ -23,7 +23,18 @@ const getRetrieveExams = async (req, res, next) => {
       .find(filter)
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE)
-      .populate('creator', 'name');
+      .populate('creator', 'name')
+      .lean();
+
+    let userId = '';
+    if (req.cookies.access_token) {
+      const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+      userId = decodedAuth.userId;
+    }
+
+    for (const exam of exams) {
+      exam.isEditable = exam.creator._id.toString() === userId;
+    }
 
     return res.status(200).json(exams);
   } catch (error) {

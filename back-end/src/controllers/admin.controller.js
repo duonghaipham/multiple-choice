@@ -7,7 +7,6 @@ const { ITEM_PER_PAGE } = require("../configs/constant.config");
 
 // Tạo một đề thi mới
 const postCreateExam = async (req, res, next) => {
-  console.log("Create exam");
   try {
     const {
       name,
@@ -73,7 +72,6 @@ const getRetrieveExams = async (req, res, next) => {
 
     return res.status(200).json(exams);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ message: "Failed" });
   }
 };
@@ -146,10 +144,10 @@ const putUpdateExam = async (req, res, next) => {
       questions: examQuestions,
     });
 
-    return res.status(200).json({ message: `Update exam ${id} successfully` });
+    return res.status(200).json({ message: `Success` });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: `Cannot find delete exam ${id}` });
+    return res.status(400).json({ message: `Failed` });
   }
 };
 
@@ -160,9 +158,9 @@ const deleteExam = async (req, res, next) => {
 
     await examModel.findByIdAndUpdate(id, { isDeleted: true });
 
-    return res.status(200).json({ message: "Success" });
+    return res.status(200).json({ message: 'Success' });
   } catch (error) {
-    return res.status(400).json({ message: `Cannot find and delete exam` });
+    return res.status(400).json({ message: `Failed` });
   }
 };
 
@@ -183,10 +181,10 @@ const postCreateUser = async (req, res, next) => {
       state,
     });
 
-    return res.status(201).json({ message: "Success" });
+    return res.status(201).json({ message: 'Success' });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: "Failed" });
+    return res.status(400).json({ message: 'Failed' });
   }
 };
 
@@ -194,10 +192,11 @@ const postCreateUser = async (req, res, next) => {
 const getRetrieveUsers = async (req, res, next) => {
   try {
     let { page } = req.query;
-    if (page === undefined) page = 1;
+    if (page === undefined)
+      page = 1;
 
     const exams = await userModel
-      .find({ state: "deleted" })
+      .find({ state: 'active' })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE);
 
@@ -215,9 +214,9 @@ const putUpdateUser = async (req, res, next) => {
 
     await userModel.findByIdAndUpdate(id, { name, gender, city, phone });
 
-    return res.status(200).json({ message: `Update user ${id} successfully` });
+    return res.status(200).json({ message: `Success` });
   } catch (error) {
-    return res.status(400).json({ message: `Cannot find and update user` });
+    return res.status(400).json({ message: `Failed` });
   }
 };
 
@@ -228,9 +227,9 @@ const deleteUser = async (req, res, next) => {
 
     await userModel.findByIdAndUpdate(id, { state: "deleted" });
 
-    return res.status(200).json({ message: `Delete user ${id} successfully` });
+    return res.status(200).json({ message: `Success` });
   } catch (error) {
-    return res.status(400).json({ message: `Cannot find and delete user` });
+    return res.status(400).json({ message: `Failed` });
   }
 };
 

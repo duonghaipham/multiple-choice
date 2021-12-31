@@ -7,7 +7,7 @@ const userModel = require('../models/user.model');
 
 const postRegister = async (req, res) => {
   try {
-    const { name, gender, city, phone, email, password, grade } = req.body;
+    const { name, gender, city, phone, email, password, grade, role } = req.body;
 
     const checkUser = await userModel.findOne({ email });
 
@@ -19,7 +19,8 @@ const postRegister = async (req, res) => {
         phone,
         email,
         password,
-        grade
+        grade,
+        role
       });
 
       const refreshToken = await jwtConfig.encodedToken(
@@ -40,7 +41,15 @@ const postRegister = async (req, res) => {
         expires: new Date(Date.now() + constants.COOKIE_EXPIRES_TIME)
       });
 
-      return res.status(200).json({ refreshToken, message: 'Success' });
+      return res.status(200).json({
+        refreshToken,
+        message: 'Success',
+        user: {
+          name: user.name,
+          role: user.role,
+          avatar: user.avatar
+        }
+      });
     }
     else {
       return res.status(401).json({ message: 'Email existed' });

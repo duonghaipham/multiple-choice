@@ -31,8 +31,14 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 12
   },
-  roles: {
-    type: [String]
+  avatar: {
+    type: String,
+    default: 'https://blog.netsarang.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'
+  },
+  role: {
+    type: String,
+    enum: ['teacher', 'admin', 'student'],
+    default: 'student'
   },
   state: {
     type: String,
