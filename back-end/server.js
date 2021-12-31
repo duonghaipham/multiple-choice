@@ -42,6 +42,6 @@ app.listen(process.env.PORT, () => {
 
 // APIs
 app.use('/login', loginApi);
-app.use('/user', userApi);
+app.use('/users', userApi);
 app.use('/exams', examApi);
 app.use('/admin', adminApi);

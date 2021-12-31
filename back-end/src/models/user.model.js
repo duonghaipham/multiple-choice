@@ -23,10 +23,6 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		unique: true
 	},
-  avatar: {
-    type: String,
-    default: null
-  },
   password: {
     type: String,
     default: null
@@ -43,7 +39,7 @@ const userSchema = new mongoose.Schema({
     enum: ['active', 'inactive', 'deleted'],
     default: 'inactive'
   },
-  createAt: {
+  createdAt: {
     type: Date,
     default: Date.now()
   }
