@@ -9,13 +9,18 @@ const {ITEM_PER_PAGE} = require("../configs/constant.config");
 
 const getRetrieveExams = async (req, res, next) => {
   try {
-    let { page } = req.query;
+    let { page, subject } = req.query;
     if (page === undefined) {
       page = 1;
     }
 
+    const filter = { isDeleted: false };
+    if (subject !== undefined) {
+      filter.subject = subject;
+    }
+
     const exams = await examModel
-      .find({ isDeleted: false })
+      .find(filter)
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE)
       .populate('creator', 'name');

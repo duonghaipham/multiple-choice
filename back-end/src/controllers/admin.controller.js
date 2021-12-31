@@ -8,7 +8,7 @@ const { ITEM_PER_PAGE } = require('../configs/constant.config');
 // Tạo một đề thi mới
 const postCreateExam = async (req, res, next) => {
   try {
-    const { creator, attemptLimit, minuteLimit, subject, grade, questions } = req.body;
+    const { name, creator, attemptLimit, minuteLimit, subject, grade, questions } = req.body;
 
     const examQuestions = [];
 
@@ -28,7 +28,15 @@ const postCreateExam = async (req, res, next) => {
       examQuestions.push(_id);
     }
 
-    const exam = await examModel.create({ creator, attemptLimit, minuteLimit, subject, grade, questions: examQuestions });
+    const exam = await examModel.create({
+      name,
+      creator,
+      attemptLimit,
+      minuteLimit,
+      subject,
+      grade,
+      questions: examQuestions
+    });
 
     return res.status(200).json({ 'message': 'Successfully' });
   } catch (error) {
@@ -85,7 +93,7 @@ const getUpdateExam = async (req, res, next) => {
 const putUpdateExam = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { attemptLimit, minuteLimit, subject, grade, questions } = req.body;
+    const { name, attemptLimit, minuteLimit, subject, grade, questions } = req.body;
 
     const examQuestions = [];
 
@@ -116,7 +124,14 @@ const putUpdateExam = async (req, res, next) => {
       examQuestions.push(newQuestionId);
     }
 
-    const exam = await examModel.findByIdAndUpdate(id, { attemptLimit, minuteLimit, subject, grade, questions: examQuestions });
+    const exam = await examModel.findByIdAndUpdate(id, {
+      name,
+      attemptLimit,
+      minuteLimit,
+      subject,
+      grade,
+      questions: examQuestions
+    });
 
     return res.status(200).json({ 'message': `Update exam ${id} successfully` });
   } catch (error) {
