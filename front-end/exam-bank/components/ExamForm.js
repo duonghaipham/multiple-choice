@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch } from "react-redux";
-import { modifiedAnswer } from "../pages/api/modifiedAnswer";
+import { modifiedAnswer } from "../utils/modifiedAnswer";
 import { initAnswers } from "../store/slices/answerSlice";
 import Question from "./Question";
 
@@ -25,59 +25,59 @@ const customStyles = {
 	},
 };
 
-export default function ExamForm({ timeout }) {
-	const arr = [
-		{
-			question: "What is your name?",
-			correctAnswer: "A",
-			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-		},
-		{
-			question: "How old are you?",
-			correctAnswer: "C",
-			answers: ["12", "18", "20", "22"],
-		},
-		{
-			question: "Where are you live?",
-			correctAnswer: "B",
-			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-		},
-		{
-			question: "Which major are you studying? ",
-			correctAnswer: "D",
-			answers: [
-				"Computer Sience",
-				"Information Systems",
-				"Information Technology",
-				"Software Engineering",
-			],
-		},
-		{
-			question: "What is your name?",
-			correctAnswer: "A",
-			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-		},
-		{
-			question: "How old are you?",
-			correctAnswer: "C",
-			answers: ["12", "18", "20", "22"],
-		},
-		{
-			question: "Where are you live?",
-			correctAnswer: "B",
-			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-		},
-		{
-			question: "Which major are you studying? ",
-			correctAnswer: "D",
-			answers: [
-				"Computer Sience",
-				"Information Systems",
-				"Information Technology",
-				"Software Engineering",
-			],
-		},
-	];
+export default function ExamForm({ timeout, questions }) {
+	// const arr = [
+	// 	{
+	// 		question: "What is your name?",
+	// 		correctAnswer: "A",
+	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
+	// 	},
+	// 	{
+	// 		question: "How old are you?",
+	// 		correctAnswer: "C",
+	// 		answers: ["12", "18", "20", "22"],
+	// 	},
+	// 	{
+	// 		question: "Where are you live?",
+	// 		correctAnswer: "B",
+	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
+	// 	},
+	// 	{
+	// 		question: "Which major are you studying? ",
+	// 		correctAnswer: "D",
+	// 		answers: [
+	// 			"Computer Sience",
+	// 			"Information Systems",
+	// 			"Information Technology",
+	// 			"Software Engineering",
+	// 		],
+	// 	},
+	// 	{
+	// 		question: "What is your name?",
+	// 		correctAnswer: "A",
+	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
+	// 	},
+	// 	{
+	// 		question: "How old are you?",
+	// 		correctAnswer: "C",
+	// 		answers: ["12", "18", "20", "22"],
+	// 	},
+	// 	{
+	// 		question: "Where are you live?",
+	// 		correctAnswer: "B",
+	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
+	// 	},
+	// 	{
+	// 		question: "Which major are you studying? ",
+	// 		correctAnswer: "D",
+	// 		answers: [
+	// 			"Computer Sience",
+	// 			"Information Systems",
+	// 			"Information Technology",
+	// 			"Software Engineering",
+	// 		],
+	// 	},
+	// ];
 
 	// let arr = [];
 	// router.query.exam != undefined
@@ -112,12 +112,12 @@ export default function ExamForm({ timeout }) {
 		const selectedAnswers = fields ? Object?.values(fields) : []; // tạo mảng selectedAnswers để lưu vào Redux
 		// Tạo action để dispatch vào Redux (mục đích để tạo mảng đáp án truyền qua component StateBox)
 		const action =
-			arr?.length != null
+			questions?.length != null
 				? selectedAnswers.some(
 						(e) => e === "A" || e === "B" || e === "C" || e === "D",
 				  )
 					? initAnswers(selectedAnswers)
-					: initAnswers(arr.length)
+					: initAnswers(questions.length)
 				: initAnswers(0);
 		dispatch(action);
 	}, []);
@@ -137,13 +137,17 @@ export default function ExamForm({ timeout }) {
 		localStorage.removeItem("remainTimeSaved");
 		localStorage.removeItem("currentTimeSaved");
 
-		const answers = modifiedAnswer(data); //  Mođified mảng đáp án đã chọn
+		const answers = modifiedAnswer(data); //  Modified mảng đáp án đã chọn
 		let noOfCorrectAnswer = 0;
-		arr.forEach((e, i) => {
+		questions.forEach((e, i) => {
 			if (e.correctAnswer === answers[i]) noOfCorrectAnswer++; // Tính số câu đúng
 		});
 		console.log(noOfCorrectAnswer);
 		// setCorrectAnswer(noOfCorrectAnswer);
+	};
+
+	const checkKeyDown = (e) => {
+		if (e.code === "Enter") e.preventDefault();
 	};
 
 	const buttonSubmit = useRef(); // sử dụng useRef để lấy ra button submit (tương tự document.getElement...)
@@ -158,16 +162,18 @@ export default function ExamForm({ timeout }) {
 
 	return (
 		<div className="mt-5 flex-1">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				{arr?.map((e, i) => (
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				onKeyDown={(e) => checkKeyDown(e)} // Chặn user ấn Enter
+			>
+				{questions?.map((e, i) => (
 					<Question
-						key={i}
+						key={e._id}
 						index={i}
 						register={register}
 						label={`answer${i}`}
-						question={e.question}
-						type="radio"
-						answers={e.answers}
+						content={e.content}
+						options={e.options}
 					/>
 				))}
 				{/* button thật để submit form, user sẽ không click được, khi nào xác nhận

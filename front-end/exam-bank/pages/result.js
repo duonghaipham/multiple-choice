@@ -5,7 +5,7 @@ import ViewResult from "../components/ViewResult";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function Home() {
+export default function Result() {
 	return (
 		<div>
 			<Head>

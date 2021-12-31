@@ -6,7 +6,7 @@ import Header from "../components/Header";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function CreateExam() {
+export default function EditExam() {
 	const router = useRouter();
 
 	return (

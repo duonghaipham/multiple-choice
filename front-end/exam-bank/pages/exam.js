@@ -2,12 +2,13 @@ import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import axios from "axios";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function Home() {
+export default function Exam({ exam }) {
 	const router = useRouter();
-
+	console.log("exam", exam);
 	return (
 		<div>
 			<Head>
@@ -360,3 +361,23 @@ export default function Home() {
 		</div>
 	);
 }
+
+// export const getStaticProps = async () => {
+// 	try {
+// 		const url = "http://localhost:5000/admin/users";
+// 		const res = await axios.get(url);
+// 		console.log("res", res.data);
+
+// 		return {
+// 			props: {
+// 				exam: res.data,
+// 			},
+// 		};
+// 	} catch (error) {
+// 		console.log("Failed to fetch exam:", error);
+// 	}
+
+// 	return {
+// 		props: {},
+// 	};
+// };
