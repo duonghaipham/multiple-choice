@@ -21,7 +21,7 @@ export default function TakeExam() {
 			<Header disable={true} />
 			<div className="flex justify-between my-10">
 				<BodyExam timeout={timeout} />
-				<StateBox timeout={timeout} setTimeout={setTimeout} />
+				{/* <StateBox timeout={timeout} setTimeout={setTimeout} /> */}
 			</div>
 			<Footer disable={true} />
 		</div>

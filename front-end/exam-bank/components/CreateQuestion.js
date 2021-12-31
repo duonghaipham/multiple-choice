@@ -7,13 +7,13 @@
 import { ErrorMessage } from "@hookform/error-message";
 
 function CreateQuestion({ register, errors, label }) {
-	const labelQuestion = label + "question";
-	const labelCorrectAnswer = label + "correctAnswer";
-	const labelAnswers = [
-		label + "answerA",
-		label + "answerB",
-		label + "answerC",
-		label + "answerD",
+	const labelQuestion = label + "content";
+	const labelCorrectOption = label + "correctOption";
+	const labelOptions = [
+		label + "optionA",
+		label + "optionB",
+		label + "optionC",
+		label + "optionD",
 	];
 	// const [checkBox, setCheckBox] = useState(false);
 
@@ -46,7 +46,7 @@ function CreateQuestion({ register, errors, label }) {
 			</div> */}
 			<ErrorMessage
 				errors={errors}
-				name={labelCorrectAnswer}
+				name={labelCorrectOption}
 				render={() => (
 					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 						Hãy chọn đáp án đúng.
@@ -58,7 +58,7 @@ function CreateQuestion({ register, errors, label }) {
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
 							value="A"
@@ -68,13 +68,13 @@ function CreateQuestion({ register, errors, label }) {
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[0], { required: true })}
+							{...register(labelOptions[0], { required: true })}
 							type="text"
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[0]}
+						name={labelOptions[0]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án A.
@@ -86,7 +86,7 @@ function CreateQuestion({ register, errors, label }) {
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
 							value="B"
@@ -96,13 +96,13 @@ function CreateQuestion({ register, errors, label }) {
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[1], { required: true })}
+							{...register(labelOptions[1], { required: true })}
 							type="text"
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[1]}
+						name={labelOptions[1]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án B.
@@ -114,7 +114,7 @@ function CreateQuestion({ register, errors, label }) {
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
 							value="C"
@@ -124,13 +124,13 @@ function CreateQuestion({ register, errors, label }) {
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[2], { required: "Hãy thêm đáp án C" })}
+							{...register(labelOptions[2], { required: "Hãy thêm đáp án C" })}
 							type="text"
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[2]}
+						name={labelOptions[2]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án C.
@@ -142,7 +142,7 @@ function CreateQuestion({ register, errors, label }) {
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
 							value="D"
@@ -152,12 +152,12 @@ function CreateQuestion({ register, errors, label }) {
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[3], { required: true })}
+							{...register(labelOptions[3], { required: true })}
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[3]}
+						name={labelOptions[3]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án D.

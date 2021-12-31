@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { modifiedAnswer } from "../utils/modifiedAnswer";
 import { initAnswers } from "../store/slices/answerSlice";
 import Question from "./Question";
+import axios from "axios";
 
 // Create form: question-answer-rightAnswer - 14-10-2021
 // Update form: auto submit when timeout - 19-10-2021
@@ -131,7 +132,26 @@ export default function ExamForm({ timeout, questions }) {
 
 	const onSubmit = (data) => {
 		console.log("data", data);
+		const handleSubmitExam = async () => {
+			try {
+				//const url = `http://localhost:5000/login`;
+				const res = await axios.post(
+					`http://localhost:5000/exams/${router.query.idExam}/take`,
+					data,
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					},
+				);
 
+				console.log(res);
+			} catch (error) {
+				console.log("Failed to submit exam:", error);
+			}
+		};
+
+		handleSubmitExam();
 		// Submit thành công thì xóa các field trong localStorage
 		localStorage.removeItem("fields");
 		localStorage.removeItem("remainTimeSaved");

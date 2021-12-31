@@ -1,8 +1,9 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { useRouter } from "next/dist/client/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import EditQuestion from "./EditQuestion";
+import axios from "axios";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 // Done form: Validation - 10-30-2021
@@ -119,13 +120,33 @@ export default function EditExamForm() {
 	// );
 
 	const router = useRouter();
-	const data = JSON.parse(router.query.data);
+	console.log(router.query.idExam);
+	const [exam, setExam] = useState({});
+	const [title, setTitle] = useState("");
+	const [time, setTime] = useState("");
+	const [subject, setSubject] = useState("");
+	const [__class, set__Class] = useState("");
+	//const [schoolYear, setSchoolYear] = useState(exam.schoolYear);
+	console.log(exam.questions);
+	// Fetch dữ liệu
 
-	const [title, setTitle] = useState(data.title);
-	const [time, setTime] = useState(data.time);
-	const [subject, setSubject] = useState(data.subject);
-	const [__class, set__Class] = useState(data.class);
-	const [schoolYear, setSchoolYear] = useState(data.schoolYear);
+	useEffect(() => {
+		const fetchExam = async () => {
+			try {
+				console.log("fetch ", router.query.idExam);
+				const url = `http://localhost:5000/admin/exams/${router.query.idExam}/update`;
+				const res = await axios.get(url);
+
+				setExam(res.data);
+				setTitle(res.data.name);
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		fetchExam();
+	}, []);
+
+	//const data = JSON.parse(router.query.data);
 
 	const {
 		register,
@@ -134,7 +155,7 @@ export default function EditExamForm() {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			questions: data.questions,
+			questions: exam.questions,
 		},
 	});
 
@@ -143,7 +164,8 @@ export default function EditExamForm() {
 		name: "questions", // unique name for your Field Array
 		// keyName: "id", default to "id", you can change the key name
 	});
-
+	fields = exam.questions;
+	console.log("fields", fields);
 	const onSubmit = (data) => {
 		// exam = modifiedQuestion(data);
 		console.log(data);
@@ -268,7 +290,7 @@ export default function EditExamForm() {
 						</label>
 					</div>
 
-					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
+					{/* <div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
 							{...register("schoolYear")}
@@ -284,7 +306,7 @@ export default function EditExamForm() {
 						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Năm học
 						</label>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			<ul className="w-full flex flex-col items-center b">

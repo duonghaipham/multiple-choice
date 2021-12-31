@@ -6,17 +6,17 @@ const modifiedQuestion = (data) => {
 	arr.forEach((e, i) => {
 		const ansArray = [];
 
-		ansArray.push(e["answerA"]);
-		ansArray.push(e["answerB"]);
-		ansArray.push(e["answerC"]);
-		ansArray.push(e["answerD"]);
+		ansArray.push(e["optionA"]);
+		ansArray.push(e["optionB"]);
+		ansArray.push(e["optionC"]);
+		ansArray.push(e["optionD"]);
 
-		delete e["answerA"];
-		delete e["answerB"];
-		delete e["answerC"];
-		delete e["answerD"];
+		delete e["optionA"];
+		delete e["optionB"];
+		delete e["optionC"];
+		delete e["optionD"];
 
-		e["answers"] = ansArray;
+		e["options"] = ansArray;
 	});
 
 	//const keys = Object.keys(data.questions).sort();

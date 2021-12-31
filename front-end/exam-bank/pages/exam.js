@@ -3,12 +3,46 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function Exam({ exam }) {
+export default function Exam() {
 	const router = useRouter();
-	console.log("exam", exam);
+
+	const [exams, setExams] = useState([]);
+
+	// Fetch dữ liệu
+	useEffect(() => {
+		const fetchExam = async () => {
+			try {
+				const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
+				const res = await axios.get(url);
+
+				setExams(res.data);
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		fetchExam();
+	}, []);
+
+	const handleDeleteExam = async (id) => {
+		const index = exams.findIndex((e) => e._id == id);
+		console.log(index);
+		console.log(exams);
+		try {
+			const url = `http://localhost:5000/admin/exams/${id}/delete`;
+			const res = await axios.delete(url);
+
+			if (res.data.message == "Success") {
+				console.log("delete Success");
+				setExams([...exams.slice(0, index), ...exams.slice(index + 1)]);
+			}
+		} catch (error) {
+			console.log("Failed to fetch exam:", error);
+		}
+	};
 	return (
 		<div>
 			<Head>
@@ -41,163 +75,98 @@ export default function Exam({ exam }) {
 								/>
 							</svg>
 						</div>
+						{exams.length == 0 && (
+							<h1>Chưa có đề thi của môn {router.query.subject}</h1>
+						)}
+						{exams.map((e) => (
+							<div className="py-3 border-b-2">
+								<div className="flex jutify-between items-center">
+									<div className="flex flex-1 jutify-between items-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+											/>
+										</svg>
 
-						<div className="py-3 border-b-2">
-							<div className="flex jutify-between items-center">
-								<div className="flex flex-1 jutify-between items-center">
+										<h3
+											className="text-yellow-500 text-2xl font-semibold ml-2 cursor-pointer"
+											onClick={() =>
+												router.push({
+													pathname: "takeExam",
+													query: {
+														idExam: e._id,
+													},
+												})
+											}
+										>
+											{e.name}
+										</h3>
+									</div>
+
+									{/* <svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-6 w-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												/>
+											</svg> */}
+
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6"
+										className="h-6 w-6 cursor-pointer"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
+										onClick={() => handleDeleteExam(e._id)}
 									>
 										<path
 											strokeLinecap="round"
 											strokeLinejoin="round"
 											strokeWidth={2}
-											d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
 										/>
 									</svg>
-									<h3
-										className="text-yellow-500 text-2xl font-semibold ml-2 cursor-pointer"
-										onClick={() => router.push("takeExam")}
-									>
-										Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
-									</h3>
 								</div>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-									/>
-								</svg>
-							</div>
-							<div className="ml-8 mt-2">
-								<h4 className="text-md text-gray-600 font-semibold">
-									Người đăng:{" "}
-									<span className="text-yellow-500 ">Nguyễn Văn A</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Ngày đăng:{" "}
-									<span className="text-yellow-500 ">09/10/2021</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Đã làm bài: <span className="text-yellow-500 ">99</span>
-								</h4>
-							</div>
-						</div>
-						<div className="py-3 border-b-2">
-							<div className="flex jutify-between items-center">
-								<div className="flex flex-1 jutify-between items-center">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-										/>
-									</svg>
-									<h3 className="text-yellow-500 text-2xl font-semibold ml-2 cursor-pointer">
-										Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
+								<div className="ml-8 mt-2">
+									<h3 className="text-md text-gray-600 font-semibold">
+										Môn:
+										<span className="text-yellow-500 ml-2">{e.subject}</span>
 									</h3>
+									<h4 className="text-md text-gray-600 font-semibold">
+										Người đăng:
+										<span className="text-yellow-500 ml-2">
+											{e.creator.name}
+										</span>
+									</h4>
+									<h4 className="text-md text-gray-600 font-semibold">
+										Ngày đăng:
+										<span className="text-yellow-500 ml-2">{e.openedAt}</span>
+									</h4>
+									<h4 className="text-md text-gray-600 font-semibold">
+										Đã làm bài:
+										<span className="text-yellow-500 ml-2">
+											{e.attemptLimit}
+										</span>
+									</h4>
 								</div>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-									/>
-								</svg>
 							</div>
-							<div className="ml-8 mt-2">
-								<h4 className="text-md text-gray-600 font-semibold ">
-									Người đăng:{" "}
-									<span className="text-yellow-500 ">Nguyễn Văn A</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Ngày đăng:{" "}
-									<span className="text-yellow-500 ">09/10/2021</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Đã làm bài: <span className="text-yellow-500 ">99</span>
-								</h4>
-							</div>
-						</div>
-						<div className="py-3 border-b-2">
-							<div className="flex jutify-between items-center">
-								<div className="flex flex-1 jutify-between items-center">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-										/>
-									</svg>
-									<h3 className="text-yellow-500 text-2xl font-semibold ml-2 cursor-pointer">
-										Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
-									</h3>
-								</div>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-									/>
-								</svg>
-							</div>
-							<div className="ml-8 mt-2">
-								<h4 className="text-md text-gray-600 font-semibold ">
-									Người đăng:{" "}
-									<span className="text-yellow-500 ">Nguyễn Văn A</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Ngày đăng:{" "}
-									<span className="text-yellow-500 ">09/10/2021</span>
-								</h4>
-								<h4 className="text-md text-gray-600 font-semibold">
-									Đã làm bài: <span className="text-yellow-500 ">99</span>
-								</h4>
-							</div>
-						</div>
+						))}
 					</div>
 				</div>
 
@@ -212,7 +181,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "math",
+										subject: "math",
 									},
 								})
 							}
@@ -230,7 +199,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "english",
+										subject: "english",
 									},
 								})
 							}
@@ -248,7 +217,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "physics",
+										subject: "physics",
 									},
 								})
 							}
@@ -266,7 +235,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "chemistry",
+										subject: "chemistry",
 									},
 								})
 							}
@@ -284,7 +253,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "biology",
+										subject: "biology",
 									},
 								})
 							}
@@ -302,7 +271,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "history",
+										subject: "history",
 									},
 								})
 							}
@@ -320,7 +289,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "geography",
+										subject: "geography",
 									},
 								})
 							}
@@ -339,7 +308,7 @@ export default function Exam({ exam }) {
 								router.push({
 									pathname: "exam",
 									query: {
-										page: "civicEducation",
+										subject: "civicEducation",
 									},
 								})
 							}

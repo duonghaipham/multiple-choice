@@ -1,14 +1,15 @@
-// Done form: question-answer-rightAnswer - 14-10-2021
+// Done form: question-option-rightoption - 14-10-2021
 // Done form: Validation - 10-30-2021
-// Update form: change value answer number (0,1,2,3) to string ('A','B',..) - 11-01-2021
+// Update form: change value option number (0,1,2,3) to string ('A','B',..) - 11-01-2021
 // Update form: change form using useFormState - 11-07-2021
 // Update form: remove yup, use "required" of useForm - 11-07-2021
 
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { modifiedQuestion } from "../pages/api/modifiedQuestion";
+import { modifiedQuestion } from "../utils/modifiedQuestion";
 import CreateQuestion from "./CreateQuestion";
+import axios from "axios";
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import * as yup from "yup";
 
@@ -36,7 +37,7 @@ export default function CreateExamForm() {
 		defaultValues: {
 			questions: [
 				{
-					question: "",
+					content: "",
 				},
 			],
 		},
@@ -54,46 +55,35 @@ export default function CreateExamForm() {
 	const onSubmit = (data) => {
 		modifiedQuestion(data);
 		console.log(data);
-		router.push({
-			pathname: "editExam",
-			query: {
-				data: JSON.stringify(data),
-			},
-		});
+
+		const fetchExam = async () => {
+			try {
+				const url = `http://localhost:5000/admin/exams/create`;
+				const res = await axios.post(url, data);
+
+				if (res.data.message == "Success") console.log("Success");
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		fetchExam();
+
+		// router.push({
+		// 	pathname: "editExam",
+		// 	query: {
+		// 		data: JSON.stringify(data),
+		// 	},
+		// });
 	};
 
 	return (
-		// <form onSubmit={handleSubmit(onSubmit)}>
-		// 	{questions?.map((i) => (
-		// 		<div key={i} className="w-auto bg-green-300 p-4">
-		// 			<h4>Câu hỏi {i + 1}</h4>
-
-		// 			<CreateQuestion
-		// 				register={register}
-		// 				errors={errors}
-		// 				label={`q${i}`}
-		// 				// mulChoice={`q${i}mul`}
-		// 				labelAnswers={[`q${i}ans0`, `q${i}ans1`, `q${i}ans2`, `q${i}ans3`]}
-		// 			/>
-		// 		</div>
-		// 	))}
-
-		// 	<p
-		// 		onClick={() => {
-		// 			setQuestions([...questions, questions[questions.length - 1] + 1]);
-		// 		}}
-		// 	>
-		// 		Thêm câu hỏi
-		// 	</p>
-		// 	<input type="submit" />
-		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
 						required
-						{...register("title", { required: true })}
+						{...register("name", { required: true })}
 						type="text"
 					/>
 					<label
@@ -107,7 +97,7 @@ export default function CreateExamForm() {
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("time")}
+							{...register("minuteLimit")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
 						>
 							<option value=""></option>
@@ -130,14 +120,14 @@ export default function CreateExamForm() {
 						>
 							<option></option>
 							<option value="Toán">Toán</option>
-							<option value="Ngữ Văn">Ngữ Văn</option>
-							<option value="Tiếng Anh">Tiếng Anh</option>
-							<option value="Vật Lý">Vật Lý</option>
-							<option value="Hóa Học">Hóa Học</option>
-							<option value="Sinh Học">Sinh Học</option>
-							<option value="Lịch Sử">Lịch Sử</option>
-							<option value="Địa Lý">Địa Lý</option>
-							<option value="Giáo Dục Công Dân">Giáo Dục Công Dân</option>
+							<option value="Ngữ văn">Ngữ Văn</option>
+							<option value="Tiếng anh">Tiếng Anh</option>
+							<option value="Vật lý">Vật Lý</option>
+							<option value="Hóa học">Hóa Học</option>
+							<option value="Sinh học">Sinh Học</option>
+							<option value="Lịch sử">Lịch Sử</option>
+							<option value="Địa lý">Địa Lý</option>
+							<option value="Giáo dục công dân">Giáo Dục Công Dân</option>
 						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Môn thi
@@ -147,7 +137,7 @@ export default function CreateExamForm() {
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("class")}
+							{...register("grade")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
 						>
 							<option></option>
@@ -164,7 +154,7 @@ export default function CreateExamForm() {
 						</label>
 					</div>
 
-					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
+					{/* <div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
 							{...register("schoolYear")}
@@ -178,7 +168,7 @@ export default function CreateExamForm() {
 						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Năm học
 						</label>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			<ul className="w-full flex flex-col items-center b">
@@ -230,11 +220,11 @@ export default function CreateExamForm() {
 									type="button"
 									onClick={() =>
 										insert(index + 1, {
-											question: "",
-											answerA: "",
-											answerB: "",
-											answerC: "",
-											answerD: "",
+											content: "",
+											optionA: "",
+											optionB: "",
+											optionC: "",
+											optionD: "",
 										})
 									}
 								>
@@ -321,11 +311,11 @@ export default function CreateExamForm() {
 						type="button"
 						onClick={() => {
 							append({
-								question: "",
-								answerA: "",
-								answerB: "",
-								answerC: "",
-								answerD: "",
+								content: "",
+								optionA: "",
+								optionB: "",
+								optionC: "",
+								optionD: "",
 							});
 						}}
 					>

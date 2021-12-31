@@ -22,12 +22,12 @@ function BodyExam({ timeout }) {
 	const router = useRouter();
 
 	const [exam, setExam] = useState({});
-
+	console.log(exam);
 	// Fetch dữ liệu
 	useEffect(() => {
 		const fetchExam = async () => {
 			try {
-				const url = "http://localhost:5000/exams/61990fc93e72a7c4bca03948/take";
+				const url = `http://localhost:5000/exams/${router.query.idExam}/take`;
 				const res = await axios.get(url);
 
 				setExam(res.data);
@@ -44,10 +44,10 @@ function BodyExam({ timeout }) {
 				<div className="">
 					<div>
 						<span className="text-3xl font-bold text-green-800 ">
-							Lịch sử |
+							{exam.subject} |
 						</span>
 						<span className="text-yellow-500 text-2xl font-semibold mt-3">
-							| Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
+							| {exam.name}
 						</span>
 					</div>
 					<div className="flex flex-col w-full items-center">
@@ -61,7 +61,7 @@ function BodyExam({ timeout }) {
 							Số lần thi: {exam.attemptLimit}
 						</span>
 						<span className=" text-lg font-semibold mt-3">
-							Người ra đề: {exam.creator.name}
+							Người ra đề: {exam.creator?.name}
 						</span>
 					</div>
 				</div>

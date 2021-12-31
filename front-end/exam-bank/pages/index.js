@@ -46,7 +46,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "math",
+									subject: "Toán",
 								},
 							})
 						}
@@ -68,7 +68,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "english",
+									subject: "Tiếng anh",
 								},
 							})
 						}
@@ -90,7 +90,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "physics",
+									subject: "Vật lý",
 								},
 							})
 						}
@@ -112,7 +112,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "chemistry",
+									subject: "Hóa học",
 								},
 							})
 						}
@@ -134,7 +134,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "biology",
+									subject: "Sinh học",
 								},
 							})
 						}
@@ -156,7 +156,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "history",
+									subject: "Lịch sử",
 								},
 							})
 						}
@@ -178,7 +178,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "geography",
+									subject: "Địa lý",
 								},
 							})
 						}
@@ -201,7 +201,7 @@ export default function Home() {
 							router.push({
 								pathname: "exam",
 								query: {
-									page: "civicEducation",
+									subject: "Giáo dục công dân",
 								},
 							})
 						}

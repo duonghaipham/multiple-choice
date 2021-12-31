@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/userSlice";
+import axios from "axios";
 
 function SignIn() {
 	const dispatch = useDispatch();
@@ -8,17 +9,35 @@ function SignIn() {
 
 	const onSubmit = (data) => {
 		console.log(data);
-		if (data.username == "sv" && data.password == "sv") {
+		const handleLogin = async () => {
+			try {
+				//const url = `http://localhost:5000/login`;
+				const res = await axios.post("http://localhost:5000/login", data, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+				localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
+				console.log(res);
+				if (res.message === "Success") {
+					//dispatch(login(user));
+				} else {
+				}
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		handleLogin();
+
+		if (data.email == "sv" && data.password == "sv") {
 			const user = {
 				id: "sv0",
 				name: "Sinh viên",
 				avatar: "./img/biology.jpg",
 				type: "student",
 			};
-			const action = login(user);
-			dispatch(action);
 		}
-		if (data.username == "gv" && data.password == "gv") {
+		if (data.email == "gv" && data.password == "gv") {
 			const user = {
 				id: "gv0",
 				name: "Giáo viên",
@@ -40,14 +59,14 @@ function SignIn() {
 					<div class="mb-4">
 						<label
 							class="block text-gray-700 text-sm font-bold mb-2"
-							for="username"
+							for="email"
 						>
 							Tài khoản
 						</label>
 						<input
 							class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="username"
-							{...register("username", (require = true))}
+							id="email"
+							{...register("email", (require = true))}
 							type="text"
 						/>
 					</div>
