@@ -1,16 +1,18 @@
+const mongoose = require('mongoose');
+
 const userModel = require("../models/user.model");
 const examModel = require("../models/exam.model");
 const questionModel = require("../models/question.model");
 const optionModel = require("../models/option.model");
 
 const { ITEM_PER_PAGE } = require("../configs/constant.config");
+const jwt = require("jsonwebtoken");
 
 // Tạo một đề thi mới
 const postCreateExam = async (req, res, next) => {
   try {
     const {
       name,
-      creator,
       attemptLimit,
       minuteLimit,
       subject,
@@ -18,41 +20,49 @@ const postCreateExam = async (req, res, next) => {
       questions,
     } = req.body;
 
-    const examQuestions = [];
+    if (req.cookies.access_token) {
+      const decoded = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+      const {userId} = decoded;
 
-    for (const question of questions) {
-      const options = [];
-      let correctOption;
+      const examQuestions = [];
 
-      for (const option of question.options) {
-        const { _id } = await optionModel.create({ content: option });
-        options.push(_id);
+      for (const question of questions) {
+        const options = [];
+        let correctOption;
 
-        if (question.correctOption === option) correctOption = _id;
+        for (const option of question.options) {
+          const {_id} = await optionModel.create({content: option});
+          options.push(_id);
+
+          if (question.correctOption === option) correctOption = _id;
+        }
+
+        const {_id} = await questionModel.create({
+          content: question.content,
+          correctOption,
+          options,
+        });
+        examQuestions.push(_id);
       }
 
-      const { _id } = await questionModel.create({
-        content: question.content,
-        correctOption,
-        options,
+      const exam = await examModel.create({
+        name,
+        attemptLimit,
+        minuteLimit,
+        subject,
+        grade,
+        creator: mongoose.Types.ObjectId(userId),
+        questions: examQuestions,
       });
-      examQuestions.push(_id);
+
+      return res.status(200).json({ message: 'Success' });
     }
-
-    const exam = await examModel.create({
-      name,
-      creator,
-      attemptLimit,
-      minuteLimit,
-      subject,
-      grade,
-      questions: examQuestions,
-    });
-
-    return res.status(200).json({ message: "Success" });
+    else {
+      return res.status(401).json({message: 'Unauthorized' });
+    }
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: "Failed" });
+    return res.status(400).json({ message: 'Failed' });
   }
 };
 

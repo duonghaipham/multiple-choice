@@ -33,6 +33,7 @@ const getRetrieveExams = async (req, res, next) => {
     }
 
     for (const exam of exams) {
+      console.log(exam);
       exam.isEditable = exam.creator._id.toString() === userId;
     }
 

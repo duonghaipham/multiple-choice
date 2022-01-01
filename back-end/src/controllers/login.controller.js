@@ -40,6 +40,7 @@ const postLogin = async (req, res) => {
         refreshToken,
         message: 'Success',
         user: {
+          id: user._id,
           name: user.name,
           role: user.role,
           avatar: user.avatar
