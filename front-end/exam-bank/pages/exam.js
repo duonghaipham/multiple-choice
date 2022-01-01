@@ -4,12 +4,14 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import moment from "moment";
+import { useSelector } from "react-redux";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
 export default function Exam() {
 	const router = useRouter();
-
+	const user = useSelector((state) => state.user);
 	const [exams, setExams] = useState([]);
 
 	// Fetch dữ liệu
@@ -25,12 +27,10 @@ export default function Exam() {
 			}
 		};
 		fetchExam();
-	}, []);
+	}, [router.query.subject]);
 
 	const handleDeleteExam = async (id) => {
 		const index = exams.findIndex((e) => e._id == id);
-		console.log(index);
-		console.log(exams);
 		try {
 			const url = `http://localhost:5000/admin/exams/${id}/delete`;
 			const res = await axios.delete(url);
@@ -43,6 +43,7 @@ export default function Exam() {
 			console.log("Failed to fetch exam:", error);
 		}
 	};
+
 	return (
 		<div>
 			<Head>
@@ -54,11 +55,11 @@ export default function Exam() {
 			<Header />
 
 			<section className="flex py-5 px-5">
-				<div className="flex-1 py-10 px-20 ">
-					<div className="w-4/5  bg-gray-200 bg-opacity-40 p-10 shadow-md">
+				<div className="flex-1 py-5 md:py-10 px-5 md:px-20 ">
+					<div className="xl:w-4/5 bg-gray-200 bg-opacity-40 p-3 sm:p-10 shadow-md">
 						<div className="flex justify-between">
-							<h1 className="text-3xl font-bold text-green-800 mb-3">
-								Đề thi theo môn học
+							<h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
+								Đề thi theo môn {router.query.subject}
 							</h1>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +77,9 @@ export default function Exam() {
 							</svg>
 						</div>
 						{exams.length == 0 && (
-							<h1>Chưa có đề thi của môn {router.query.subject}</h1>
+							<h1 className="text-md sm:text-xl lg:text-3xl">
+								Chưa có đề thi của môn {router.query.subject}
+							</h1>
 						)}
 						{exams.map((e) => (
 							<div className="py-3 border-b-2">
@@ -98,7 +101,7 @@ export default function Exam() {
 										</svg>
 
 										<h3
-											className="text-yellow-500 text-2xl font-semibold ml-2 cursor-pointer"
+											className="text-md md:text-xl xl:text-2xl text-yellow-500 font-semibold ml-2 cursor-pointer"
 											onClick={() =>
 												router.push({
 													pathname: "takeExam",
@@ -126,39 +129,43 @@ export default function Exam() {
 													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 												/>
 											</svg> */}
-
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6 cursor-pointer"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										onClick={() => handleDeleteExam(e._id)}
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-										/>
-									</svg>
+									{/* Delete exam icon */}
+									{user?.role == "teacher" && (
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6 cursor-pointer"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											onClick={() => handleDeleteExam(e._id)}
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+											/>
+										</svg>
+									)}
 								</div>
 								<div className="ml-8 mt-2">
-									<h3 className="text-md text-gray-600 font-semibold">
+									<h3 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
 										Môn:
 										<span className="text-yellow-500 ml-2">{e.subject}</span>
 									</h3>
-									<h4 className="text-md text-gray-600 font-semibold">
+									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
 										Người đăng:
 										<span className="text-yellow-500 ml-2">
 											{e.creator.name}
 										</span>
 									</h4>
-									<h4 className="text-md text-gray-600 font-semibold">
+									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
 										Ngày đăng:
-										<span className="text-yellow-500 ml-2">{e.openedAt}</span>
+										<span className="text-yellow-500 ml-2">
+											{moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
+										</span>
 									</h4>
-									<h4 className="text-md text-gray-600 font-semibold">
+									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
 										Đã làm bài:
 										<span className="text-yellow-500 ml-2">
 											{e.attemptLimit}
@@ -170,7 +177,7 @@ export default function Exam() {
 					</div>
 				</div>
 
-				<div className="border-l-2 border-gray-200 pl-10 pr-3 grid place-content-center mb-10">
+				<div className="hidden lg:block border-l-2 border-gray-200 pl-10 pr-3 mb-10">
 					<h1 className="text-2xl font-bold text-green-800 mb-3">
 						Đề thi theo môn học
 					</h1>
@@ -181,7 +188,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "math",
+										subject: "Toán",
 									},
 								})
 							}
@@ -199,7 +206,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "english",
+										subject: "Tiếng anh",
 									},
 								})
 							}
@@ -217,7 +224,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "physics",
+										subject: "Vật lý",
 									},
 								})
 							}
@@ -235,7 +242,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "chemistry",
+										subject: "Hóa học",
 									},
 								})
 							}
@@ -253,7 +260,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "biology",
+										subject: "Sinh học",
 									},
 								})
 							}
@@ -271,7 +278,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "history",
+										subject: "Lịch sử",
 									},
 								})
 							}
@@ -289,7 +296,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "geography",
+										subject: "Địa lý",
 									},
 								})
 							}
@@ -308,7 +315,7 @@ export default function Exam() {
 								router.push({
 									pathname: "exam",
 									query: {
-										subject: "civicEducation",
+										subject: "Giáo dục công dân",
 									},
 								})
 							}

@@ -1,11 +1,31 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useRef } from "react";
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 function SignUp() {
-	const { register, handleSubmit } = useForm();
+	const validationSchema = Yup.object().shape({
+		name: Yup.string().required("Hãy nhập Họ tên"),
+		role: Yup.string().required(),
+		email: Yup.string().required("Hãy nhập Email"),
+		password: Yup.string()
+			.required("Hãy nhập mật khẩu")
+			.min(6, "Mật khẩu phải hơn 6 kí tự"),
+		confirmPassword: Yup.string()
+			.required("Hãy nhập mật khẩu xác nhận")
+			.oneOf([Yup.ref("password")], "Mật khẩu không khớp"),
+	});
+	const formOptions = { resolver: yupResolver(validationSchema) };
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm(formOptions);
 
 	const onSubmit = (data) => {
-		console.log(data);
+		console.log("data register", data);
 		const handleRegister = async () => {
 			try {
 				//const url = `http://localhost:5000/login`;
@@ -29,119 +49,155 @@ function SignUp() {
 			}
 		};
 		handleRegister();
-
-		if (data.username == "sv" && data.password == "sv") {
-			const user = {
-				id: "sv0",
-				name: "Sinh viên",
-				avatar: "./img/biology.jpg",
-				type: "student",
-			};
-		}
-		if (data.username == "gv" && data.password == "gv") {
-			const user = {
-				id: "gv0",
-				name: "Giáo viên",
-				avatar: "./img/math.jpg",
-				type: "teacher",
-			};
-			const action = login(user);
-			dispatch(action);
-		}
 	};
 
 	return (
 		<div>
-			<div class="w-80 max-w-xs absolute top-12 right-0">
+			<div className="w-80 max-w-xs absolute top-12 right-0">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
 				>
-					<div class="mb-4">
+					<div className="mb-4">
 						<label
-							class="block text-gray-700 text-sm font-bold mb-2"
-							for="name"
+							className="block text-gray-700 text-sm font-bold mb-2"
+							htmlFor="name"
 						>
 							Họ tên
 						</label>
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="name"
-							{...register("name", (require = true))}
+							className="shadow appearance-none border rounded w-full py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							name="name"
+							{...register("name", { required: true })}
 							type="text"
 						/>
+						<ErrorMessage
+							errors={errors}
+							name="name"
+							render={() => (
+								<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+									{errors.name?.message}
+								</span>
+							)}
+						/>
 					</div>
-					<label
-						class="block text-gray-700 text-sm font-bold mb-2 mr-2"
-						for="typeOfUser"
-					>
+					<label className="block text-gray-700 text-sm font-bold mb-2 mr-2">
 						Loại
 					</label>
-					<div class="mb-4 flex items-center justify-around">
-						<div className="flex items-center">
-							<label
-								class="block text-gray-700 text-sm font-semibold  mr-2"
-								for="typeOfUser"
-							>
-								Học sinh
-							</label>
-							<input name="typeOfUser" id="student" type="radio" />
+					<div className="mb-4 text-center">
+						<div className="w-full mb-4 flex items-center justify-around">
+							<div className="flex items-center">
+								<label
+									className="block text-gray-700 text-sm font-semibold  mr-2"
+									htmlFor="role"
+								>
+									Học sinh
+								</label>
+								<input
+									name="role"
+									value="student"
+									{...register("role", { required: true })}
+									type="radio"
+								/>
+							</div>
+							<div className="flex items-center">
+								<label
+									className="block text-gray-700 text-sm font-semibold  mr-2"
+									htmlFor="role"
+								>
+									Giáo viên
+								</label>
+								<input
+									name="role"
+									value="teacher"
+									{...register("role", { required: true })}
+									type="radio"
+								/>
+							</div>
 						</div>
-						<div className="flex items-center">
-							<label
-								class="block text-gray-700 text-sm font-semibold  mr-2"
-								for="typeOfUser"
-							>
-								Giáo viên
-							</label>
-							<input name="typeOfUser" id="teacher" type="radio" />
-						</div>
+						<ErrorMessage
+							errors={errors}
+							name="role"
+							render={() => (
+								<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+									Hãy chọn Loại
+								</span>
+							)}
+						/>
 					</div>
-					<div class="mb-4">
+
+					<div className="mb-4">
 						<label
-							class="block text-gray-700 text-sm font-bold mb-2"
-							for="email"
+							className="block text-gray-700 text-sm font-bold mb-2"
+							htmlFor="email"
 						>
 							Email
 						</label>
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="email"
-							{...register("email", (require = true))}
+							className="shadow appearance-none border rounded w-full py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							name="email"
+							{...register("email", { required: true })}
 							type="text"
 						/>
+						<ErrorMessage
+							errors={errors}
+							name="email"
+							render={() => (
+								<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+									{errors.email?.message}
+								</span>
+							)}
+						/>
 					</div>
-					<div class="mb-4">
+					<div className="mb-4">
 						<label
-							class="block text-gray-700 text-sm font-bold mb-2"
-							for="password"
+							className="block text-gray-700 text-sm font-bold mb-2"
+							htmlFor="password"
 						>
 							Mật khẩu
 						</label>
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-							id="password"
-							{...register("password", (require = true))}
+							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline"
+							name="password"
 							type="password"
+							{...register("password", { required: true })}
+						/>
+						<ErrorMessage
+							errors={errors}
+							name="password"
+							render={() => (
+								<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+									{errors.password?.message}
+								</span>
+							)}
 						/>
 					</div>
-					<div class="mb-6">
+					<div className="mb-6">
 						<label
-							class="block text-gray-700 text-sm font-bold mb-2"
-							for="comfirmPassword"
+							className="block text-gray-700 text-sm font-bold mb-2"
+							htmlFor="confirmPassword"
 						>
 							Xác nhận mật khẩu
 						</label>
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-							id="comfirmPassword"
-							{...register("comfirmPassword", (require = true))}
+							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline"
+							name="confirmPassword"
 							type="password"
+							{...register("confirmPassword", { required: true })}
+						/>
+						<ErrorMessage
+							errors={errors}
+							name="confirmPassword"
+							render={() => (
+								<span className="text-sm bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
+									{errors.confirmPassword?.message}
+								</span>
+							)}
 						/>
 					</div>
-					<div class="flex items-center justify-center">
+					<div className="flex items-center justify-center">
 						<button
-							class="bg-yellow-500 text-white font-bold px-2 py-1  rounded focus:outline-none focus:shadow-outline relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded before:border-2 before:border-transparent before:tranform hover:before:scale-x-110 hover:before:scale-y-125
+							className="bg-yellow-500 text-white font-bold px-2 py-1  rounded focus:outline-none focus:shadow-outline relative before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded before:border-2 before:border-transparent before:tranform hover:before:scale-x-110 hover:before:scale-y-125
                             before:transition before:ease-out hover:before:border-yellow-500"
 							type="submit"
 						>
