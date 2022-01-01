@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../store/slices/userSlice";
 import axios from "axios";
 import { useState } from "react";
-
+import Cookies from "universal-cookie";
 function SignIn() {
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
@@ -21,6 +21,8 @@ function SignIn() {
 
 				if (res.data.message === "Success") {
 					localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
+					const cookies = new Cookies();
+					cookies.set("access_token", res.data.refreshToken, { path: "/" });
 
 					const user = res.data.user;
 					const action = login(user);

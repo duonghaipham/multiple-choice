@@ -26,7 +26,7 @@ const customStyles = {
 	},
 };
 
-export default function ExamForm({ timeout, questions }) {
+export default function ExamForm({ timeout, questions, idExam }) {
 	// const arr = [
 	// 	{
 	// 		question: "What is your name?",
@@ -108,7 +108,7 @@ export default function ExamForm({ timeout, questions }) {
 	};
 
 	useEffect(() => {
-		const fields = JSON.parse(localStorage.getItem("fields")); // Lấy dữ liệu "fields" (fields là 1 object chứa các đáp án được chọn) từ localStorage
+		const fields = JSON.parse(localStorage.getItem(idExam)); // Lấy dữ liệu "idExam" (idExam là 1 object chứa các đáp án được chọn) từ localStorage
 		if (fields) setValueRadioButton(fields); // set các đáp án được chọn vào đề thì băng hàm setValue của React Hook Form
 		const selectedAnswers = fields ? Object?.values(fields) : []; // tạo mảng selectedAnswers để lưu vào Redux
 		// Tạo action để dispatch vào Redux (mục đích để tạo mảng đáp án truyền qua component StateBox)
@@ -127,7 +127,7 @@ export default function ExamForm({ timeout, questions }) {
 
 	// Khi thay đổi trạng thái đề thi (chọn hoặc thay đổi đáp án) thì sẽ lưu lại vào localStorage
 	useEffect(() => {
-		localStorage.setItem("fields", JSON.stringify(watchAllFields));
+		localStorage.setItem(idExam, JSON.stringify(watchAllFields));
 	}, [watchAllFields]);
 
 	const onSubmit = (data) => {

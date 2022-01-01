@@ -1,14 +1,15 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BodyExam from "../components/BodyExam";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import StateBox from "../components/StateBox";
+import examApi from "./api/examApi";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 // Done form: auto submit when timeout - 19-10-2021
 
-export default function TakeExam() {
+export default function TakeExam({ exam }) {
 	const [timeout, setTimeout] = useState(false);
 
 	return (
@@ -20,10 +21,22 @@ export default function TakeExam() {
 			</Head>
 			<Header disable={true} />
 			<div className="flex justify-between my-10">
-				<BodyExam timeout={timeout} />
+				<BodyExam timeout={timeout} exam={exam} />
 				{/* <StateBox timeout={timeout} setTimeout={setTimeout} /> */}
 			</div>
 			<Footer disable={true} />
 		</div>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const params = context.query;
+
+	const res = await examApi.get(params.idExam);
+
+	return {
+		props: {
+			exam: res,
+		},
+	};
 }

@@ -1,41 +1,52 @@
+import moment from "moment";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
+import { useEffect, useState, useParams } from "react";
+import { useSelector } from "react-redux";
+import ExamItem from "../components/ExamItem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import moment from "moment";
-import { useSelector } from "react-redux";
+import examApi from "./api/examApi";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function Exam() {
+export default function Exam({ examList }) {
+	console.log(examList);
 	const router = useRouter();
 	const user = useSelector((state) => state.user);
 	const [exams, setExams] = useState([]);
-
-	// Fetch dữ liệu
 	useEffect(() => {
-		const fetchExam = async () => {
-			try {
-				const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
-				const res = await axios.get(url);
+		setExams([...examList]);
+	}, []);
 
-				setExams(res.data);
-			} catch (error) {
-				console.log("Failed to fetch exam:", error);
-			}
-		};
-		fetchExam();
-	}, [router.query.subject]);
+	// // Fetch dữ liệu
+	// useEffect(() => {
+	// 	console.log("subject", subject);
+	// 	const fetchExamList = async () => {
+	// 		try {
+	// 			// const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
+	// 			// const res = await axios.get(url);
+
+	// 			const params = {
+	// 				subject: subject,
+	// 			};
+	// 			console.log(params);
+	// 			const res = await examApi.getAll(params);
+	// 			console.log(res);
+	// 			setExams(res);
+	// 		} catch (error) {
+	// 			console.log("Failed to fetch exam list:", error);
+	// 		}
+	// 	};
+	// 	fetchExamList();
+	// }, [subject]);
 
 	const handleDeleteExam = async (id) => {
 		const index = exams.findIndex((e) => e._id == id);
 		try {
-			const url = `http://localhost:5000/admin/exams/${id}/delete`;
-			const res = await axios.delete(url);
+			const res = await examApi.delete(id);
 
-			if (res.data.message == "Success") {
+			if (res.message == "Success") {
 				console.log("delete Success");
 				setExams([...exams.slice(0, index), ...exams.slice(index + 1)]);
 			}
@@ -76,102 +87,40 @@ export default function Exam() {
 								/>
 							</svg>
 						</div>
-						{exams.length == 0 && (
+						{exams?.length == 0 && (
 							<h1 className="text-md sm:text-xl lg:text-3xl">
 								Chưa có đề thi của môn {router.query.subject}
 							</h1>
 						)}
 						{exams.map((e) => (
-							<div className="py-3 border-b-2">
-								<div className="flex jutify-between items-center">
-									<div className="flex flex-1 jutify-between items-center">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											className="h-6 w-6"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth={2}
-												d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-											/>
-										</svg>
+							<div className="flex justify-between border-t-2">
+								<ExamItem
+									key={e._id}
+									id={e._id}
+									name={e.name}
+									subject={e.subject}
+									creator={e.creator.name}
+									openDate={moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
+									attemptLimit={e.attemptLimit}
+								/>
 
-										<h3
-											className="text-md md:text-xl xl:text-2xl text-yellow-500 font-semibold ml-2 cursor-pointer"
-											onClick={() =>
-												router.push({
-													pathname: "takeExam",
-													query: {
-														idExam: e._id,
-													},
-												})
-											}
-										>
-											{e.name}
-										</h3>
-									</div>
-
-									{/* <svg
-												xmlns="http://www.w3.org/2000/svg"
-												className="h-6 w-6"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke="currentColor"
-											>
-												<path
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													strokeWidth={2}
-													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-												/>
-											</svg> */}
-									{/* Delete exam icon */}
-									{user?.role == "teacher" && (
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											className="h-6 w-6 cursor-pointer"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-											onClick={() => handleDeleteExam(e._id)}
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth={2}
-												d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-											/>
-										</svg>
-									)}
-								</div>
-								<div className="ml-8 mt-2">
-									<h3 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
-										Môn:
-										<span className="text-yellow-500 ml-2">{e.subject}</span>
-									</h3>
-									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
-										Người đăng:
-										<span className="text-yellow-500 ml-2">
-											{e.creator.name}
-										</span>
-									</h4>
-									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
-										Ngày đăng:
-										<span className="text-yellow-500 ml-2">
-											{moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
-										</span>
-									</h4>
-									<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
-										Đã làm bài:
-										<span className="text-yellow-500 ml-2">
-											{e.attemptLimit}
-										</span>
-									</h4>
-								</div>
+								{user?.role == "teacher" && (
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 cursor-pointer mt-3"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										onClick={() => handleDeleteExam(e._id)}
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+										/>
+									</svg>
+								)}
 							</div>
 						))}
 					</div>
@@ -338,22 +287,14 @@ export default function Exam() {
 	);
 }
 
-// export const getStaticProps = async () => {
-// 	try {
-// 		const url = "http://localhost:5000/admin/users";
-// 		const res = await axios.get(url);
-// 		console.log("res", res.data);
+export async function getServerSideProps(context) {
+	const params = context.query;
 
-// 		return {
-// 			props: {
-// 				exam: res.data,
-// 			},
-// 		};
-// 	} catch (error) {
-// 		console.log("Failed to fetch exam:", error);
-// 	}
+	const res = await examApi.getAll(params);
 
-// 	return {
-// 		props: {},
-// 	};
-// };
+	return {
+		props: {
+			examList: res,
+		},
+	};
+}

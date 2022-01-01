@@ -18,25 +18,25 @@ const customStyles = {
 	},
 };
 
-function BodyExam({ timeout }) {
+function BodyExam({ timeout, exam }) {
 	const router = useRouter();
-
-	const [exam, setExam] = useState({});
-	console.log(exam);
+	//console.log(exam);
+	//const [exam, setExam] = useState({});
+	//console.log(exam);
 	// Fetch dữ liệu
-	useEffect(() => {
-		const fetchExam = async () => {
-			try {
-				const url = `http://localhost:5000/exams/${router.query.idExam}/take`;
-				const res = await axios.get(url);
+	// useEffect(() => {
+	// 	const fetchExam = async () => {
+	// 		try {
+	// 			const url = `http://localhost:5000/exams/${router.query.idExam}/take`;
+	// 			const res = await axios.get(url);
 
-				setExam(res.data);
-			} catch (error) {
-				console.log("Failed to fetch exam:", error);
-			}
-		};
-		fetchExam();
-	}, []);
+	// 			setExam(res.data);
+	// 		} catch (error) {
+	// 			console.log("Failed to fetch exam:", error);
+	// 		}
+	// 	};
+	// 	fetchExam();
+	// }, []);
 
 	return (
 		<div className="flex-1 flex flex-col mx-10 px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">
@@ -65,7 +65,11 @@ function BodyExam({ timeout }) {
 						</span>
 					</div>
 				</div>
-				<ExamForm timeout={timeout} questions={exam.questions} />
+				<ExamForm
+					timeout={timeout}
+					questions={exam.questions}
+					idExam={exam._id}
+				/>
 				<Modal
 					isOpen={timeout}
 					style={customStyles}

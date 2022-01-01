@@ -128,8 +128,8 @@ export default function EditExamForm() {
 	const [__class, set__Class] = useState("");
 	//const [schoolYear, setSchoolYear] = useState(exam.schoolYear);
 	console.log(exam.questions);
-	// Fetch dữ liệu
 
+	// Fetch dữ liệu
 	useEffect(() => {
 		const fetchExam = async () => {
 			try {
@@ -164,7 +164,7 @@ export default function EditExamForm() {
 		name: "questions", // unique name for your Field Array
 		// keyName: "id", default to "id", you can change the key name
 	});
-	fields = exam.questions;
+
 	console.log("fields", fields);
 	const onSubmit = (data) => {
 		// exam = modifiedQuestion(data);
