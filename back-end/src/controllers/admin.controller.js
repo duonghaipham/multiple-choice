@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userModel = require("../models/user.model");
 const examModel = require("../models/exam.model");
@@ -11,18 +11,15 @@ const jwt = require("jsonwebtoken");
 // Tạo một đề thi mới
 const postCreateExam = async (req, res, next) => {
   try {
-    const {
-      name,
-      attemptLimit,
-      minuteLimit,
-      subject,
-      grade,
-      questions,
-    } = req.body;
+    const { name, attemptLimit, minuteLimit, subject, grade, questions } =
+      req.body;
 
-    if (req.cookies.access_token) {
-      const decoded = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
-      const {userId} = decoded;
+    if (req.headers.access_token) {
+      const decoded = await jwt.verify(
+        req.headers.access_token,
+        process.env.JWT_SECRET_KEY
+      );
+      const { userId } = decoded;
 
       const examQuestions = [];
 
@@ -31,13 +28,13 @@ const postCreateExam = async (req, res, next) => {
         let correctOption;
 
         for (const option of question.options) {
-          const {_id} = await optionModel.create({content: option});
+          const { _id } = await optionModel.create({ content: option });
           options.push(_id);
 
           if (question.correctOption === option) correctOption = _id;
         }
 
-        const {_id} = await questionModel.create({
+        const { _id } = await questionModel.create({
           content: question.content,
           correctOption,
           options,
@@ -55,14 +52,13 @@ const postCreateExam = async (req, res, next) => {
         questions: examQuestions,
       });
 
-      return res.status(200).json({ message: 'Success' });
-    }
-    else {
-      return res.status(401).json({message: 'Unauthorized' });
+      return res.status(200).json({ message: "Success" });
+    } else {
+      return res.status(401).json({ message: "Unauthorized" });
     }
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: 'Failed' });
+    return res.status(400).json({ message: "Failed" });
   }
 };
 
@@ -168,7 +164,7 @@ const deleteExam = async (req, res, next) => {
 
     await examModel.findByIdAndUpdate(id, { isDeleted: true });
 
-    return res.status(200).json({ message: 'Success' });
+    return res.status(200).json({ message: "Success" });
   } catch (error) {
     return res.status(400).json({ message: `Failed` });
   }
@@ -191,10 +187,10 @@ const postCreateUser = async (req, res, next) => {
       state,
     });
 
-    return res.status(201).json({ message: 'Success' });
+    return res.status(201).json({ message: "Success" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: 'Failed' });
+    return res.status(400).json({ message: "Failed" });
   }
 };
 
@@ -202,11 +198,10 @@ const postCreateUser = async (req, res, next) => {
 const getRetrieveUsers = async (req, res, next) => {
   try {
     let { page } = req.query;
-    if (page === undefined)
-      page = 1;
+    if (page === undefined) page = 1;
 
     const exams = await userModel
-      .find({ state: 'active' })
+      .find({ state: "active" })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE);
 

@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
-const examModel = require('../models/exam.model');
-const workModel = require('../models/work.model');
-const questionModel = require('../models/question.model');
-const optionModel = require('../models/option.model');
-const {ITEM_PER_PAGE} = require("../configs/constant.config");
+const examModel = require("../models/exam.model");
+const workModel = require("../models/work.model");
+const questionModel = require("../models/question.model");
+const optionModel = require("../models/option.model");
+const { ITEM_PER_PAGE } = require("../configs/constant.config");
 
 const getRetrieveExams = async (req, res, next) => {
   try {
@@ -23,24 +23,39 @@ const getRetrieveExams = async (req, res, next) => {
       .find(filter)
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE)
-      .populate('creator', 'name')
+      .populate("creator", "name")
       .lean();
 
-    let userId = '';
-    if (req.cookies.access_token) {
-      const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+    let userId = "";
+    console.log("Token", req.headers.access_token);
+    if (req.headers.access_token) {
+      const decodedAuth = await jwt.verify(
+        req.headers.access_token,
+        process.env.JWT_SECRET_KEY
+      );
       userId = decodedAuth.userId;
     }
 
+    console.log(userId);
     for (const exam of exams) {
-      console.log(exam);
       exam.isEditable = exam.creator._id.toString() === userId;
+
+      if (userId) {
+        const work = await workModel.findOne({
+          candidate: mongoose.Types.ObjectId(userId),
+          exam: exam._id,
+        });
+        console.log(work);
+        work ? (exam.isDone = true) : (exam.isDone = false);
+      } else {
+        exam.isDone = false;
+      }
     }
 
     return res.status(200).json(exams);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ 'message': 'Failed' });
+    return res.status(400).json({ message: "Failed" });
   }
 };
 
@@ -48,110 +63,129 @@ const getRetrieveExams = async (req, res, next) => {
 const getExamView = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+    const decodedAuth = await jwt.verify(
+      req.headers.access_token,
+      process.env.JWT_SECRET_KEY
+    );
     const { userId } = decodedAuth;
 
     const exam = await examModel.findById(id);
     const works = await workModel
       .find({ candidate: userId, exam: exam._id })
-      .select('attempt submittedAt secondTaken outOf');
+      .select("attempt submittedAt secondTaken outOf");
     const statusExam = { ...exam._doc, works };
 
     return res.status(200).json(statusExam);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: 'Cannot find the exam' });
+    return res.status(400).json({ message: "Cannot find the exam" });
   }
-}
+};
 
 // Lấy tất cả thông tin của đề thi, bao gồm câu hỏi
 const getExamTake = async (req, res, next) => {
-	try {
-		const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-		const exam = await examModel
+    const exam = await examModel
       .findById(id)
-      .populate('creator', 'name')
+      .populate("creator", "name")
       .populate({
-        path: 'questions',
-        select: 'order content',
+        path: "questions",
+        select: "order content",
         populate: {
-          path: 'options'
-        }
+          path: "options",
+        },
       });
 
-		return res.status(200).json(exam);
-	} catch (error) {
-		return res.status(400).json({ message: 'Cannot fetch data' });
-	}
+    return res.status(200).json(exam);
+  } catch (error) {
+    return res.status(400).json({ message: "Cannot fetch data" });
+  }
 };
 
 // Nộp bài
 const postExamTake = async (req, res, next) => {
-  try  {
+  try {
     const { id } = req.params;
+    console.log(req.body);
     const { secondTaken, options } = req.body;
 
-    const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+    const decodedAuth = await jwt.verify(
+      req.headers.access_token,
+      process.env.JWT_SECRET_KEY
+    );
     const { userId } = decodedAuth;
 
     const works = await workModel.find(
-      { exam: mongoose.Types.ObjectId(id), candidate: mongoose.Types.ObjectId(userId) },
-      'attempt'
+      {
+        exam: mongoose.Types.ObjectId(id),
+        candidate: mongoose.Types.ObjectId(userId),
+      },
+      "attempt"
     );
-    const attempts = [ 0 ];
-    attempts.push(...works.map(work => work.attempt));
+    const attempts = [0];
+    attempts.push(...works.map((work) => work.attempt));
     const nextAttempt = Math.max(...attempts) + 1;
 
     let outOf = 0;
     for (const option of options) {
       const { correctOption } = await questionModel.findById(option.question);
-
-      if (correctOption.toString() === option.option)
-        outOf++;
+      console.log("correctOption", correctOption);
+      if (correctOption.toString() === option.option) outOf++;
     }
 
     const work = await workModel.create({
       candidate: userId,
       exam: id,
-      attempt: nextAttempt,
+      attempt: 1,
       secondTaken,
       options,
-      outOf
+      outOf,
     });
 
-    return res.status(200).json({ message: 'Sucessfully' });
+    return res.status(200).json({ message: "Sucessfully" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: 'Submission denied' });
+    return res.status(400).json({ message: "Submission denied" });
   }
 };
 
 // Xem thông tin làm bài
 const getExamReview = async (req, res, next) => {
   try {
-    const { id, attempt } = req.params;
-    const decodedAuth = await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET_KEY);
+    const { id } = req.params;
+    const decodedAuth = await jwt.verify(
+      req.headers.access_token,
+      process.env.JWT_SECRET_KEY
+    );
     const { userId } = decodedAuth;
 
     const works = await workModel
       .findOne({
         candidate: userId,
         exam: id,
-        attempt: attempt
       })
       .populate({
-        path: 'options.question',
-        select: 'content correctOption options',
+        path: "options.question",
+        select: "content correctOption options",
         populate: {
-          path: 'correctOption options'
-        }
+          path: "correctOption options",
+        },
       })
-      .populate('options.option');
+      .populate("options.option")
+      .populate({
+        path: "exam",
+        populate: {
+          path: "creator",
+          select: "name",
+        },
+      });
 
     return res.status(200).json(works);
   } catch (error) {
-    return res.status(400).json({ message: 'Cannot fetch data' });
+    console.log(error);
+    return res.status(400).json({ message: "Cannot fetch data" });
   }
 };
 

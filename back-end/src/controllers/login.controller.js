@@ -37,7 +37,7 @@ const postLogin = async (req, res) => {
       });
 
       return res.status(200).json({
-        refreshToken,
+        refreshToken: token,
         message: "Success",
         user: {
           id: user._id,
@@ -55,7 +55,7 @@ const postLogin = async (req, res) => {
 const postLogout = async (req, res) => {
   try {
     const decoded = await jwt.verify(
-      req.cookies.access_token,
+      req.headers.access_token,
       process.env.JWT_SECRET_KEY
     );
     const { userId } = decoded;
@@ -64,6 +64,7 @@ const postLogout = async (req, res) => {
     res.clearCookie("access_token");
     res.status(200).json({ message: "Success" });
   } catch (error) {
+    console.log(error);
     res.status(409).json({ message: "Failed" });
   }
 };

@@ -1,37 +1,50 @@
+import moment from "moment";
 import router from "next/router";
 
-function ViewResult() {
+function ViewResult({ examReview }) {
 	return (
 		<div className="grid place-content-center my-14 ">
 			<div className="py-12 px-20 bg-gray-200 bg-opacity-25 shadow-lg">
 				<div>
-					<h1 className="text-3xl font-bold text-green-800 ">Lịch Sử</h1>
+					<h1 className="text-3xl font-bold text-green-800 ">
+						{examReview?.exam?.subject}
+					</h1>
 
 					<h3 className="text-yellow-500 text-2xl font-semibold cursor-pointer mt-3">
-						Đề thi tham khảo Lịch sử Bộ Giáo dục và Đào tạo năm 2021
+						{examReview?.exam?.name}
 					</h3>
 				</div>
+
 				<div className="border p-2">
 					<h4 className="text-md text-gray-600 font-semibold">
-						Người đăng: <span className="text-yellow-500 ">Nguyễn Văn A</span>
+						Người đăng:{" "}
+						<span className="text-yellow-500 ">
+							{examReview?.exam?.creator?.name}
+						</span>
 					</h4>
 					<h4 className="text-md text-gray-600 font-semibold">
-						Ngày đăng: <span className="text-yellow-500 ">09/10/2021</span>
-					</h4>
-					<h4 className="text-md text-gray-600 font-semibold">
-						Đã làm bài: <span className="text-yellow-500 ">99</span>
+						Ngày đăng:{" "}
+						<span className="text-yellow-500 ">
+							{moment
+								.utc(examReview?.exam?.openedAt)
+								.local()
+								.format("DD/MM/YYYY")}
+						</span>
 					</h4>
 				</div>
-				<p className="my-1">Học hết nội dung trong sách</p>
+
 				<div className="text-center my-3">
 					<h4 className="text-md text-gray-600 font-semibold">
-						Số lần làm bài: <span className="text-yellow-500 ">1</span>
+						Thời gian:{" "}
+						<span className="text-yellow-500 ">
+							{examReview?.exam?.minuteLimit} phút
+						</span>
 					</h4>
 					<h4 className="text-md text-gray-600 font-semibold">
-						Thời gian: <span className="text-yellow-500 ">60 phút</span>
-					</h4>
-					<h4 className="text-md text-gray-600 font-semibold">
-						Số câu: <span className="text-yellow-500 ">20</span>
+						Số câu:{" "}
+						<span className="text-yellow-500 ">
+							{examReview?.exam?.questions?.length}
+						</span>
 					</h4>
 				</div>
 				<div className="flex justify-center my-10">
@@ -44,12 +57,18 @@ function ViewResult() {
 						<tr>
 							<td>
 								<h5>Hoàn thành</h5>
-								<p>Nộp lúc 22:34:49 09/10/2021</p>
+								<p>
+									Nộp lúc{" "}
+									{moment
+										.utc(examReview?.submittedAt)
+										.local()
+										.format("DD/MM/YYYY h:mm:ss a")}
+								</p>
 							</td>
 							<td className="text-center">23 phút 27 giây</td>
 							<td className="text-center font-bold">
-								<span className="text-red-600">15</span>
-								/20
+								<span className="text-red-600">{examReview?.outOf}</span>/
+								{examReview?.exam?.questions?.length}
 							</td>
 						</tr>
 					</table>
@@ -57,12 +76,16 @@ function ViewResult() {
 				<div className="flex justify-center mb-5">
 					<button
 						className="bg-green-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
-						onClick={() => router.push("resultDetail")}
+						onClick={() =>
+							router.push({
+								pathname: "resultDetail",
+								query: {
+									examResult: JSON.stringify(examReview),
+								},
+							})
+						}
 					>
 						Xem đáp án
-					</button>
-					<button className="bg-blue-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg">
-						Làm lại
 					</button>
 				</div>
 			</div>

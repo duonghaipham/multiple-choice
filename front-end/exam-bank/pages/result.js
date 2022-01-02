@@ -1,11 +1,38 @@
 import Head from "next/head";
+import { useRouter } from "next/dist/client/router";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ViewResult from "../components/ViewResult";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 // Done form: question-answer-rightAnswer - 14-10-2021
 
 export default function Result() {
+	const router = useRouter();
+	const [examReview, setExamReview] = useState();
+	useEffect(() => {
+		const handleGetResult = async () => {
+			try {
+				const id = router.query.idExam;
+				const res = await axios.get(
+					`http://localhost:5000/exams/${id}/review`,
+					{
+						headers: {
+							access_token: localStorage.getItem("REFRESH_TOKEN"),
+						},
+					},
+				);
+				console.log(res.data);
+				setExamReview(res.data);
+				if (res.message == "Success") {
+					console.log("delete Success");
+				}
+			} catch (error) {
+				console.log("Failed to fetch exam result:", error);
+			}
+		};
+		handleGetResult();
+	}, [router.query.idExam]);
 	return (
 		<div>
 			<Head>
@@ -15,7 +42,7 @@ export default function Result() {
 			</Head>
 
 			<Header />
-			<ViewResult />
+			<ViewResult examReview={examReview} />
 			<Footer />
 		</div>
 	);

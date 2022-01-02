@@ -1,15 +1,13 @@
-function ViewQuestionResult({
-	index,
-	question,
-	chosenAnswer,
-	correctAnswer,
-	answers,
-}) {
+function ViewQuestionResult({ index, question, correctOption, option }) {
+	console.log("question", question);
+	console.log("correct", correctOption);
+	console.log("option", option);
+	console.log("optionA", question.options[0]);
 	return (
 		<div className="flex my-4">
 			<div className="text-lg text-green-800 font-bold bg-green-50 border-2 border-blue-200 h-1/2 px-3 py-2 text-center">
 				<h4>Câu {index + 1}</h4>
-				{chosenAnswer === correctAnswer ? (
+				{option.id == correctOption.id ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-10 w-10"
@@ -45,59 +43,57 @@ function ViewQuestionResult({
 			</div>
 			<div className="flex-1 ml-5 ">
 				<div className="bg-blue-100 items-center pt-2">
-					<h4 className="text-lg font-bold px-5 py-2">{question}</h4>
+					<h4 className="text-lg font-bold px-5 py-2">{question?.content}</h4>
 					<div>
 						<div className="font-medium">
 							<p
 								className={`px-4 py-2 ${
-									chosenAnswer === "A"
-										? chosenAnswer === correctAnswer
-											? "bg-green-300"
-											: "bg-red-300"
-										: null
-								} `}
+									option.id == question.options[0].id ? "bg-red-300" : null
+								}`}
 							>
-								A. {answers[0]}
+								A. {question.options[0]?.content}
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									chosenAnswer === "B"
-										? chosenAnswer === correctAnswer
+									option.id == question.options[1].id
+										? option.id === correctOption.id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
-								} `}
+								}`}
 							>
-								B. {answers[1]}
+								B. {question.options[1]?.content}
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									chosenAnswer === "C"
-										? chosenAnswer === correctAnswer
+									option.id == question.options[2].id
+										? option.id === correctOption.id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
-								} `}
+								}`}
 							>
-								C. {answers[2]}
+								C. {question.options[2]?.content}
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									chosenAnswer === "D"
-										? chosenAnswer === correctAnswer
+									option.id == question.options[3].id
+										? option.id === correctOption.id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
-								} `}
+								}`}
 							>
-								D. {answers[3]}
+								D. {question.options[3]?.content}
 							</p>
 						</div>
 					</div>
 				</div>
 				<div className="mt-2 p-2 bg-blue-200 text-lg text-blue-700 font-semibold">
 					Đáp án:{" "}
-					<span className="text-blue-800 font-bold">{correctAnswer}</span>
+					<span className="text-blue-800 font-bold">
+						{correctOption.content}
+					</span>
 				</div>
 			</div>
 		</div>

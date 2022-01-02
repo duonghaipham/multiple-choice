@@ -1,15 +1,15 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const examController = require('../controllers/exam.controller');
+const examController = require("../controllers/exam.controller");
 
-router.get('/', examController.getRetrieveExams);
+router.get("/", examController.getRetrieveExams);
 
-router.get('/:id', examController.getExamView);
+router.get("/:id", examController.getExamView);
 
-router.get('/:id/take', examController.getExamTake);
+router.get("/:id/take", examController.getExamTake);
 
-router.post('/:id/take', examController.postExamTake);
+router.post("/:id/take", examController.postExamTake);
 
-router.get('/:id/review/:attempt', examController.getExamReview);
+router.get("/:id/review", examController.getExamReview);
 
 module.exports = router;

@@ -13,15 +13,12 @@ function SignIn() {
 		const handleLogin = async () => {
 			try {
 				//const url = `http://localhost:5000/login`;
-				const res = await axios.post("http://localhost:5000/login", data, {
-					headers: {
-						"Content-Type": "application/json",
-					},
-				});
+				const res = await axios.post("http://localhost:5000/login", data);
 
 				if (res.data.message === "Success") {
 					localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
 					const cookies = new Cookies();
+
 					cookies.set("access_token", res.data.refreshToken, { path: "/" });
 
 					const user = res.data.user;

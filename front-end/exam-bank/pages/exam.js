@@ -7,39 +7,43 @@ import ExamItem from "../components/ExamItem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import examApi from "./api/examApi";
+import axios from "axios";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
 export default function Exam({ examList }) {
-	console.log(examList);
+	//console.log(examList);
 	const router = useRouter();
 	const user = useSelector((state) => state.user);
 	const [exams, setExams] = useState([]);
-	useEffect(() => {
-		setExams([...examList]);
-	}, []);
-
-	// // Fetch dữ liệu
 	// useEffect(() => {
-	// 	console.log("subject", subject);
-	// 	const fetchExamList = async () => {
-	// 		try {
-	// 			// const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
-	// 			// const res = await axios.get(url);
+	// 	setExams([...examList]);
+	// }, []);
 
-	// 			const params = {
-	// 				subject: subject,
-	// 			};
-	// 			console.log(params);
-	// 			const res = await examApi.getAll(params);
-	// 			console.log(res);
-	// 			setExams(res);
-	// 		} catch (error) {
-	// 			console.log("Failed to fetch exam list:", error);
-	// 		}
-	// 	};
-	// 	fetchExamList();
-	// }, [subject]);
+	// Fetch dữ liệu
+	useEffect(() => {
+		const fetchExamList = async () => {
+			try {
+				const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
+				// const res = await axios.get(url);
+
+				// const params = {
+				// 	subject: router.query.subject,
+				// };
+				const token = localStorage.getItem("REFRESH_TOKEN");
+				const res = await axios.get(url, {
+					headers: {
+						access_token: token,
+					},
+				});
+				console.log(res.data);
+				setExams(res.data);
+			} catch (error) {
+				console.log("Failed to fetch exam list:", error);
+			}
+		};
+		fetchExamList();
+	}, [router.query.subject]);
 
 	const handleDeleteExam = async (id) => {
 		const index = exams.findIndex((e) => e._id == id);
@@ -102,6 +106,7 @@ export default function Exam({ examList }) {
 									creator={e.creator.name}
 									openDate={moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
 									attemptLimit={e.attemptLimit}
+									isDone={e.isDone}
 								/>
 
 								{user?.role == "teacher" && (
@@ -287,14 +292,15 @@ export default function Exam({ examList }) {
 	);
 }
 
-export async function getServerSideProps(context) {
-	const params = context.query;
+// export async function getServerSideProps(context) {
+// 	const params = context.query;
+// 	const token = localStorage.getItem("REFRESH_TOKEN");
+// 	console.log(token);
+// 	const res = await examApi.getAll(params);
 
-	const res = await examApi.getAll(params);
-
-	return {
-		props: {
-			examList: res,
-		},
-	};
-}
+// 	return {
+// 		props: {
+// 			examList: res,
+// 		},
+// 	};
+// }

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { chooseAnswer } from "../store/slices/answerSlice";
 
-function Question({ index, register, label, content, type, options }) {
+function Question({ index, register, label, content, idContent, options }) {
 	const dispatch = useDispatch();
 
 	const handleChooseAnswer = (e) => {
@@ -28,13 +28,19 @@ function Question({ index, register, label, content, type, options }) {
 				<h4 className="text-xl mb-2 font-bold py-2 px-9 border-b-2">
 					{content}
 				</h4>
+				<input
+					className="hidden"
+					type="text"
+					{...register(`question${index}`)}
+					value={idContent}
+				/>
 				<label className="flex items-center relative py-1">
 					<input
 						className="mr-3 h-6 w-6 "
 						{...register(label)}
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
-						value="A"
+						value={options[0]?._id}
 						onClick={handleChooseAnswer}
 					/>
 					<span className="text-lg pr-2 font-bold">A.</span>
@@ -46,7 +52,7 @@ function Question({ index, register, label, content, type, options }) {
 						{...register(label)}
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
-						value="B"
+						value={options[1]?._id}
 						onClick={handleChooseAnswer}
 					/>
 					<span className="text-lg pr-2 font-bold">B.</span>
@@ -58,7 +64,7 @@ function Question({ index, register, label, content, type, options }) {
 						{...register(label)}
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
-						value="C"
+						value={options[2]?._id}
 						onClick={handleChooseAnswer}
 					/>
 					<span className="text-lg pr-2 font-bold">C.</span>
@@ -70,7 +76,7 @@ function Question({ index, register, label, content, type, options }) {
 						{...register(label)}
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
-						value="D"
+						value={options[3]?._id}
 						onClick={handleChooseAnswer}
 					/>
 					<span className="text-lg pr-2 font-bold">D.</span>

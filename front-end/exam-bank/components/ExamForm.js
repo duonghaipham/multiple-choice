@@ -131,7 +131,8 @@ export default function ExamForm({ timeout, questions, idExam }) {
 	}, [watchAllFields]);
 
 	const onSubmit = (data) => {
-		console.log("data", data);
+		data = modifiedAnswer(data);
+		console.log(data);
 		const handleSubmitExam = async () => {
 			try {
 				//const url = `http://localhost:5000/login`;
@@ -140,7 +141,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 					data,
 					{
 						headers: {
-							"Content-Type": "application/json",
+							access_token: localStorage.getItem("REFRESH_TOKEN"),
 						},
 					},
 				);
@@ -191,8 +192,9 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						key={e._id}
 						index={i}
 						register={register}
-						label={`answer${i}`}
+						label={`option${i}`}
 						content={e.content}
+						idContent={e._id}
 						options={e.options}
 					/>
 				))}

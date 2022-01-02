@@ -61,7 +61,7 @@ function CreateQuestion({ register, errors, label }) {
 							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="A"
+							value="0"
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
 							Đáp án A
@@ -89,7 +89,7 @@ function CreateQuestion({ register, errors, label }) {
 							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="B"
+							value="1"
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
 							Đáp án B
@@ -117,7 +117,7 @@ function CreateQuestion({ register, errors, label }) {
 							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="C"
+							value="2"
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
 							Đáp án C
@@ -145,7 +145,7 @@ function CreateQuestion({ register, errors, label }) {
 							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="D"
+							value="3"
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
 							Đáp án D

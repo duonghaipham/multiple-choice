@@ -32,11 +32,6 @@ function SignUp() {
 				const res = await axios.post(
 					"http://localhost:5000/users/register",
 					data,
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					},
 				);
 
 				console.log(res);

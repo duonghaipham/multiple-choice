@@ -1,6 +1,14 @@
 import router from "next/router";
 
-function ExamItem({ id, name, subject, creator, openDate, attemptLimit }) {
+function ExamItem({
+	id,
+	name,
+	subject,
+	creator,
+	openDate,
+	attemptLimit,
+	isDone,
+}) {
 	return (
 		<div className="py-3">
 			<div className="flex jutify-between items-center">
@@ -21,10 +29,12 @@ function ExamItem({ id, name, subject, creator, openDate, attemptLimit }) {
 					</svg>
 
 					<h3
-						className="text-md md:text-xl xl:text-2xl text-yellow-500 font-semibold ml-2 cursor-pointer"
+						className={`text-md md:text-xl xl:text-2xl ${
+							isDone ? "text-green-500" : "text-yellow-500"
+						} font-semibold ml-2 cursor-pointer`}
 						onClick={() =>
 							router.push({
-								pathname: "takeExam",
+								pathname: isDone ? "result" : "takeExam",
 								query: {
 									idExam: id,
 								},

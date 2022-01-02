@@ -17,6 +17,7 @@ const modifiedQuestion = (data) => {
 		delete e["optionD"];
 
 		e["options"] = optArray;
+		e["correctOption"] = e.options[e.correctOption];
 	});
 
 	//const keys = Object.keys(data.questions).sort();

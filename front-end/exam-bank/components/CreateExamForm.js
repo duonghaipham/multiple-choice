@@ -58,9 +58,15 @@ export default function CreateExamForm() {
 		console.log(data);
 
 		const fetchExam = async () => {
+			const cookie = new Cookies();
+
 			try {
 				const url = `http://localhost:5000/admin/exams/create`;
-				const res = await axios.post(url, data);
+				const res = await axios.post(url, data, {
+					headers: {
+						access_token: localStorage.getItem("REFRESH_TOKEN"),
+					},
+				});
 
 				if (res.data.message == "Success") console.log("Success");
 			} catch (error) {
