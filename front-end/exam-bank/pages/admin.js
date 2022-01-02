@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Head from "next/head";
+import SimpleSidebar from "../components/Sidebar";
 
 export default function Admin() {
 	return (
@@ -11,7 +12,7 @@ export default function Admin() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header />
-			<div>ADMIN</div>
+				<SimpleSidebar></SimpleSidebar>
 			<Footer />
 		</div>
 	);
