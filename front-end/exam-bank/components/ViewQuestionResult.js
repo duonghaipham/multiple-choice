@@ -44,8 +44,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 						<div className="font-medium">
 							<p
 								className={`px-4 py-2 ${
-									option._id === question.options[0]._id
-										? option._id === correctOption._id
+									option?._id === question.options[0]?._id
+										? option?._id === correctOption?._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
@@ -55,8 +55,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option._id === question.options[1]._id
-										? option._id === correctOption._id
+									option?._id === question.options[1]?._id
+										? option?._id === correctOption?._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
@@ -66,8 +66,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option._id === question.options[2]._id
-										? option._id === correctOption._id
+									option?._id === question.options[2]?._id
+										? option?._id === correctOption?._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
@@ -77,8 +77,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option._id === question.options[3]._id
-										? option._id === correctOption._id
+									option?._id === question.options[3]?._id
+										? option?._id === correctOption?._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null

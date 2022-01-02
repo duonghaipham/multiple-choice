@@ -22,7 +22,7 @@ export default function Result() {
 						},
 					},
 				);
-				console.log(res.data);
+
 				setExamReview(res.data);
 				if (res.message == "Success") {
 					console.log("delete Success");

@@ -13,7 +13,6 @@ function Footer({ disable }) {
 				<a
 					href="https://github.com/phduong2001/multiple-choice"
 					target="_blank"
-					and
 					rel="noopener noreferrer"
 				>
 					<img

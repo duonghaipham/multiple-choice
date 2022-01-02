@@ -16,6 +16,8 @@ function Header({ disable }) {
 
 	const handleLogout = () => {
 		dispatch(logout());
+		router.push("/");
+		localStorage.removeItem("REFRESH_TOKEN");
 	};
 
 	return (
@@ -55,15 +57,14 @@ function Header({ disable }) {
 					<h3 className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer">
 						Giới thiệu
 					</h3>
-					{user?.role == "teacher" ||
-						(user?.role == "admin" && (
-							<h3
-								className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
-								onClick={() => router.push("/createExam")}
-							>
-								Thêm đề
-							</h3>
-						))}
+					{(user?.role == "teacher" || user?.role == "admin") && (
+						<h3
+							className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
+							onClick={() => router.push("/createExam")}
+						>
+							Thêm đề
+						</h3>
+					)}
 					{user?.role == "admin" && (
 						<h3
 							className="hidden md:block mr-5 font-semibold text-gray-600 w-20 text-center cursor-pointer"
@@ -89,15 +90,15 @@ function Header({ disable }) {
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-6 w-6"
+								className="h-6 w-6"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
 							>
 								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
 									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
 								/>
 							</svg>

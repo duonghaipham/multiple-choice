@@ -1,16 +1,16 @@
-import { ErrorMessage } from "@hookform/error-message";
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { modifiedQuestion } from "../utils/modifiedQuestion";
 import EditQuestion from "./EditQuestion";
-import axios from "axios";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 // Done form: Validation - 10-30-2021
 // Update form: change form using useFormState - 11-07-2021
 // Update form: remove yup, use "required" of useForm - 11-07-2021
 
-export default function EditExamForm() {
+export default function EditExamForm({ exam }) {
 	// const arr = [
 	// 	{
 	// 		question: "What is your name?",
@@ -120,32 +120,13 @@ export default function EditExamForm() {
 	// );
 
 	const router = useRouter();
-	console.log(router.query.idExam);
-	const [exam, setExam] = useState({});
-	const [title, setTitle] = useState("");
-	const [time, setTime] = useState("");
+
+	//const [exam, setExam] = useState({});
+	const [name, setName] = useState("");
+	const [minuteLimit, setMinuteLimit] = useState("");
 	const [subject, setSubject] = useState("");
-	const [__class, set__Class] = useState("");
+	const [grade, setGrade] = useState("");
 	//const [schoolYear, setSchoolYear] = useState(exam.schoolYear);
-	console.log(exam.questions);
-
-	// Fetch dữ liệu
-	useEffect(() => {
-		const fetchExam = async () => {
-			try {
-				console.log("fetch ", router.query.idExam);
-				const url = `http://localhost:5000/admin/exams/${router.query.idExam}/update`;
-				const res = await axios.get(url);
-
-				setExam(res.data);
-				setTitle(res.data.name);
-			} catch (error) {
-				console.log("Failed to fetch exam:", error);
-			}
-		};
-		fetchExam();
-	}, []);
-
 	//const data = JSON.parse(router.query.data);
 
 	const {
@@ -153,9 +134,10 @@ export default function EditExamForm() {
 		control,
 		handleSubmit,
 		formState: { errors },
+		setValue,
 	} = useForm({
 		defaultValues: {
-			questions: exam.questions,
+			questions: [],
 		},
 	});
 
@@ -165,17 +147,48 @@ export default function EditExamForm() {
 		// keyName: "id", default to "id", you can change the key name
 	});
 
-	console.log("fields", fields);
+	useEffect(() => {
+		setName(exam.name);
+		setMinuteLimit(exam.minuteLimit);
+		setSubject(exam.subject);
+		setGrade(exam.grade);
+
+		exam.questions?.forEach((e) => {
+			append({
+				content: e.content,
+				correctOption: e.correctOption,
+				options: e.options,
+			});
+		});
+	}, [exam]);
+
+	useEffect(() => {
+		setValue("name", name);
+		setValue("minuteLimit", minuteLimit);
+		setValue("subject", subject);
+		setValue("grade", grade);
+	}, [name]);
+
 	const onSubmit = (data) => {
-		// exam = modifiedQuestion(data);
+		modifiedQuestion(data);
+
 		console.log(data);
-		// router.push({
-		// 	pathname: "makeExam",
-		// 	query: {
-		// 		// type: "edit",
-		// 		exam: JSON.stringify(exam),
-		// 	},
-		// });
+		const updateExam = async () => {
+			try {
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${router.query.idExam}/update`;
+				const res = await axios.put(url, data, {
+					headers: {
+						access_token: localStorage.getItem("REFRESH_TOKEN"),
+					},
+				});
+
+				if (res.data.message == "Success") console.log("Success");
+			} catch (error) {
+				console.log("Failed to update exam:", error);
+			}
+		};
+		updateExam();
+		router.back();
 	};
 
 	return (
@@ -209,10 +222,10 @@ export default function EditExamForm() {
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
 						required
-						{...register("title", { required: true })}
+						{...register("name")}
 						type="text"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
+						value={name}
+						onChange={(e) => setName(e.target.value)}
 					/>
 					<label
 						className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700
@@ -226,10 +239,10 @@ export default function EditExamForm() {
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("time")}
+							{...register("minuteLimit")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={time}
-							onChange={(e) => setTime(e.target.value)}
+							value={minuteLimit}
+							onChange={(e) => setMinuteLimit(e.target.value)}
 						>
 							<option value=""></option>
 							<option value="15">15 phút</option>
@@ -254,14 +267,14 @@ export default function EditExamForm() {
 						>
 							<option></option>
 							<option value="Toán">Toán</option>
-							<option value="Ngữ Văn">Ngữ Văn</option>
-							<option value="Tiếng Anh">Tiếng Anh</option>
-							<option value="Vật Lý">Vật Lý</option>
-							<option value="Hóa Học">Hóa Học</option>
-							<option value="Sinh Học">Sinh Học</option>
-							<option value="Lịch Sử">Lịch Sử</option>
-							<option value="Địa Lý">Địa Lý</option>
-							<option value="Giáo Dục Công Dân">Giáo Dục Công Dân</option>
+							<option value="Ngữ văn">Ngữ Văn</option>
+							<option value="Tiếng anh">Tiếng Anh</option>
+							<option value="Vật lý">Vật Lý</option>
+							<option value="Hóa học">Hóa Học</option>
+							<option value="Sinh học">Sinh Học</option>
+							<option value="Lịch sử">Lịch Sử</option>
+							<option value="Địa lý">Địa Lý</option>
+							<option value="Giáo dục công dân">Giáo Dục Công Dân</option>
 						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Môn thi
@@ -271,10 +284,10 @@ export default function EditExamForm() {
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("class")}
+							{...register("grade")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={__class}
-							onChange={(e) => set__Class(e.target.value)}
+							value={grade}
+							onChange={(e) => setGrade(e.target.value)}
 						>
 							<option></option>
 							<option value="6">6</option>
@@ -324,9 +337,19 @@ export default function EditExamForm() {
 								register={register}
 								errors={errors}
 								label={`questions.${index}.`}
-								question={item.question}
-								correctAnswer={item.correctAnswer}
-								answers={item.answers}
+								content={item.content}
+								correctOption={
+									item.correctOption == ""
+										? ""
+										: item.correctOption?._id == item.options[0]?._id
+										? "0"
+										: item.correctOption?._id == item.options[1]?._id
+										? "1"
+										: item.correctOption?._id == item.options[2]?._id
+										? "2"
+										: "3"
+								}
+								options={item.options}
 
 								// mulChoice={`q${i}mul`}
 							/>
@@ -373,11 +396,9 @@ export default function EditExamForm() {
 									type="button"
 									onClick={() =>
 										insert(index + 1, {
-											question: "",
-											answerA: "",
-											answerB: "",
-											answerC: "",
-											answerD: "",
+											content: "",
+											correctOption: "",
+											options: "",
 										})
 									}
 								>
@@ -463,7 +484,7 @@ export default function EditExamForm() {
 						className="m-2 p-1 bg-green-400 rounded-full relative group"
 						type="button"
 						onClick={() => {
-							append({});
+							append({ content: "", correctOption: "", options: "" });
 						}}
 					>
 						{/* Add icon */}

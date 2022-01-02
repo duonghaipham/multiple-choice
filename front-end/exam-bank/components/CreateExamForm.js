@@ -4,13 +4,12 @@
 // Update form: change form using useFormState - 11-07-2021
 // Update form: remove yup, use "required" of useForm - 11-07-2021
 
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { modifiedQuestion } from "../utils/modifiedQuestion";
 import CreateQuestion from "./CreateQuestion";
-import axios from "axios";
-import Cookies from "universal-cookie";
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import * as yup from "yup";
 
@@ -57,11 +56,9 @@ export default function CreateExamForm() {
 		modifiedQuestion(data);
 		console.log(data);
 
-		const fetchExam = async () => {
-			const cookie = new Cookies();
-
+		const createExam = async () => {
 			try {
-				const url = `http://localhost:5000/admin/exams/create`;
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/create`;
 				const res = await axios.post(url, data, {
 					headers: {
 						access_token: localStorage.getItem("REFRESH_TOKEN"),
@@ -70,10 +67,10 @@ export default function CreateExamForm() {
 
 				if (res.data.message == "Success") console.log("Success");
 			} catch (error) {
-				console.log("Failed to fetch exam:", error);
+				console.log("Failed to create exam:", error);
 			}
 		};
-		fetchExam();
+		createExam();
 
 		// router.push({
 		// 	pathname: "editExam",

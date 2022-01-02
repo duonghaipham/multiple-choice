@@ -94,10 +94,9 @@ const getUpdateExam = async (req, res, next) => {
         path: "questions",
         select: "order content",
         populate: {
-          path: "options",
+          path: "options correctOption",
         },
       });
-
     return res.status(200).json(exam);
   } catch (error) {
     console.log(error);

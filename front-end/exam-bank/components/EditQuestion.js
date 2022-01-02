@@ -10,35 +10,34 @@ function EditQuestion({
 	register,
 	errors,
 	label,
-	question,
-	correctAnswer,
-	answers,
+	content,
+	correctOption,
+	options,
 }) {
-	const labelQuestion = label + "question";
-	const labelCorrectAnswer = label + "correctAnswer";
-	const labelAnswers = [
-		label + "answerA",
-		label + "answerB",
-		label + "answerC",
-		label + "answerD",
+	const labelQuestion = label + "content";
+	const labelCorrectOption = label + "correctOption";
+	const labelOptions = [
+		label + "optionA",
+		label + "optionB",
+		label + "optionC",
+		label + "optionD",
 	];
 	// const [checkBox, setCheckBox] = useState(false);
 
-	const [questionChange, setQuestionChange] = useState(question);
-	const [correctAnswerChange, setCorrectAnswersChange] =
-		useState(correctAnswer);
-	const [answersChange, setAnswersChange] = useState([
-		answers != undefined ? answers[0] : null,
-		answers != undefined ? answers[1] : null,
-		answers != undefined ? answers[2] : null,
-		answers != undefined ? answers[3] : null,
+	const [questionChange, setQuestionChange] = useState(content);
+	const [correctOptionChange, setCorrectOptionChange] = useState(correctOption);
+	const [optionsChange, setOptionsChange] = useState([
+		options != undefined ? options[0]?.content : null,
+		options != undefined ? options[1]?.content : null,
+		options != undefined ? options[2]?.content : null,
+		options != undefined ? options[3]?.content : null,
 	]);
 
-	const updateAnswersChanged = (index) => (e) => {
-		let newArr = [...answersChange];
+	const updateOptionsChanged = (index) => (e) => {
+		let newArr = [...optionsChange];
 		newArr[index] = e.target.value;
 
-		setAnswersChange(newArr);
+		setOptionsChange(newArr);
 	};
 
 	return (
@@ -72,7 +71,7 @@ function EditQuestion({
 			</div> */}
 			<ErrorMessage
 				errors={errors}
-				name={labelCorrectAnswer}
+				name={labelCorrectOption}
 				render={() => (
 					<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 						Hãy chọn đáp án đúng.
@@ -84,13 +83,13 @@ function EditQuestion({
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="A"
-							checked={correctAnswerChange === "A"}
+							value="0"
+							checked={correctOptionChange == "0"}
 							onClick={(e) => {
-								setCorrectAnswersChange(e.target.value);
+								setCorrectOptionChange(e.target.value);
 							}}
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
@@ -98,15 +97,15 @@ function EditQuestion({
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[0], { required: true })}
+							{...register(labelOptions[0], { required: true })}
 							type="text"
-							value={answersChange[0]}
-							onChange={updateAnswersChanged(0)}
+							value={optionsChange[0]}
+							onChange={updateOptionsChanged(0)}
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[0]}
+						name={labelOptions[0]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án A.
@@ -118,13 +117,13 @@ function EditQuestion({
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="B"
-							checked={correctAnswerChange === "B"}
+							value="1"
+							checked={correctOptionChange == "1"}
 							onClick={(e) => {
-								setCorrectAnswersChange(e.target.value);
+								setCorrectOptionChange(e.target.value);
 							}}
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
@@ -132,15 +131,15 @@ function EditQuestion({
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[1], { required: true })}
+							{...register(labelOptions[1], { required: true })}
 							type="text"
-							value={answersChange[1]}
-							onChange={updateAnswersChanged(1)}
+							value={optionsChange[1]}
+							onChange={updateOptionsChanged(1)}
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[1]}
+						name={labelOptions[1]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án B.
@@ -152,13 +151,13 @@ function EditQuestion({
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="C"
-							checked={correctAnswerChange === "C"}
+							value="2"
+							checked={correctOptionChange == "2"}
 							onClick={(e) => {
-								setCorrectAnswersChange(e.target.value);
+								setCorrectOptionChange(e.target.value);
 							}}
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
@@ -166,15 +165,15 @@ function EditQuestion({
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[2], { required: true })}
+							{...register(labelOptions[2], { required: true })}
 							type="text"
-							value={answersChange[2]}
-							onChange={updateAnswersChanged(2)}
+							value={optionsChange[2]}
+							onChange={updateOptionsChanged(2)}
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[2]}
+						name={labelOptions[2]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án C.
@@ -186,13 +185,13 @@ function EditQuestion({
 					<label className="flex items-center relative mt-2">
 						<input
 							className="mr-3 h-6 w-6 "
-							{...register(labelCorrectAnswer, { required: true })}
+							{...register(labelCorrectOption, { required: true })}
 							// type={checkBox ? 'checkbox' : 'radio'}
 							type="radio"
-							value="D"
-							checked={correctAnswerChange === "D"}
+							value="3"
+							checked={correctOptionChange == "3"}
 							onClick={(e) => {
-								setCorrectAnswersChange(e.target.value);
+								setCorrectOptionChange(e.target.value);
 							}}
 						/>
 						<span className="absolute -top-5 left-14 text-lg px-3 font-semibold">
@@ -200,15 +199,15 @@ function EditQuestion({
 						</span>
 						<textarea
 							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
-							{...register(labelAnswers[3], { required: true })}
+							{...register(labelOptions[3], { required: true })}
 							type="text"
-							value={answersChange[3]}
-							onChange={updateAnswersChanged(3)}
+							value={optionsChange[3]}
+							onChange={updateOptionsChanged(3)}
 						/>
 					</label>
 					<ErrorMessage
 						errors={errors}
-						name={labelAnswers[3]}
+						name={labelOptions[3]}
 						render={() => (
 							<span className="bg-red-200 py-1 px-2 rounded text-red-900 font-semibold">
 								Hãy thêm nội dung cho đáp án D.
