@@ -1,13 +1,9 @@
 function ViewQuestionResult({ index, question, correctOption, option }) {
-	console.log("question", question);
-	console.log("correct", correctOption);
-	console.log("option", option);
-	console.log("optionA", question.options[0]);
 	return (
 		<div className="flex my-4">
 			<div className="text-lg text-green-800 font-bold bg-green-50 border-2 border-blue-200 h-1/2 px-3 py-2 text-center">
 				<h4>Câu {index + 1}</h4>
-				{option.id == correctOption.id ? (
+				{option._id == correctOption._id ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-10 w-10"
@@ -48,15 +44,19 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 						<div className="font-medium">
 							<p
 								className={`px-4 py-2 ${
-									option.id == question.options[0].id ? "bg-red-300" : null
+									option._id === question.options[0]._id
+										? option._id === correctOption._id
+											? "bg-green-300"
+											: "bg-red-300"
+										: null
 								}`}
 							>
 								A. {question.options[0]?.content}
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option.id == question.options[1].id
-										? option.id === correctOption.id
+									option._id === question.options[1]._id
+										? option._id === correctOption._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
@@ -66,8 +66,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option.id == question.options[2].id
-										? option.id === correctOption.id
+									option._id === question.options[2]._id
+										? option._id === correctOption._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
@@ -77,8 +77,8 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 							</p>
 							<p
 								className={`px-4 py-2 ${
-									option.id == question.options[3].id
-										? option.id === correctOption.id
+									option._id === question.options[3]._id
+										? option._id === correctOption._id
 											? "bg-green-300"
 											: "bg-red-300"
 										: null
