@@ -54,12 +54,6 @@ const postLogin = async (req, res) => {
 
 const postLogout = async (req, res) => {
   try {
-    const decoded = await jwt.verify(
-      req.headers.access_token,
-      process.env.JWT_SECRET_KEY
-    );
-    const { userId } = decoded;
-
     userModel.updateOne({ _id: userId }, { refreshToken: null });
     res.clearCookie("access_token");
     res.status(200).json({ message: "Success" });
