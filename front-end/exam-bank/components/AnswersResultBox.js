@@ -1,74 +1,23 @@
 import AnswerResultBox from "./AnswerResultBox";
-function AnswersResultBox() {
-	const arr = [
-		{
-			question: "What is your name?",
-			chosenAnswer: "B",
-			correctAnswer: "A",
-			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-		},
-		{
-			question: "How old are you?",
-			chosenAnswer: "C",
-			correctAnswer: "C",
-			answers: ["12", "18", "20", "22"],
-		},
-		{
-			question: "Where are you live?",
-			chosenAnswer: "C",
-			correctAnswer: "B",
-			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-		},
-		{
-			question: "Which major are you studying? ",
-			chosenAnswer: "D",
-			correctAnswer: "D",
-			answers: [
-				"Computer Sience",
-				"Information Systems",
-				"Information Technology",
-				"Software Engineering",
-			],
-		},
-		{
-			question: "What is your name?",
-			chosenAnswer: "B",
-			correctAnswer: "A",
-			answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-		},
-		{
-			question: "How old are you?",
-			chosenAnswer: "C",
-			correctAnswer: "C",
-			answers: ["12", "18", "20", "22"],
-		},
-		{
-			question: "Where are you live?",
-			chosenAnswer: "C",
-			correctAnswer: "B",
-			answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-		},
-		{
-			question: "Which major are you studying? ",
-			chosenAnswer: "D",
-			correctAnswer: "D",
-			answers: [
-				"Computer Sience",
-				"Information Systems",
-				"Information Technology",
-				"Software Engineering",
-			],
-		},
-	];
-
+function AnswersResultBox({ options }) {
+	console.log(options);
 	return (
 		<div className="grid grid-flow-row grid-cols-5 gap-3 p-2 mb-3 px-5">
-			{arr?.map((value, index) => (
+			{options?.map((value, index) => (
 				<AnswerResultBox
 					key={index}
 					question={index + 1}
-					answer={value.chosenAnswer}
-					correctAnswer={value.correctAnswer}
+					option={value.option}
+					correctOption={value.question.correctOption}
+					correctOptionChar={
+						value.question.correctOption == value.question.options[0]
+							? "A"
+							: value.question.correctOption == value.question.options[1]
+							? "B"
+							: value.question.correctOption == value.question.options[2]
+							? "C"
+							: "D"
+					}
 				/>
 			))}
 		</div>

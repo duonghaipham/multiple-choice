@@ -82,7 +82,7 @@ export default function ResultExam() {
 					<h1 className="text-3xl text-indigo-500 font-bold mb-3 p-2">
 						Kết quả
 					</h1>
-					<AnswersResultBox />
+					<AnswersResultBox options={exam?.options} />
 					<div className="w-full border-t-2 border-indigo-300 flex flex-col items-center">
 						<h1 className="text-3xl text-indigo-500 font-bold pt-2">Điểm số</h1>
 						<h1 className="text-[50px] text-red-500 font-bold my-3 w-28 h-28  flex justify-center items-center rounded-full border-red-500 border-2">
