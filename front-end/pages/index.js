@@ -22,7 +22,7 @@ export default function Home() {
 					<h1 className="text-lg text-red-500 font-bold sm:text-[30px] lg:text-[40px] md:mb-5">
 						LUYỆN THI ĐẠI HỌC
 					</h1>
-					<p className="text-gray-700 text-[10px] px-5 font-medium md:text-lg md:px-10 lg:text-lg lg:px-22 xl:px-32">
+					<p className="text-sm text-gray-700 px-5 font-medium md:text-lg md:px-10 lg:text-lg lg:px-22 xl:px-32">
 						Đây là những giờ phút vô cùng quan trọng của cuộc đời, hãy tập trung
 						ôn thi và đừng để bất cứ điều gì làm xao nhãng bạn nhé.
 					</p>
@@ -36,7 +36,7 @@ export default function Home() {
 				</div>
 			</section>
 
-			<div className="grid place-content-center my-10">
+			<div className="grid place-content-center my-6 sm:my-10">
 				<h1 className="text-lg pl-2 text-center sm:text-left sm:text-xl sm:pl-10 md:pl-10 md:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
 					Đề thi theo môn học
 				</h1>
