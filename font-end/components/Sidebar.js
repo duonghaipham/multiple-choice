@@ -14,13 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { FiHome, FiMenu } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, link: "http://localhost:3000/admin" },
+  { name: "Dashboard", icon: FiHome, },
   {
     name: "User",
     icon: AiOutlineUser,
-    link: "http://localhost:3000/admin/user",
   },
 ];
 
@@ -55,6 +55,7 @@ export default function SimpleSidebar({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const router = useRouter();
   return (
     <Box
       bg={useColorModeValue("white", "gray.900")}
@@ -72,11 +73,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem icon={link.icon}>
-          <Link key={link.name} href={link.link} style={{'text-decoration': 'none'}}>
-            {link.name}
-          </Link>
-        </NavItem>
+        <div onClick={()=>{router.push({pathname: "admin", query: {name: link.name}})}}>
+          <NavItem icon={link.icon}>
+            <Link
+              key={link.name}
+              href={link.link}
+              style={{ "text-decoration": "none" }}
+            >
+              {link.name}
+            </Link>
+          </NavItem>
+        </div>
       ))}
     </Box>
   );
