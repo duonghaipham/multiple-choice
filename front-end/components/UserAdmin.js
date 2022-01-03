@@ -1,12 +1,14 @@
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 function UserAdmin() {
+	const router = useRouter();
     useEffect(() => {
 		const fetchUserList = async () => {
 			try {
 				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/users`;
-
+				console.log(url);
 				const token = localStorage.getItem("REFRESH_TOKEN");
 				const res = await axios.get(url, {
 					headers: {
@@ -20,7 +22,7 @@ function UserAdmin() {
 			}
 		};
 		fetchUserList();
-	}, []);
+	}, [router.query.name]);
 
     return (
         <div>

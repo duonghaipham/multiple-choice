@@ -1,6 +1,6 @@
 function Footer({ disable }) {
 	return (
-		<footer className="flex flex-col items-center md:items-start bg-gray-800 px-3 md:px-32 py-5 text-sm md:text-lg">
+		<footer className="flex flex-col items-center md:items-start bg-gray-800 px-3 md:px-32 py-5 text-sm md:text-lg z-10 relative">
 			{disable && (
 				<span className="absolute left-0 top-0 w-full h-full z-20"></span>
 			)}

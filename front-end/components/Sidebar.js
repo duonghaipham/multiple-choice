@@ -17,7 +17,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 const LinkItems = [
-  { name: "Dashboard", icon: FiHome, },
+  { name: "Dashboard", icon: FiHome },
   {
     name: "User",
     icon: AiOutlineUser,
@@ -73,7 +73,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <div onClick={()=>{router.push({pathname: "admin", query: {name: link.name}})}}>
+        <div
+          onClick={() => {
+            router.push({ pathname: "admin", query: { name: link.name } });
+          }}
+        >
           <NavItem icon={link.icon}>
             <Link
               key={link.name}
