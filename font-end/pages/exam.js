@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import ExamItem from "../components/ExamItem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import examApi from "./api/examApi";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
