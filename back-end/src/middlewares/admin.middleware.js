@@ -9,7 +9,6 @@ const adminMiddleware = async (req, res, next) => {
       process.env.JWT_SECRET_KEY
     );
     const { userId } = decodedAuth;
-
     const user = await userModel.findById(userId);
     if (user.role === "admin") {
       next();

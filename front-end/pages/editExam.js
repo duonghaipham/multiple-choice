@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import EditExamForm from "../components/EditExamForm";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -8,6 +10,23 @@ import Header from "../components/Header";
 
 export default function EditExam() {
 	const router = useRouter();
+	const [exam, setExam] = useState([]);
+	useEffect(() => {
+		const fetchExam = async () => {
+			try {
+				const id = router.query.idExam;
+
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${id}/update`;
+				//const token = localStorage.getItem("REFRESH_TOKEN");
+				const res = await axios.get(url);
+
+				if (res.data) setExam(res.data);
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		fetchExam();
+	}, [router.query.idExam]);
 
 	return (
 		<div className="w-auto">
@@ -18,7 +37,7 @@ export default function EditExam() {
 			</Head>
 			<Header />
 			<div className="p-5">
-				<EditExamForm />
+				<EditExamForm exam={exam} />
 			</div>
 			<Footer />
 		</div>

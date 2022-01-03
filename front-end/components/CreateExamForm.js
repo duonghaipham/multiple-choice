@@ -1,77 +1,21 @@
-import { ErrorMessage } from "@hookform/error-message";
-import { useRouter } from "next/dist/client/router";
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import EditQuestion from "./EditQuestion";
-import axios from "axios";
-
-// Done form: question-answer-rightAnswer - 14-10-2021
+// Done form: question-option-rightoption - 14-10-2021
 // Done form: Validation - 10-30-2021
+// Update form: change value option number (0,1,2,3) to string ('A','B',..) - 11-01-2021
 // Update form: change form using useFormState - 11-07-2021
 // Update form: remove yup, use "required" of useForm - 11-07-2021
 
-export default function EditExamForm() {
-	// const arr = [
-	// 	{
-	// 		question: "What is your name?",
-	// 		correctAnswer: "A",
-	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-	// 	},
-	// 	{
-	// 		question: "How old are you?",
-	// 		correctAnswer: "C",
-	// 		answers: ["12", "18", "20", "22"],
-	// 	},
-	// 	{
-	// 		question: "Where are you live?",
-	// 		correctAnswer: "B",
-	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-	// 	},
-	// 	{
-	// 		question: "Which major are you studying? ",
-	// 		correctAnswer: "D",
-	// 		answers: [
-	// 			"Computer Sience",
-	// 			"Information Systems",
-	// 			"Information Technology",
-	// 			"Software Engineering",
-	// 		],
-	// 	},
-	// 	{
-	// 		question: "What is your name?",
-	// 		correctAnswer: "A",
-	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-	// 	},
-	// 	{
-	// 		question: "How old are you?",
-	// 		correctAnswer: "C",
-	// 		answers: ["12", "18", "20", "22"],
-	// 	},
-	// 	{
-	// 		question: "Where are you live?",
-	// 		correctAnswer: "B",
-	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-	// 	},
-	// 	{
-	// 		question: "Which major are you studying? ",
-	// 		correctAnswer: "D",
-	// 		answers: [
-	// 			"Computer Sience",
-	// 			"Information Systems",
-	// 			"Information Technology",
-	// 			"Software Engineering",
-	// 		],
-	// 	},
-	// ];
+import axios from "axios";
+import { useRouter } from "next/dist/client/router";
+import React from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { modifiedQuestion } from "../utils/modifiedQuestion";
+import CreateQuestion from "./CreateQuestion";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import * as yup from "yup";
 
-	// const { register, handleSubmit } = useForm();
-	// const router = useRouter();
-	// const arr = JSON.parse(router.query.exam);
-	// // const arr = [];
-	// console.log(arr);
-
+export default function CreateExamForm() {
 	// const objectShema = {};
-	// arr?.forEach((e) => {
+	// questions?.forEach((e) => {
 	// 	objectShema[`q${e}`] = yup
 	// 		.string()
 	// 		.required(`Hãy thêm nội dung cho câu hỏi`);
@@ -79,75 +23,11 @@ export default function EditExamForm() {
 	// 	objectShema[`q${e}ans1`] = yup.string().required(`Hãy thêm đáp án B`);
 	// 	objectShema[`q${e}ans2`] = yup.string().required(`Hãy thêm đáp án C`);
 	// 	objectShema[`q${e}ans3`] = yup.string().required(`Hãy thêm đáp án D`);
-	// 	objectShema[`q${e}rightAnswer`] = yup.number().required();
+	// 	objectShema[`q${e}rightAnswer`] = yup
+	// 		.string()
+	// 		.required(`Hãy chọn đáp án đúng`);
 	// });
 	// const validationSchema = yup.object().shape(objectShema);
-	// const {
-	// 	register,
-	// 	handleSubmit,
-	// 	formState: { errors },
-	// } = useForm({
-	// 	resolver: yupResolver(validationSchema),
-	// });
-
-	// let exam = null;
-	// const onSubmit = (data) => {
-	// 	exam = modifiedQuestion(data);
-	// 	console.log(exam);
-	// 	router.push("/");
-	// };
-
-	// return (
-	// 	// <form onSubmit={handleSubmit(onSubmit)}>
-	// 	// 	{arr?.map((e, i) => (
-	// 	// 		<div key={i} className="w-auto bg-green-300 p-4">
-	// 	// 			<h4>Câu hỏi {i + 1}</h4>
-	// 	// 			<Question
-	// 	// 				register={register}
-	// 	//              errors = {errors}
-	// 	// 				label={`q${i}`}
-	// 	// 				question={e.question}
-	// 	// 				// mulChoice={`q${i}mul`}
-	// 	// 				rightAnswer={e.rightAnswer}
-	// 	// 				answers={e.answers}
-	// 	// 				labelAnswers={[`q${i}ans0`, `q${i}ans1`, `q${i}ans2`, `q${i}ans3`]}
-	// 	// 			/>
-	// 	// 		</div>
-	// 	// 	))}
-	// 	// 	<input type="submit" />
-	// 	// </form>
-	// 	<h1>Edit exam</h1>
-	// );
-
-	const router = useRouter();
-	console.log(router.query.idExam);
-	const [exam, setExam] = useState({});
-	const [title, setTitle] = useState("");
-	const [time, setTime] = useState("");
-	const [subject, setSubject] = useState("");
-	const [__class, set__Class] = useState("");
-	//const [schoolYear, setSchoolYear] = useState(exam.schoolYear);
-	console.log(exam.questions);
-
-	// Fetch dữ liệu
-	useEffect(() => {
-		const fetchExam = async () => {
-			try {
-				console.log("fetch ", router.query.idExam);
-				const url = `http://localhost:5000/admin/exams/${router.query.idExam}/update`;
-				const res = await axios.get(url);
-
-				setExam(res.data);
-				setTitle(res.data.name);
-			} catch (error) {
-				console.log("Failed to fetch exam:", error);
-			}
-		};
-		fetchExam();
-	}, []);
-
-	//const data = JSON.parse(router.query.data);
-
 	const {
 		register,
 		control,
@@ -155,64 +35,60 @@ export default function EditExamForm() {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			questions: exam.questions,
+			questions: [
+				{
+					content: "",
+				},
+			],
 		},
 	});
-
+	// {
+	// resolver: yupResolver(validationSchema),
+	// }
 	const { fields, append, remove, move, insert } = useFieldArray({
 		control, // control props comes from useForm (optional: if you are using FormContext)
 		name: "questions", // unique name for your Field Array
 		// keyName: "id", default to "id", you can change the key name
 	});
 
-	console.log("fields", fields);
+	const router = useRouter();
 	const onSubmit = (data) => {
-		// exam = modifiedQuestion(data);
+		modifiedQuestion(data);
 		console.log(data);
+
+		const createExam = async () => {
+			try {
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/create`;
+				const res = await axios.post(url, data, {
+					headers: {
+						access_token: localStorage.getItem("REFRESH_TOKEN"),
+					},
+				});
+
+				if (res.data.message == "Success") console.log("Success");
+			} catch (error) {
+				console.log("Failed to create exam:", error);
+			}
+		};
+		createExam();
+
 		// router.push({
-		// 	pathname: "makeExam",
+		// 	pathname: "editExam",
 		// 	query: {
-		// 		// type: "edit",
-		// 		exam: JSON.stringify(exam),
+		// 		data: JSON.stringify(data),
 		// 	},
 		// });
 	};
 
 	return (
-		// <form onSubmit={handleSubmit(onSubmit)}>
-		// 	{questions?.map((i) => (
-		// 		<div key={i} className="w-auto bg-green-300 p-4">
-		// 			<h4>Câu hỏi {i + 1}</h4>
-
-		// 			<CreateQuestion
-		// 				register={register}
-		// 				errors={errors}
-		// 				label={`q${i}`}
-		// 				// mulChoice={`q${i}mul`}
-		// 				labelAnswers={[`q${i}ans0`, `q${i}ans1`, `q${i}ans2`, `q${i}ans3`]}
-		// 			/>
-		// 		</div>
-		// 	))}
-
-		// 	<p
-		// 		onClick={() => {
-		// 			setQuestions([...questions, questions[questions.length - 1] + 1]);
-		// 		}}
-		// 	>
-		// 		Thêm câu hỏi
-		// 	</p>
-		// 	<input type="submit" />
-		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
 					<input
 						className="w-full mb-2 xl:mb-0 border-2 bg-transparent text-xl py-1 pl-2 focus:outline-none rounded peer"
 						required
-						{...register("title", { required: true })}
+						{...register("name", { required: true })}
 						type="text"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
 					/>
 					<label
 						className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700
@@ -221,15 +97,12 @@ export default function EditExamForm() {
 						Tên Đề Thi
 					</label>
 				</div>
-
 				<div className="mt-8 xl:mt-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:ml-2">
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("time")}
+							{...register("minuteLimit")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={time}
-							onChange={(e) => setTime(e.target.value)}
 						>
 							<option value=""></option>
 							<option value="15">15 phút</option>
@@ -243,25 +116,22 @@ export default function EditExamForm() {
 							Thời gian (phút)
 						</label>
 					</div>
-
 					<div className="flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
 							{...register("subject")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={subject}
-							onChange={(e) => setSubject(e.target.value)}
 						>
 							<option></option>
 							<option value="Toán">Toán</option>
-							<option value="Ngữ Văn">Ngữ Văn</option>
-							<option value="Tiếng Anh">Tiếng Anh</option>
-							<option value="Vật Lý">Vật Lý</option>
-							<option value="Hóa Học">Hóa Học</option>
-							<option value="Sinh Học">Sinh Học</option>
-							<option value="Lịch Sử">Lịch Sử</option>
-							<option value="Địa Lý">Địa Lý</option>
-							<option value="Giáo Dục Công Dân">Giáo Dục Công Dân</option>
+							<option value="Ngữ văn">Ngữ Văn</option>
+							<option value="Tiếng anh">Tiếng Anh</option>
+							<option value="Vật lý">Vật Lý</option>
+							<option value="Hóa học">Hóa Học</option>
+							<option value="Sinh học">Sinh Học</option>
+							<option value="Lịch sử">Lịch Sử</option>
+							<option value="Địa lý">Địa Lý</option>
+							<option value="Giáo dục công dân">Giáo Dục Công Dân</option>
 						</select>
 						<label className="absolute top-2 left-2 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
 							Môn thi
@@ -271,10 +141,8 @@ export default function EditExamForm() {
 					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
-							{...register("class")}
+							{...register("grade")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={__class}
-							onChange={(e) => set__Class(e.target.value)}
 						>
 							<option></option>
 							<option value="6">6</option>
@@ -295,8 +163,6 @@ export default function EditExamForm() {
 							required
 							{...register("schoolYear")}
 							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={schoolYear}
-							onChange={(e) => setSchoolYear(e.target.value)}
 						>
 							<option></option>
 							<option value="2020-2021">2020-2021</option>
@@ -320,27 +186,12 @@ export default function EditExamForm() {
 								Câu hỏi {index + 1}
 							</span>
 
-							<EditQuestion
+							<CreateQuestion
 								register={register}
 								errors={errors}
 								label={`questions.${index}.`}
-								question={item.question}
-								correctAnswer={item.correctAnswer}
-								answers={item.answers}
-
 								// mulChoice={`q${i}mul`}
 							/>
-							{/* ) : (
-								<EditQuestion
-									register={register}
-									errors={errors}
-									label={`questions.${index}.`}
-									question={null}
-									correctAnswer={null}
-									answers={[null, null, null, null]}
-								/>
-							)} */}
-
 							<div className="text-center">
 								<button
 									className="m-2 p-1 bg-red-400 rounded-full relative group"
@@ -373,11 +224,11 @@ export default function EditExamForm() {
 									type="button"
 									onClick={() =>
 										insert(index + 1, {
-											question: "",
-											answerA: "",
-											answerB: "",
-											answerC: "",
-											answerD: "",
+											content: "",
+											optionA: "",
+											optionB: "",
+											optionC: "",
+											optionD: "",
 										})
 									}
 								>
@@ -463,7 +314,13 @@ export default function EditExamForm() {
 						className="m-2 p-1 bg-green-400 rounded-full relative group"
 						type="button"
 						onClick={() => {
-							append({});
+							append({
+								content: "",
+								optionA: "",
+								optionB: "",
+								optionC: "",
+								optionD: "",
+							});
 						}}
 					>
 						{/* Add icon */}
@@ -491,7 +348,7 @@ export default function EditExamForm() {
 						className="block px-2 py-1 bg-blue-400 rounded text-xl text-white font-semibold"
 						type="submit"
 					>
-						Sửa Đề
+						Thêm Đề
 					</button>
 				</div>
 			</ul>

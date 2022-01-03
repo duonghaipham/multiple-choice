@@ -48,7 +48,7 @@ function SignUp() {
 
 	return (
 		<div>
-			<div className="w-80 max-w-xs absolute top-12 right-0">
+			<div className="w-screen -right-5 sm:w-80 sm:max-w-xs absolute top-12 sm:right-0">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"

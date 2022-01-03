@@ -9,13 +9,12 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function ResultExam() {
+export default function ResultDetail() {
 	const router = useRouter();
 	const [exam, setExam] = useState();
 	useEffect(() => {
 		setExam(JSON.parse(router.query.examResult));
 	}, [router.query.examResult]);
-	console.log(exam);
 
 	return (
 		<div>
@@ -28,16 +27,13 @@ export default function ResultExam() {
 			<Header />
 			<div className="flex-1 flex flex-col ml-40 mr-20 my-10 py-10 px-10 bg-gray-200 bg-opacity-25">
 				<div className="">
-					<h1 className="text-3xl font-bold text-green-800 ">
-						{exam?.exam?.subject}
-					</h1>
+					<span className="text-3xl font-bold text-green-800">
+						{exam?.exam?.subject} |
+					</span>
 
-					<h3
-						className="text-yellow-500 text-2xl font-semibold cursor-pointer mt-3"
-						onClick={() => router.push("takeExam")}
-					>
-						{exam?.exam?.name}
-					</h3>
+					<span className="text-yellow-500 text-2xl font-semibold  mt-3">
+						| {exam?.exam?.name}
+					</span>
 					<div className="w-3/5 mt-5">
 						<div className="py-0.5 text-lg bg-blue-50">
 							<div className="flex py-0.5 text-lg bg-blue-100">

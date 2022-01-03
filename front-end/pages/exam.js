@@ -1,17 +1,16 @@
+import axios from "axios";
 import moment from "moment";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
-import { useEffect, useState, useParams } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ExamItem from "../components/ExamItem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import examApi from "./api/examApi";
-import axios from "axios";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-export default function Exam({ examList }) {
+export default function Exam() {
 	//console.log(examList);
 	const router = useRouter();
 	const user = useSelector((state) => state.user);
@@ -24,19 +23,21 @@ export default function Exam({ examList }) {
 	useEffect(() => {
 		const fetchExamList = async () => {
 			try {
-				const url = `http://localhost:5000/exams?subject=${router.query.subject}`;
-				// const res = await axios.get(url);
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams?subject=${router.query.subject}`;
 
-				// const params = {
-				// 	subject: router.query.subject,
-				// };
 				const token = localStorage.getItem("REFRESH_TOKEN");
 				const res = await axios.get(url, {
 					headers: {
 						access_token: token,
 					},
 				});
-				console.log(res.data);
+
+				// const params = {
+				// 	subject: router.query.subject,
+				// };
+
+				//const res = await examApi.get(params, token);
+
 				setExams(res.data);
 			} catch (error) {
 				console.log("Failed to fetch exam list:", error);
@@ -48,14 +49,20 @@ export default function Exam({ examList }) {
 	const handleDeleteExam = async (id) => {
 		const index = exams.findIndex((e) => e._id == id);
 		try {
-			const res = await examApi.delete(id);
+			const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${id}/delete`;
+			const token = localStorage.getItem("REFRESH_TOKEN");
+			const res = await axios.delete(url, {
+				headers: {
+					access_token: token,
+				},
+			});
 
-			if (res.message == "Success") {
+			if (res.data.message == "Success") {
 				console.log("delete Success");
 				setExams([...exams.slice(0, index), ...exams.slice(index + 1)]);
 			}
 		} catch (error) {
-			console.log("Failed to fetch exam:", error);
+			console.log("Failed to delete exam:", error);
 		}
 	};
 
@@ -91,11 +98,7 @@ export default function Exam({ examList }) {
 								/>
 							</svg>
 						</div>
-						{exams?.length == 0 && (
-							<h1 className="text-md sm:text-xl lg:text-3xl">
-								Chưa có đề thi của môn {router.query.subject}
-							</h1>
-						)}
+
 						{exams.map((e) => (
 							<div className="flex justify-between border-t-2">
 								<ExamItem
@@ -110,24 +113,53 @@ export default function Exam({ examList }) {
 								/>
 
 								{user?.role == "teacher" && (
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6 cursor-pointer mt-3"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										onClick={() => handleDeleteExam(e._id)}
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-										/>
-									</svg>
+									<div className="flex flex-col">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6 cursor-pointer mt-3"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											onClick={() =>
+												router.push({
+													pathname: "editExam",
+													query: {
+														idExam: e._id,
+													},
+												})
+											}
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+											/>
+										</svg>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6 cursor-pointer mt-3"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											onClick={() => handleDeleteExam(e._id)}
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+											/>
+										</svg>
+									</div>
 								)}
 							</div>
 						))}
+						{exams?.length == 0 && (
+							<h1 className="text-md sm:text-xl lg:text-3xl">
+								Chưa có đề thi của môn {router.query.subject}
+							</h1>
+						)}
 					</div>
 				</div>
 

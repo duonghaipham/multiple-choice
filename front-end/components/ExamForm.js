@@ -137,7 +137,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 			try {
 				//const url = `http://localhost:5000/login`;
 				const res = await axios.post(
-					`http://localhost:5000/exams/${router.query.idExam}/take`,
+					`${process.env.NEXT_PUBLIC_API_URL}/exams/${router.query.idExam}/take`,
 					data,
 					{
 						headers: {
@@ -154,7 +154,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 
 		handleSubmitExam();
 		// Submit thành công thì xóa các field trong localStorage
-		localStorage.removeItem("fields");
+		localStorage.removeItem(router.query.idExam);
 		localStorage.removeItem("remainTimeSaved");
 		localStorage.removeItem("currentTimeSaved");
 
@@ -227,7 +227,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						className="bg-blue-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
 						onClick={() => {
 							buttonSubmit.current.click();
-							router.push("/result");
+							router.back();
 						}}
 					>
 						Nộp bài

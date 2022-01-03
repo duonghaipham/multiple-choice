@@ -94,10 +94,9 @@ const getUpdateExam = async (req, res, next) => {
         path: "questions",
         select: "order content",
         populate: {
-          path: "options",
+          path: "options correctOption",
         },
       });
-
     return res.status(200).json(exam);
   } catch (error) {
     console.log(error);
@@ -204,7 +203,7 @@ const getRetrieveUsers = async (req, res, next) => {
       .find({ state: "active" })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE);
-
+      
     return res.status(200).json(exams);
   } catch (error) {
     return res.status(400).json({ message: `Failed` });

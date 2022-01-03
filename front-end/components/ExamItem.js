@@ -73,10 +73,6 @@ function ExamItem({
 					Ngày đăng:
 					<span className="text-yellow-500 ml-2">{openDate}</span>
 				</h4>
-				<h4 className="text-sm sm:text-md xl:text-lg text-gray-600 font-semibold">
-					Đã làm bài:
-					<span className="text-yellow-500 ml-2">{attemptLimit}</span>
-				</h4>
 			</div>
 		</div>
 	);

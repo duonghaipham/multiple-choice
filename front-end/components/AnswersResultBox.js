@@ -1,6 +1,5 @@
 import AnswerResultBox from "./AnswerResultBox";
 function AnswersResultBox({ options }) {
-	console.log(options);
 	return (
 		<div className="grid grid-flow-row grid-cols-5 gap-3 p-2 mb-3 px-5">
 			{options?.map((value, index) => (
@@ -10,11 +9,11 @@ function AnswersResultBox({ options }) {
 					option={value.option}
 					correctOption={value.question.correctOption}
 					correctOptionChar={
-						value.question.correctOption == value.question.options[0]
+						value.option?._id == value.question.options[0]?._id
 							? "A"
-							: value.question.correctOption == value.question.options[1]
+							: value.option?._id == value.question.options[1]?._id
 							? "B"
-							: value.question.correctOption == value.question.options[2]
+							: value.option?._id == value.question.options[2]?._id
 							? "C"
 							: "D"
 					}
