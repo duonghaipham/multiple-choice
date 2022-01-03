@@ -21,7 +21,7 @@ function Header({ disable }) {
 	};
 
 	return (
-		<header className="bg-gray-50 shadow-sm flex justify-between items-center px-5 py-3 sticky top-0 left-0 z-10 sm:px-10">
+		<header className="bg-gray-50 shadow-sm flex justify-between items-center px-5 py-3 sticky top-0 left-0 z-20 sm:px-10">
 			{disable && <span className="absolute left-0  w-full h-full z-20"></span>}
 			<div
 				className="flex cursor-pointer items-center"
