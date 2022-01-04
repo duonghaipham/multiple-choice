@@ -25,6 +25,7 @@
     "query-string": "^7.0.1",
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
+    "react-data-table-component": "^7.4.6",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.16.1",
     "react-icons": "^4.3.1",
@@ -32,6 +33,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.1",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.3",
     "universal-cookie": "^4.0.4",
     "yup": "^0.32.11"
   },

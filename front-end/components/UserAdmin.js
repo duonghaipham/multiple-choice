@@ -1,9 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import DataTable from 'react-data-table-component';
+
+const columns = [
+    {
+        name: 'Name',
+        selector: row => row.name,
+		sortable: true,
+    },
+    {
+        name: 'Gender',
+        selector: row => row.gender,
+    },
+    {
+        name: 'City',
+        selector: row => row.city,
+		sortable: true,
+    },
+    {
+        name: 'Phone',
+        selector: row => row.phone,
+    },
+];
 
 function UserAdmin() {
+	const [user, setUser] = useState([]);
+
 	const router = useRouter();
+
     useEffect(() => {
 		const fetchUserList = async () => {
 			try {
@@ -14,8 +39,7 @@ function UserAdmin() {
 						access_token: token,
 					},
 				});
-
-                console.log(res);
+				setUser(res.data);
 			} catch (error) {
 				console.log("Failed to fetch exam list:", error);
 			}
@@ -23,9 +47,10 @@ function UserAdmin() {
 		fetchUserList();
 	}, [router.query.name]);
 
+
     return (
         <div>
-            User
+			<DataTable columns={columns} data={user} pagination/>
         </div>
     )
 }
