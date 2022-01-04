@@ -13,6 +13,7 @@ router.put("/exams/:id/update", adminController.putUpdateExam);
 
 router.delete("/exams/:id/delete", adminController.deleteExam);
 
+//Khi đăng nhập phải là admin mới sử dụng đc các api này
 router.post(
   "/users/create",
   adminMiddleware.adminMiddleware,

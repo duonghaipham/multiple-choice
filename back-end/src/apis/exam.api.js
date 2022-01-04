@@ -1,17 +1,32 @@
 const router = require("express").Router();
 
 const examController = require("../controllers/exam.controller");
+const roleExamMiddleware = require("../middlewares/roleExam.middleware");
 
-router.get("/", examController.getRetrieveExams);
+router.get("/", roleExamMiddleware.roleExamMiddleware, examController.getRetrieveExams);
 
-router.get("/:id", examController.getExamView);
+router.get(
+  "/:id",
+  roleExamMiddleware.roleExamMiddleware, 
+  examController.getExamView
+);
 
-router.get("/:id/take", examController.getExamTake);
+router.get(
+  "/:id/take",
+  roleExamMiddleware.roleExamMiddleware,
+  examController.getExamTake
+);
 
-router.post("/:id/take", examController.postExamTake);
+router.post(
+  "/:id/take",
+  
+  examController.postExamTake
+);
 
-router.get("/:id/review", examController.getExamReview);
-
-// khi m dang nhap roi va vai tro m phai la student, hoac teacher
+router.get(
+  "/:id/review",
+  
+  examController.getExamReview
+);
 
 module.exports = router;
