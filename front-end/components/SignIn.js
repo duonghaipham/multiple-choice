@@ -36,27 +36,6 @@ function SignIn() {
 			}
 		};
 		handleLogin();
-
-		if (data.email == "sv" && data.password == "sv") {
-			const user = {
-				id: "sv0",
-				name: "Sinh viên",
-				avatar: "./img/biology.jpg",
-				type: "student",
-			};
-			const action = login(user);
-			dispatch(action);
-		}
-		if (data.email == "gv" && data.password == "gv") {
-			const user = {
-				id: "gv0",
-				name: "Giáo viên",
-				avatar: "./img/math.jpg",
-				type: "teacher",
-			};
-			const action = login(user);
-			dispatch(action);
-		}
 	};
 
 	return (
