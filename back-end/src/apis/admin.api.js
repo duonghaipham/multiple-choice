@@ -16,8 +16,8 @@ router.delete("/exams/:id/delete", adminController.deleteExam);
 //Khi đăng nhập phải là admin mới sử dụng đc các api này
 router.post(
   "/users/create",
-  adminMiddleware.adminMiddleware,
-  adminController.postCreateUser
+  adminMiddleware.adminMiddleware, 
+  adminController.postCreateUser, 
 );
 
 router.get(
