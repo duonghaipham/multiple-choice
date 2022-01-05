@@ -22,23 +22,28 @@ export default function TakeExam({ exam }) {
 			</Head>
 			<Header disable={true} />
 			<div className="flex justify-between my-10 flex-col md:flex-row">
+				<BodyExam timeout={timeout} />
 				<StateBox timeout={timeout} setTimeout={setTimeout} />
-				<BodyExam timeout={timeout} exam={exam} />
 			</div>
 			<Footer disable={true} />
 		</div>
 	);
 }
 
-export async function getServerSideProps(context) {
-	const params = context.query;
+// export async function getServerSideProps(context) {
+// 	const params = context.query;
 
-	const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${params.idExam}/take`;
-	const res = await axios.get(url);
+// 	const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${params.idExam}/take`;
+// 	const token = localStorage.getItem("REFRESH_TOKEN");
+// 	const res = await axios.get(url, {
+// 		headers: {
+// 			access_token: token,
+// 		},
+// 	});
 
-	return {
-		props: {
-			exam: res.data,
-		},
-	};
-}
+// 	return {
+// 		props: {
+// 			exam: res.data,
+// 		},
+// 	};
+// }

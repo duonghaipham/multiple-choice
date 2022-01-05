@@ -18,25 +18,30 @@ const customStyles = {
 	},
 };
 
-function BodyExam({ timeout, exam }) {
+function BodyExam({ timeout }) {
 	const router = useRouter();
 
-	// const [exam, setExam] = useState({});
-	// console.log(exam);
-	// //Fetch dữ liệu
-	// useEffect(() => {
-	// 	const fetchExam = async () => {
-	// 		try {
-	// 			const url = `http://localhost:5000/exams/${router.query.idExam}/take`;
-	// 			const res = await axios.get(url);
+	const [exam, setExam] = useState({});
+	console.log(exam);
+	//Fetch dữ liệu
+	useEffect(() => {
+		const fetchExam = async () => {
+			try {
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${router.query.idExam}/take`;
+				const token = localStorage.getItem("REFRESH_TOKEN");
+				const res = await axios.get(url, {
+					headers: {
+						access_token: token,
+					},
+				});
 
-	// 			setExam(res.data);
-	// 		} catch (error) {
-	// 			console.log("Failed to fetch exam:", error);
-	// 		}
-	// 	};
-	// 	fetchExam();
-	// }, [router.query.idExam]);
+				setExam(res.data);
+			} catch (error) {
+				console.log("Failed to fetch exam:", error);
+			}
+		};
+		fetchExam();
+	}, [router.query.idExam]);
 
 	return (
 		<div className="flex-1 flex flex-col mx-10 px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">

@@ -17,7 +17,7 @@ router.get(
 
 router.get(
   "/:id/take",
-  //roleExamMiddleware.roleExamMiddleware,
+  roleExamMiddleware.roleExamMiddleware,
   examController.getExamTake
 );
 
