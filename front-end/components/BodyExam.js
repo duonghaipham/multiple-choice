@@ -39,8 +39,8 @@ function BodyExam({ timeout, exam }) {
 	// }, [router.query.idExam]);
 
 	return (
-		<div className="flex-1 flex flex-col mx-10 px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">
-			<div className="w-3/4">
+		<div className="flex-1 flex flex-col mx-6 sm:mx-10 px-2 sm:px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">
+			<div className="w-full md:w-3/4">
 				<div className="">
 					<div>
 						<span className="text-3xl font-bold text-green-800 ">
