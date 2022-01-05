@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import ExamForm from "./ExamForm";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 // Done form: auto submit when timeout - 19-10-2021
@@ -18,62 +19,40 @@ const customStyles = {
 	},
 };
 
-function BodyExam({ timeout }) {
+function BodyExam({ exam }) {
+	const { timeout } = useSelector((state) => state.time);
 	const router = useRouter();
-
-	const [exam, setExam] = useState({});
-	console.log(exam);
-	//Fetch dữ liệu
-	useEffect(() => {
-		const fetchExam = async () => {
-			try {
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${router.query.idExam}/take`;
-				const token = localStorage.getItem("REFRESH_TOKEN");
-				const res = await axios.get(url, {
-					headers: {
-						access_token: token,
-					},
-				});
-
-				setExam(res.data);
-			} catch (error) {
-				console.log("Failed to fetch exam:", error);
-			}
-		};
-		fetchExam();
-	}, [router.query.idExam]);
-
 	return (
 		<div className="flex-1 flex flex-col mx-6 sm:mx-10 px-2 sm:px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">
 			<div className="w-full md:w-3/4">
 				<div className="">
 					<div>
 						<span className="text-3xl font-bold text-green-800 ">
-							{exam.subject} |
+							{exam?.subject} |
 						</span>
 						<span className="text-yellow-500 text-2xl font-semibold mt-3">
-							| {exam.name}
+							| {exam?.name}
 						</span>
 					</div>
 					<div className="flex flex-col w-full items-center">
 						<span className=" text-xl font-semibold mt-3">
-							Lớp: {exam.grade}
+							Lớp: {exam?.grade}
 						</span>
 						<span className=" text-lg font-semibold mt-3">
-							Thời gian: {exam.minuteLimit} phút
+							Thời gian: {exam?.minuteLimit} phút
 						</span>
 						<span className=" text-lg font-semibold mt-3">
-							Số lần thi: {exam.attemptLimit}
+							Số lần thi: {exam?.attemptLimit}
 						</span>
 						<span className=" text-lg font-semibold mt-3">
-							Người ra đề: {exam.creator?.name}
+							Người ra đề: {exam?.creator?.name}
 						</span>
 					</div>
 				</div>
 				<ExamForm
 					timeout={timeout}
-					questions={exam.questions}
-					idExam={exam._id}
+					questions={exam?.questions}
+					idExam={exam?._id}
 				/>
 				<Modal
 					isOpen={timeout}

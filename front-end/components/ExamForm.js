@@ -3,12 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch } from "react-redux";
-import { modifiedAnswer } from "../utils/modifiedAnswer";
+import { modifiedOption } from "../utils/modifiedOption";
 import { initAnswers } from "../store/slices/answerSlice";
 import Question from "./Question";
 import axios from "axios";
 
-// Create form: question-answer-rightAnswer - 14-10-2021
+// Create form: question-option-correctOption - 14-10-2021
 // Update form: auto submit when timeout - 19-10-2021
 // Update form: comfirm submit (time is continuous) - 19-10-2021
 // Update form: form actually submits when user click confirm submit button - 11-01-2021
@@ -27,80 +27,15 @@ const customStyles = {
 };
 
 export default function ExamForm({ timeout, questions, idExam }) {
-	// const arr = [
-	// 	{
-	// 		question: "What is your name?",
-	// 		correctAnswer: "A",
-	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-	// 	},
-	// 	{
-	// 		question: "How old are you?",
-	// 		correctAnswer: "C",
-	// 		answers: ["12", "18", "20", "22"],
-	// 	},
-	// 	{
-	// 		question: "Where are you live?",
-	// 		correctAnswer: "B",
-	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-	// 	},
-	// 	{
-	// 		question: "Which major are you studying? ",
-	// 		correctAnswer: "D",
-	// 		answers: [
-	// 			"Computer Sience",
-	// 			"Information Systems",
-	// 			"Information Technology",
-	// 			"Software Engineering",
-	// 		],
-	// 	},
-	// 	{
-	// 		question: "What is your name?",
-	// 		correctAnswer: "A",
-	// 		answers: ["Nguyễn Văn A", "Phạm Thị B", "Lê Văn C", "Trần Thị D "],
-	// 	},
-	// 	{
-	// 		question: "How old are you?",
-	// 		correctAnswer: "C",
-	// 		answers: ["12", "18", "20", "22"],
-	// 	},
-	// 	{
-	// 		question: "Where are you live?",
-	// 		correctAnswer: "B",
-	// 		answers: ["TP. Hồ Chí Minh", "Đồng Nai", "Bình Dương", "Khánh Hoà"],
-	// 	},
-	// 	{
-	// 		question: "Which major are you studying? ",
-	// 		correctAnswer: "D",
-	// 		answers: [
-	// 			"Computer Sience",
-	// 			"Information Systems",
-	// 			"Information Technology",
-	// 			"Software Engineering",
-	// 		],
-	// 	},
-	// ];
-
-	// let arr = [];
-	// router.query.exam != undefined
-	// 	? (arr = JSON.parse(router.query.exam))
-	// 	: (arr = null);
-
 	const router = useRouter();
 
 	const [submit, setSubmit] = useState(false); // Xử lý hết thời gian
-	// const [confirmSubmit, setConfirmSubmit] = useState(false);
-	// const [correctAnswer, setCorrectAnswer] = useState(0);
+
 	const dispatch = useDispatch();
 
 	const { register, handleSubmit, watch, setValue } = useForm();
 
 	const setValueRadioButton = (fields) => {
-		// const keys = Object.keys(fields);
-		// const value = Object.values(fields);
-		// keys.forEach((e, i) => {
-		// 	setValue(e, value[i]);
-		// });
-
 		const fieldsArray = Object.entries(fields);
 		fieldsArray.forEach((e) => {
 			setValue(e[0], e[1]);
@@ -110,18 +45,34 @@ export default function ExamForm({ timeout, questions, idExam }) {
 	useEffect(() => {
 		const fields = JSON.parse(localStorage.getItem(idExam)); // Lấy dữ liệu "idExam" (idExam là 1 object chứa các đáp án được chọn) từ localStorage
 		if (fields) setValueRadioButton(fields); // set các đáp án được chọn vào đề thì băng hàm setValue của React Hook Form
-		const selectedAnswers = fields ? Object?.values(fields) : []; // tạo mảng selectedAnswers để lưu vào Redux
+		const selectedOptions = []; // tạo mảng selectedOptions để lưu vào Redux
+		// Chuyển thành 1 mảng option dạng ["A", "B",...]
+		questions?.forEach((e, i) => {
+			if (fields && fields[`option${i}`])
+				selectedOptions.push(
+					fields[`option${i}`] == e.options[0]?._id
+						? "A"
+						: fields[`option${i}`] == e.options[1]?._id
+						? "B"
+						: fields[`option${i}`] == e.options[2]?._id
+						? "C"
+						: fields[`option${i}`] == e.options[3]?._id
+						? "D"
+						: null,
+				);
+			else selectedOptions.push(null);
+		});
 		// Tạo action để dispatch vào Redux (mục đích để tạo mảng đáp án truyền qua component StateBox)
 		const action =
 			questions?.length != null
-				? selectedAnswers.some(
+				? selectedOptions.some(
 						(e) => e === "A" || e === "B" || e === "C" || e === "D",
 				  )
-					? initAnswers(selectedAnswers)
-					: initAnswers(questions.length)
+					? initAnswers(selectedOptions)
+					: initAnswers(questions?.length)
 				: initAnswers(0);
 		dispatch(action);
-	}, []);
+	}, [idExam]);
 
 	const watchAllFields = watch(); // trạng thái hiện tại của đề thi
 
@@ -131,7 +82,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 	}, [watchAllFields]);
 
 	const onSubmit = (data) => {
-		data = modifiedAnswer(data);
+		data = modifiedOption(data);
 		console.log(data);
 		const handleSubmitExam = async () => {
 			try {
@@ -154,17 +105,10 @@ export default function ExamForm({ timeout, questions, idExam }) {
 
 		handleSubmitExam();
 		// Submit thành công thì xóa các field trong localStorage
+		localStorage.removeItem(`remainTimeSaved_${router.query.idExam}`);
+		localStorage.removeItem(`currentTimeSaved_${router.query.idExam}`);
+		localStorage.removeItem("undefined");
 		localStorage.removeItem(router.query.idExam);
-		localStorage.removeItem("remainTimeSaved");
-		localStorage.removeItem("currentTimeSaved");
-
-		// const answers = modifiedAnswer(data); //  Modified mảng đáp án đã chọn
-		// let noOfCorrectAnswer = 0;
-		// questions.forEach((e, i) => {
-		// 	if (e.correctAnswer === answers[i]) noOfCorrectAnswer++; // Tính số câu đúng
-		// });
-		// console.log(noOfCorrectAnswer);
-		// // setCorrectAnswer(noOfCorrectAnswer);
 	};
 
 	const checkKeyDown = (e) => {
@@ -227,7 +171,12 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						className="bg-blue-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
 						onClick={() => {
 							buttonSubmit.current.click();
-							router.back();
+							router.push({
+								pathname: "/result",
+								query: {
+									idExam: router.query.idExam,
+								},
+							});
 						}}
 					>
 						Nộp bài

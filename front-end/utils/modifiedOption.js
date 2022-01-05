@@ -1,6 +1,6 @@
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-const modifiedAnswer = (data) => {
+const modifiedOption = (data) => {
 	const keys = Object.keys(data).sort();
 
 	let arr = [];
@@ -16,4 +16,4 @@ const modifiedAnswer = (data) => {
 	};
 };
 
-export { modifiedAnswer };
+export { modifiedOption };

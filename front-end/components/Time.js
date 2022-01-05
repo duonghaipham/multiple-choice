@@ -4,9 +4,13 @@
 //                       student leave the TakeExam page
 
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Time({ hours, minutes, seconds }) {
+	const router = useRouter();
+
 	const remainTimeSaved = {
 		hours: hours,
 		minutes: minutes,
@@ -17,8 +21,14 @@ function Time({ hours, minutes, seconds }) {
 
 	// Hàm lưu thời gian
 	const saveTime = () => {
-		localStorage.setItem("remainTimeSaved", JSON.stringify(remainTimeSaved));
-		localStorage.setItem("currentTimeSaved", JSON.stringify(currentTimeSaved));
+		localStorage.setItem(
+			`remainTimeSaved_${router.query.idExam}`,
+			JSON.stringify(remainTimeSaved),
+		);
+		localStorage.setItem(
+			`currentTimeSaved_${router.query.idExam}`,
+			JSON.stringify(currentTimeSaved),
+		);
 	};
 
 	// Lưu thời gian lại khi user refresh (F5), tắt tab, thay đổi route

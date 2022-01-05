@@ -1,20 +1,26 @@
-// Done form: question-answer-rightAnswer - 14-10-2021
-// Done Redux: add redux in project to show answer in QuestionsBox - 11-01-2021
+// Done form: question-Option-rightOption - 14-10-2021
+// Done Redux: add redux in project to show Option in QuestionsBox - 11-01-2021
 
-import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { chooseAnswer } from "../store/slices/answerSlice";
 
 function Question({ index, register, label, content, idContent, options }) {
 	const dispatch = useDispatch();
 
-	const handleChooseAnswer = (e) => {
-		const answer = {
+	const handleChooseOption = (e) => {
+		const option = {
 			index: index,
-			value: e.target.value,
+			value:
+				e.target.value == options[0]._id
+					? "A"
+					: e.target.value == options[1]._id
+					? "B"
+					: e.target.value == options[2]._id
+					? "C"
+					: "D",
 		};
 
-		const action = chooseAnswer(answer);
+		const action = chooseAnswer(option);
 		dispatch(action);
 	};
 
@@ -41,7 +47,7 @@ function Question({ index, register, label, content, idContent, options }) {
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
 						value={options[0]?._id}
-						onClick={handleChooseAnswer}
+						onClick={handleChooseOption}
 					/>
 					<span className="text-lg pr-2 font-bold">A.</span>
 					<p className="text-lg px-2 font-medium">{options[0]?.content}</p>
@@ -53,7 +59,7 @@ function Question({ index, register, label, content, idContent, options }) {
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
 						value={options[1]?._id}
-						onClick={handleChooseAnswer}
+						onClick={handleChooseOption}
 					/>
 					<span className="text-lg pr-2 font-bold">B.</span>
 					<p className="text-lg px-2 font-medium">{options[1]?.content}</p>
@@ -65,7 +71,7 @@ function Question({ index, register, label, content, idContent, options }) {
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
 						value={options[2]?._id}
-						onClick={handleChooseAnswer}
+						onClick={handleChooseOption}
 					/>
 					<span className="text-lg pr-2 font-bold">C.</span>
 					<p className="text-lg px-2 font-medium">{options[2]?.content}</p>
@@ -77,7 +83,7 @@ function Question({ index, register, label, content, idContent, options }) {
 						// type={checkBox ? 'checkbox' : 'radio'}
 						type="radio"
 						value={options[3]?._id}
-						onClick={handleChooseAnswer}
+						onClick={handleChooseOption}
 					/>
 					<span className="text-lg pr-2 font-bold">D.</span>
 					<p className="text-lg px-2 font-medium">{options[3]?.content}</p>

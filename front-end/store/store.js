@@ -7,6 +7,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import answerReducer from "./slices/answerSlice";
 import userReducer from "./slices/userSlice";
+import timeReducer from "./slices/timeSlice";
 
 const persistConfig = {
 	key: "root",
@@ -17,6 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	answers: answerReducer,
 	user: userReducer,
+	time: timeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
