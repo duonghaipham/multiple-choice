@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -8,7 +9,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import StateBox from "../components/StateBox";
 import { initTime } from "../store/slices/timeSlice";
-import examApi from "./api/examApi";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 // Done form: auto submit when timeout - 19-10-2021
@@ -17,7 +17,6 @@ export default function TakeExam() {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
-	const [timeout, setTimeout] = useState(false);
 	const [exam, setExam] = useState({});
 
 	//Fetch dữ liệu
@@ -31,7 +30,17 @@ export default function TakeExam() {
 						access_token: token,
 					},
 				});
-				dispatch(initTime(res.data.minuteLimit));
+
+				localStorage.setItem(
+					`time_${router.query.idExam}`,
+					res.data.minuteLimit,
+				);
+				if (!localStorage.getItem(`startTime_${router.query.idExam}`))
+					localStorage.setItem(
+						`startTime_${router.query.idExam}`,
+						moment().format("DD/MM/YYYY HH:mm:ss"),
+					);
+
 				setExam(res.data);
 			} catch (error) {
 				console.log("Failed to fetch exam:", error);

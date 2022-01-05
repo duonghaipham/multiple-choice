@@ -109,7 +109,7 @@ export default function Exam() {
 									creator={e.creator.name}
 									openDate={moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
 									attemptLimit={e.attemptLimit}
-									// isDone={e.isDone}
+									isDone={e.isDone}
 								/>
 
 								{user?.role == "teacher" && (

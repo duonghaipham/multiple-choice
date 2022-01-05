@@ -3,7 +3,7 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 		<div className="flex my-4">
 			<div className="text-lg text-green-800 font-bold bg-green-50 border-2 border-blue-200 h-1/2 px-3 py-2 text-center">
 				<h4>Câu {index + 1}</h4>
-				{option._id == correctOption._id ? (
+				{option?._id == correctOption?._id ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-10 w-10"
@@ -92,7 +92,7 @@ function ViewQuestionResult({ index, question, correctOption, option }) {
 				<div className="mt-2 p-2 bg-blue-200 text-lg text-blue-700 font-semibold">
 					Đáp án:{" "}
 					<span className="text-blue-800 font-bold">
-						{correctOption.content}
+						{correctOption?.content}
 					</span>
 				</div>
 			</div>

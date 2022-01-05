@@ -2,6 +2,15 @@ import moment from "moment";
 import router from "next/router";
 
 function ViewResult({ examReview }) {
+	const takingTime = moment
+		.utc(examReview?.secondTaken * 1000)
+		.format("HH:mm:ss");
+
+	const arrDiff = takingTime.split(":");
+	const hours = parseInt(arrDiff[0]);
+	const minutes = parseInt(arrDiff[1]);
+	const seconds = parseInt(arrDiff[2]);
+
 	return (
 		<div className="grid place-content-center my-14 ">
 			<div className="py-12 px-20 bg-gray-200 bg-opacity-25 shadow-lg">
@@ -65,7 +74,21 @@ function ViewResult({ examReview }) {
 										.format("DD/MM/YYYY h:mm:ss a")}
 								</p>
 							</td>
-							<td className="text-center">23 phút 27 giây</td>
+							<td className="text-center">
+								{hours === 0
+									? null
+									: hours < 10
+									? hours + " giờ "
+									: hours + " phút "}
+								{minutes === 0
+									? hours > 0
+										? " "
+										: null
+									: minutes < 10
+									? minutes + " phút "
+									: minutes + "phút"}
+								{seconds === 0 ? "" : seconds + " giây"}
+							</td>
 							<td className="text-center font-bold">
 								<span className="text-red-600">{examReview?.outOf}</span>/
 								{examReview?.exam?.questions?.length}

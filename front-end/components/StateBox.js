@@ -17,24 +17,13 @@ function StateBox() {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
-	const minuteLimit = useSelector((state) => state.time);
-	// console.log("minuteLimit.time", minuteLimit.time);
-	const [time, setTime] = useState();
-	const [timeRemain, setTimeRemain] = useState(minuteLimit.time);
-	console.log("time", time);
-	console.log("timelimit", minuteLimit.time);
-	// console.log("timeRemain", timeRemain);
+	const [time, setTime] = useState(45 * 60);
+	const [timeRemain, setTimeRemain] = useState(45 * 60);
 
+	const id = router.query.idExam;
 	useEffect(() => {
-		console.log("minuteLimit.time effect", minuteLimit.time);
-
-		if (minuteLimit.time) {
-			setTime(minuteLimit.time * 60);
-		}
-	}, [minuteLimit.time]);
-
-	useEffect(() => {
-		const id = router.query.idExam;
+		setTime(parseInt(localStorage.getItem(`time_${id}`)) * 60);
+		setTimeRemain(parseInt(localStorage.getItem(`time_${id}`)) * 60);
 		const remainTimeLoaded = JSON.parse(
 			localStorage.getItem(`remainTimeSaved_${id}`),
 		);
@@ -69,7 +58,7 @@ function StateBox() {
 
 			setTimeRemain(remainHours * 3600 + remainMinutes * 60 + remainSeconds);
 		}
-	}, [router.query.idExam]);
+	}, [router.query.idExam, localStorage.getItem(`time_${id}`)]);
 
 	const renderer = ({ hours, minutes, seconds, completed }) => {
 		if (completed) {
@@ -86,27 +75,15 @@ function StateBox() {
 			return <Time hours={hours} minutes={minutes} seconds={seconds} />;
 		}
 	};
-
 	return (
 		<div className="flex flex-col items-center justify-start md:fixed top-100 right-5 bg-indigo-300 bg-opacity-40 rounded-lg p-2 m-10">
 			<AnswersBox />
 
-			{minuteLimit.time != null ? (
-				<div>
-					<Countdown
-						date={
-							Date.now() +
-							(minuteLimit.time != timeRemain
-								? timeRemain
-								: minuteLimit.time * 60) *
-								1000
-						}
-						renderer={renderer}
-						// onComplete={() => dispatch(timeout(true))}
-					/>
-					<h1>ABC</h1>
-				</div>
-			) : null}
+			{/* <Countdown
+				date={Date.now() + (time != timeRemain ? timeRemain : time) * 1000}
+				renderer={renderer}
+				onComplete={() => dispatch(timeout(true))}
+			/> */}
 		</div>
 	);
 }

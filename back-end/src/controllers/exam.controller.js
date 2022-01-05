@@ -27,7 +27,7 @@ const getRetrieveExams = async (req, res, next) => {
       .lean();
 
     let userId = "";
-    console.log("Token", req.headers.access_token);
+
     if (req.headers.access_token) {
       const decodedAuth = await jwt.verify(
         req.headers.access_token,
@@ -36,7 +36,6 @@ const getRetrieveExams = async (req, res, next) => {
       userId = decodedAuth.userId;
     }
 
-    console.log(userId);
     for (const exam of exams) {
       exam.isEditable = exam.creator._id.toString() === userId;
 
@@ -45,7 +44,7 @@ const getRetrieveExams = async (req, res, next) => {
           candidate: mongoose.Types.ObjectId(userId),
           exam: exam._id,
         });
-        console.log(work);
+
         work ? (exam.isDone = true) : (exam.isDone = false);
       } else {
         exam.isDone = false;
@@ -84,7 +83,6 @@ const getExamView = async (req, res, next) => {
 
 // Lấy tất cả thông tin của đề thi, bao gồm câu hỏi
 const getExamTake = async (req, res, next) => {
-  console.log("req", req);
   try {
     const { id } = req.params;
 
@@ -108,7 +106,6 @@ const getExamTake = async (req, res, next) => {
 const postExamTake = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(req.body);
     const { secondTaken, options } = req.body;
 
     const decodedAuth = await jwt.verify(
@@ -131,8 +128,7 @@ const postExamTake = async (req, res, next) => {
     let outOf = 0;
     for (const option of options) {
       const { correctOption } = await questionModel.findById(option.question);
-      console.log("correctOption", correctOption);
-      if (correctOption.toString() === option.option) outOf++;
+      if (correctOption && correctOption.toString() === option.option) outOf++;
     }
 
     const work = await workModel.create({

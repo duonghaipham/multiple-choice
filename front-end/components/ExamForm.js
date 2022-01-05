@@ -7,6 +7,8 @@ import { modifiedOption } from "../utils/modifiedOption";
 import { initAnswers } from "../store/slices/answerSlice";
 import Question from "./Question";
 import axios from "axios";
+import moment from "moment";
+import diffTime from "../utils/diffTime";
 
 // Create form: question-option-correctOption - 14-10-2021
 // Update form: auto submit when timeout - 19-10-2021
@@ -82,8 +84,10 @@ export default function ExamForm({ timeout, questions, idExam }) {
 	}, [watchAllFields]);
 
 	const onSubmit = (data) => {
-		data = modifiedOption(data);
-		console.log(data);
+		const startTime = localStorage.getItem(`startTime_${idExam}`);
+		const takingTime = diffTime(startTime);
+		data = modifiedOption(data, takingTime);
+
 		const handleSubmitExam = async () => {
 			try {
 				//const url = `http://localhost:5000/login`;
@@ -96,8 +100,6 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						},
 					},
 				);
-
-				console.log(res);
 			} catch (error) {
 				console.log("Failed to submit exam:", error);
 			}
@@ -107,6 +109,8 @@ export default function ExamForm({ timeout, questions, idExam }) {
 		// Submit thành công thì xóa các field trong localStorage
 		localStorage.removeItem(`remainTimeSaved_${router.query.idExam}`);
 		localStorage.removeItem(`currentTimeSaved_${router.query.idExam}`);
+		localStorage.removeItem(`time_${router.query.idExam}`);
+		localStorage.removeItem(`startTime_${router.query.idExam}`);
 		localStorage.removeItem("undefined");
 		localStorage.removeItem(router.query.idExam);
 	};
@@ -172,10 +176,7 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						onClick={() => {
 							buttonSubmit.current.click();
 							router.push({
-								pathname: "/result",
-								query: {
-									idExam: router.query.idExam,
-								},
+								pathname: "/",
 							});
 						}}
 					>

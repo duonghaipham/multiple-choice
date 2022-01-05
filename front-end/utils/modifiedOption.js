@@ -1,6 +1,6 @@
 // Done form: question-answer-rightAnswer - 14-10-2021
 
-const modifiedOption = (data) => {
+const modifiedOption = (data, takingTime) => {
 	const keys = Object.keys(data).sort();
 
 	let arr = [];
@@ -12,6 +12,7 @@ const modifiedOption = (data) => {
 		arr.push(obj);
 	}
 	return {
+		secondTaken: takingTime,
 		options: arr,
 	};
 };

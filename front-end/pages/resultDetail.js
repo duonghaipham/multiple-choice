@@ -51,7 +51,9 @@ export default function ResultDetail() {
 							</div>
 							<div className="flex py-0.5 text-lg bg-blue-100">
 								<h3 className="text-right w-1/3 pr-2 font-bold">Thời gian</h3>
-								<h3 className=" w-2/3 pl-2">5 phút 53 giây</h3>
+								<h3 className=" w-2/3 pl-2">
+									{moment.utc(exam?.secondTaken * 1000).format("HH:mm:ss")}
+								</h3>
 							</div>
 							<div className="flex py-0.5 text-lg bg-blue-50">
 								<h3 className="text-right w-1/3 pr-2 font-bold">Số câu đúng</h3>

@@ -14,15 +14,13 @@ export default function Result() {
 		const handleGetResult = async () => {
 			try {
 				const id = router.query.idExam;
-				const res = await axios.get(
-					`http://localhost:5000/exams/${id}/review`,
-					{
-						headers: {
-							access_token: localStorage.getItem("REFRESH_TOKEN"),
-						},
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${id}/review`;
+				const res = await axios.get(url, {
+					headers: {
+						access_token: localStorage.getItem("REFRESH_TOKEN"),
 					},
-				);
-
+				});
+				console.log(res.data);
 				setExamReview(res.data);
 				if (res.message == "Success") {
 					console.log("delete Success");
