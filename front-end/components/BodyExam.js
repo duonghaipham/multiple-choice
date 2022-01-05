@@ -20,10 +20,10 @@ const customStyles = {
 
 function BodyExam({ timeout, exam }) {
 	const router = useRouter();
-	//console.log(exam);
-	//const [exam, setExam] = useState({});
-	//console.log(exam);
-	// Fetch dữ liệu
+
+	// const [exam, setExam] = useState({});
+	// console.log(exam);
+	// //Fetch dữ liệu
 	// useEffect(() => {
 	// 	const fetchExam = async () => {
 	// 		try {
@@ -36,7 +36,7 @@ function BodyExam({ timeout, exam }) {
 	// 		}
 	// 	};
 	// 	fetchExam();
-	// }, []);
+	// }, [router.query.idExam]);
 
 	return (
 		<div className="flex-1 flex flex-col mx-10 px-10 py-10 bg-gray-200 bg-opacity-30 shadow-lg">

@@ -158,13 +158,13 @@ export default function ExamForm({ timeout, questions, idExam }) {
 		localStorage.removeItem("remainTimeSaved");
 		localStorage.removeItem("currentTimeSaved");
 
-		const answers = modifiedAnswer(data); //  Modified mảng đáp án đã chọn
-		let noOfCorrectAnswer = 0;
-		questions.forEach((e, i) => {
-			if (e.correctAnswer === answers[i]) noOfCorrectAnswer++; // Tính số câu đúng
-		});
-		console.log(noOfCorrectAnswer);
-		// setCorrectAnswer(noOfCorrectAnswer);
+		// const answers = modifiedAnswer(data); //  Modified mảng đáp án đã chọn
+		// let noOfCorrectAnswer = 0;
+		// questions.forEach((e, i) => {
+		// 	if (e.correctAnswer === answers[i]) noOfCorrectAnswer++; // Tính số câu đúng
+		// });
+		// console.log(noOfCorrectAnswer);
+		// // setCorrectAnswer(noOfCorrectAnswer);
 	};
 
 	const checkKeyDown = (e) => {

@@ -1,3 +1,4 @@
+import axios from "axios";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import BodyExam from "../components/BodyExam";
@@ -22,7 +23,7 @@ export default function TakeExam({ exam }) {
 			<Header disable={true} />
 			<div className="flex justify-between my-10">
 				<BodyExam timeout={timeout} exam={exam} />
-				{/* <StateBox timeout={timeout} setTimeout={setTimeout} /> */}
+				<StateBox timeout={timeout} setTimeout={setTimeout} />
 			</div>
 			<Footer disable={true} />
 		</div>
@@ -32,11 +33,12 @@ export default function TakeExam({ exam }) {
 export async function getServerSideProps(context) {
 	const params = context.query;
 
-	const res = await examApi.get(params.idExam);
+	const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${params.idExam}/take`;
+	const res = await axios.get(url);
 
 	return {
 		props: {
-			exam: res,
+			exam: res.data,
 		},
 	};
 }

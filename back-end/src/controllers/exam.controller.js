@@ -84,6 +84,7 @@ const getExamView = async (req, res, next) => {
 
 // Lấy tất cả thông tin của đề thi, bao gồm câu hỏi
 const getExamTake = async (req, res, next) => {
+  console.log("req", req);
   try {
     const { id } = req.params;
 
@@ -97,7 +98,6 @@ const getExamTake = async (req, res, next) => {
           path: "options",
         },
       });
-
     return res.status(200).json(exam);
   } catch (error) {
     return res.status(400).json({ message: "Cannot fetch data" });
