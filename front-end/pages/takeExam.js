@@ -21,9 +21,9 @@ export default function TakeExam({ exam }) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header disable={true} />
-			<div className="flex justify-between my-10">
-				<BodyExam timeout={timeout} exam={exam} />
+			<div className="flex justify-between my-10 flex-col md:flex-row">
 				<StateBox timeout={timeout} setTimeout={setTimeout} />
+				<BodyExam timeout={timeout} exam={exam} />
 			</div>
 			<Footer disable={true} />
 		</div>
