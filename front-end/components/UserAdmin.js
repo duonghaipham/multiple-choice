@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillFolderAdd } from "react-icons/ai";
 import { useRouter } from "next/router";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 
 const style1 = {
   height: "32px",
@@ -78,21 +92,37 @@ function UserAdmin() {
   ];
 
   const [user, setUser] = useState([]);
+  const [state, setState] = useState({
+    firstname: "",
+    lastname: "",
+  });
+
+  console.log(state);
+
+  const handleOnChange =
+    (name) =>
+    ({ target }) => {
+      setState((s) => ({
+        ...s,
+        [name]: target.value,
+      }));
+    };
 
   const deleteUser = async (userId) => {
-	const index = user.findIndex((e) => e._id == userId);
-	try {
-	  const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}/delete`;
-	  const token = localStorage.getItem("REFRESH_TOKEN");
-	  const res = await axios.delete(url, {
-		headers: {
-		  access_token: token,
-		},
-	  });
-	  if(res.data.message == "Success") setUser([...user.slice(0, index), ...user.slice(index + 1)]);
-	} catch (error) {
-	  console.log("Failed to fetch exam list:", error);
-	}
+    const index = user.findIndex((e) => e._id == userId);
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}/delete`;
+      const token = localStorage.getItem("REFRESH_TOKEN");
+      const res = await axios.delete(url, {
+        headers: {
+          access_token: token,
+        },
+      });
+      if (res.data.message == "Success")
+        setUser([...user.slice(0, index), ...user.slice(index + 1)]);
+    } catch (error) {
+      console.log("Failed to fetch exam list:", error);
+    }
   };
 
   const router = useRouter();
@@ -123,6 +153,8 @@ function UserAdmin() {
       item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -142,6 +174,41 @@ function UserAdmin() {
 
   return (
     <div>
+      <Button onClick={onOpen} leftIcon={<AiFillFolderAdd />} colorScheme='blue'>Add user</Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create your account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>First name</FormLabel>
+              <Input
+                onChange={handleOnChange("firstname")}
+                value={state.firstname}
+                placeholder="First name"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Last name</FormLabel>
+              <Input
+                onChange={handleOnChange("lastname")}
+                value={state.lastname}
+                placeholder="Last name"
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <DataTable
         columns={columns}
         data={filteredItems}

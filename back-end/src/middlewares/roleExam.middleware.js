@@ -2,7 +2,7 @@ const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 const roleExamMiddleware = async (req, res, next) => {
-  //giải mã token lấy userId
+  
   if (req.headers.access_token) {
     const decodedAuth = await jwt.verify(
       req.headers.access_token,
