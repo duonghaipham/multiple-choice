@@ -77,7 +77,7 @@ export default function Exam() {
 			<Header />
 
 			<section className="flex py-5 px-5">
-				<div className="flex-1 py-5 md:py-10 px-5 md:px-20 ">
+				<div className="flex-1 py-5 md:py-10 p-0 sm:px-5 md:px-20 ">
 					<div className="xl:w-4/5 bg-gray-200 bg-opacity-40 p-3 sm:p-10 shadow-md">
 						<div className="flex justify-between">
 							<h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
