@@ -23,13 +23,13 @@ router.get(
 
 router.post(
   "/:id/take",
-
+  roleExamMiddleware.roleExamMiddleware,
   examController.postExamTake
 );
 
 router.get(
   "/:id/review",
-
+  roleExamMiddleware.roleExamMiddleware,
   examController.getExamReview
 );
 
