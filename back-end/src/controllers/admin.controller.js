@@ -200,7 +200,7 @@ const getRetrieveUsers = async (req, res, next) => {
     if (page === undefined) page = 1;
 
     const exams = await userModel
-      .find({ state: "active" })
+      .find({ state: { '$ne': "deleted"} })
       .skip((page - 1) * ITEM_PER_PAGE)
       .limit(ITEM_PER_PAGE);
       
@@ -209,6 +209,19 @@ const getRetrieveUsers = async (req, res, next) => {
     return res.status(400).json({ message: `Failed` });
   }
 };
+
+// Cập nhật thông tin người dùng
+const getUpdateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await userModel.findById(id);
+
+    return res.status(200).json({ message: `Success`, user });
+  } catch (error) {
+    return res.status(400).json({ message: `Failed` });
+  }
+}
 
 // Cập nhật thông tin người dùng
 const putUpdateUser = async (req, res, next) => {
@@ -245,6 +258,7 @@ module.exports = {
   deleteExam,
   postCreateUser,
   getRetrieveUsers,
+  getUpdateUser,
   putUpdateUser,
   deleteUser,
 };

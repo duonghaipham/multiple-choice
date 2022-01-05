@@ -26,6 +26,12 @@ router.get(
   adminController.getRetrieveUsers
 );
 
+router.get(
+  "/users/:id/update",
+  adminMiddleware.adminMiddleware,
+  adminController.getUpdateUser
+);
+
 router.put(
   "/users/:id/update",
   adminMiddleware.adminMiddleware,
