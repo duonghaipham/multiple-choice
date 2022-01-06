@@ -8,7 +8,6 @@ const userModel = require('../models/user.model');
 const postRegister = async (req, res) => {
   try {
     const { name, gender, city, phone, email, password, grade, role } = req.body;
-    console.log(req.body)
 
     const checkUser = await userModel.findOne({ email });
 
