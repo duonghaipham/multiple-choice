@@ -25,7 +25,7 @@ export default function ResultDetail() {
 			</Head>
 
 			<Header />
-			<div className="flex-1 flex flex-col ml-40 mr-20 my-10 py-10 px-10 bg-gray-200 bg-opacity-25">
+			<div className="flex-1 flex flex-col ml-8 md:ml-40 mr-8 md:mr-20 my-10 py-10 px-4 md:px-10 bg-gray-200 bg-opacity-25">
 				<div className="">
 					<span className="text-3xl font-bold text-green-800">
 						{exam?.exam?.subject} |
@@ -34,7 +34,7 @@ export default function ResultDetail() {
 					<span className="text-yellow-500 text-2xl font-semibold  mt-3">
 						| {exam?.exam?.name}
 					</span>
-					<div className="w-3/5 mt-5">
+					<div className="w-full lg:w-3/5 mt-5">
 						<div className="py-0.5 text-lg bg-blue-50">
 							<div className="flex py-0.5 text-lg bg-blue-100">
 								<h3 className="text-right w-1/3 pr-2 font-bold">Trạng thái</h3>
@@ -64,19 +64,7 @@ export default function ResultDetail() {
 						</div>
 					</div>
 				</div>
-				<div className="mt-5 flex-1 w-3/5 ">
-					{exam?.options?.map((e, i) => (
-						<ViewQuestionResult
-							key={i}
-							index={i}
-							question={e.question}
-							correctOption={e.question.correctOption}
-							option={e.option}
-						/>
-					))}
-				</div>
-
-				<div className="flex flex-col items-center justify-start fixed top-24 right-20 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-10 shadow-lg">
+				<div className="flex flex-col items-center justify-start lg:fixed top-24 right-20 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-2 md:m-10 shadow-lg">
 					<h1 className="text-3xl text-indigo-500 font-bold mb-3 p-2">
 						Kết quả
 					</h1>
@@ -88,6 +76,19 @@ export default function ResultDetail() {
 						</h1>
 					</div>
 				</div>
+
+				<div className="mt-5 flex-1 w-full lg:w-3/5 ">
+					{exam?.options?.map((e, i) => (
+						<ViewQuestionResult
+							key={i}
+							index={i}
+							question={e.question}
+							correctOption={e.question.correctOption}
+							option={e.option}
+						/>
+					))}
+				</div>
+
 			</div>
 			<Footer />
 		</div>
