@@ -85,7 +85,6 @@ const getExamView = async (req, res, next) => {
 const getExamTake = async (req, res, next) => {
   try {
     const { id } = req.params;
-
     const exam = await examModel
       .findById(id)
       .populate("creator", "name")

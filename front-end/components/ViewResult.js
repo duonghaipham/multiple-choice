@@ -13,13 +13,13 @@ function ViewResult({ examReview }) {
 
 	return (
 		<div className="grid place-content-center my-14 ">
-			<div className="py-12 px-20 bg-gray-200 bg-opacity-25 shadow-lg">
+			<div className="py-12 p-8 sm:p-12 md:px-20 bg-gray-200 bg-opacity-25 shadow-lg">
 				<div>
 					<h1 className="text-3xl font-bold text-green-800 ">
 						{examReview?.exam?.subject}
 					</h1>
 
-					<h3 className="text-yellow-500 text-2xl font-semibold cursor-pointer mt-3">
+					<h3 className="text-yellow-500 text-2xl font-semibold cursor-pointer my-3">
 						{examReview?.exam?.name}
 					</h3>
 				</div>

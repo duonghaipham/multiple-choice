@@ -49,7 +49,7 @@ export default function Exam() {
 	const handleDeleteExam = async (id) => {
 		const index = exams.findIndex((e) => e._id == id);
 		try {
-			const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${id}/delete`;
+			const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${id}/delete`;
 			const token = localStorage.getItem("REFRESH_TOKEN");
 			const res = await axios.delete(url, {
 				headers: {
