@@ -175,7 +175,7 @@ export default function EditExamForm({ exam }) {
 		console.log(data);
 		const updateExam = async () => {
 			try {
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${router.query.idExam}/update`;
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${router.query.idExam}/update`;
 				const res = await axios.put(url, data, {
 					headers: {
 						access_token: localStorage.getItem("REFRESH_TOKEN"),

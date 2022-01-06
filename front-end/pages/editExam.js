@@ -16,7 +16,7 @@ export default function EditExam() {
 			try {
 				const id = router.query.idExam;
 
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${id}/update`;
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${id}/update`;
 				//const token = localStorage.getItem("REFRESH_TOKEN");
 				const res = await axios.get(url);
 

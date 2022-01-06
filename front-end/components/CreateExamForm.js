@@ -58,7 +58,7 @@ export default function CreateExamForm() {
 
 		const createExam = async () => {
 			try {
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/create`;
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/create`;
 				const res = await axios.post(url, data, {
 					headers: {
 						access_token: localStorage.getItem("REFRESH_TOKEN"),
