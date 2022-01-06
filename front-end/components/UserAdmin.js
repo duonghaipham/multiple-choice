@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiFillDelete, AiFillFolderAdd } from "react-icons/ai";
+import { AiFillDelete, AiFillFolderAdd, AiFillTool } from "react-icons/ai";
 import { useRouter } from "next/router";
 import axios from "axios";
 import DataTable from "react-data-table-component";
@@ -84,17 +84,28 @@ function UserAdmin() {
       name: "action",
       button: true,
       cell: (row) => (
-        <button onClick={() => deleteUser(row._id)}>
-          <AiFillDelete />
-        </button>
+        <div>
+          <button onClick={onOpen} style={{ margin: "0 10px 0 0" }}>
+            <AiFillTool />
+          </button>
+          <button onClick={() => deleteUser(row._id)}>
+            <AiFillDelete />
+          </button>
+        </div>
       ),
     },
   ];
 
   const [user, setUser] = useState([]);
   const [state, setState] = useState({
-    firstname: "",
-    lastname: "",
+    name: "",
+    gender: "",
+    city: "",
+    phone: "",
+    email: "",
+    password: "",
+    roles: "",
+    state: "",
   });
 
   console.log(state);
@@ -174,7 +185,13 @@ function UserAdmin() {
 
   return (
     <div>
-      <Button onClick={onOpen} leftIcon={<AiFillFolderAdd />} colorScheme='blue'>Add user</Button>
+      <Button
+        onClick={onOpen}
+        leftIcon={<AiFillFolderAdd />}
+        colorScheme="blue"
+      >
+        Add user
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -183,27 +200,72 @@ function UserAdmin() {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>First name</FormLabel>
+              <FormLabel>Name</FormLabel>
               <Input
-                onChange={handleOnChange("firstname")}
-                value={state.firstname}
-                placeholder="First name"
+                onChange={handleOnChange("name")}
+                value={state.name}
+                placeholder="Name"
               />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
+              <FormLabel>Gender</FormLabel>
               <Input
-                onChange={handleOnChange("lastname")}
-                value={state.lastname}
-                placeholder="Last name"
+                onChange={handleOnChange("gender")}
+                value={state.gender}
+                placeholder="Gender"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>City</FormLabel>
+              <Input
+                onChange={handleOnChange("city")}
+                value={state.city}
+                placeholder="City"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Phone</FormLabel>
+              <Input
+                onChange={handleOnChange("phone")}
+                value={state.phone}
+                placeholder="Phone"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                onChange={handleOnChange("email")}
+                value={state.city}
+                placeholder="Email"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                onChange={handleOnChange("email")}
+                value={state.city}
+                placeholder="Email"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                onChange={handleOnChange("email")}
+                value={state.city}
+                placeholder="Email"
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3}>
-              Save
+              Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
