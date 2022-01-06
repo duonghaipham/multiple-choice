@@ -108,7 +108,18 @@ function UserAdmin() {
     state: "",
   });
 
-  console.log(state);
+  const handleOnSubmit = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+        state
+      );
+      console.log(res.data)
+    } catch (error) {
+      console.log("Failed to fetch exam:", error);
+    }
+
+  };
 
   const handleOnChange =
     (name) =>
@@ -239,32 +250,41 @@ function UserAdmin() {
               <FormLabel>Email</FormLabel>
               <Input
                 onChange={handleOnChange("email")}
-                value={state.city}
+                value={state.email}
                 placeholder="Email"
               />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Password</FormLabel>
               <Input
-                onChange={handleOnChange("email")}
-                value={state.city}
-                placeholder="Email"
+                onChange={handleOnChange("password")}
+                value={state.password}
+                placeholder="Password"
               />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Roles</FormLabel>
               <Input
-                onChange={handleOnChange("email")}
-                value={state.city}
-                placeholder="Email"
+                onChange={handleOnChange("roles")}
+                value={state.roles}
+                placeholder="Roles"
+              />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>State</FormLabel>
+              <Input
+                onChange={handleOnChange("state")}
+                value={state.state}
+                placeholder="State"
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3} onClick={handleOnSubmit}>
               Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
