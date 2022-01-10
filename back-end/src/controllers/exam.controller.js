@@ -61,6 +61,28 @@ const postCreateExam = async (req, res, next) => {
   }
 };
 
+// Lấy trang cập nhật đề thi
+const getUpdateExam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const exam = await examModel
+      .findById(id)
+      .populate("creator", "name")
+      .populate({
+        path: "questions",
+        select: "order content",
+        populate: {
+          path: "options correctOption",
+        },
+      });
+    return res.status(200).json(exam);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "Cannot fetch data" });
+  }
+};
+
 const getRetrieveExams = async (req, res, next) => {
   try {
     let { page, subject } = req.query;
@@ -241,6 +263,7 @@ const getExamReview = async (req, res, next) => {
 module.exports = {
   postCreateExam,
   getRetrieveExams,
+  getUpdateExam,
   getExamView,
   getExamTake,
   postExamTake,

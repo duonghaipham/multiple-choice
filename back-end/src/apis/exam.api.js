@@ -4,9 +4,15 @@ const examController = require("../controllers/exam.controller");
 const roleExamMiddleware = require("../middlewares/roleExam.middleware");
 
 router.post(
-  "/exams/create",
+  "/create",
   roleExamMiddleware.roleExamMiddleware,
   examController.postCreateExam
+);
+
+router.get(
+  "/:id/update",
+  roleExamMiddleware.roleExamMiddleware,
+  examController.getUpdateExam
 );
 
 router.get(
