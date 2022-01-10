@@ -3,6 +3,12 @@ const router = require("express").Router();
 const examController = require("../controllers/exam.controller");
 const roleExamMiddleware = require("../middlewares/roleExam.middleware");
 
+router.post(
+  "/exams/create",
+  roleExamMiddleware.roleExamMiddleware,
+  examController.postCreateExam
+);
+
 router.get(
   "/",
   roleExamMiddleware.roleExamMiddleware,

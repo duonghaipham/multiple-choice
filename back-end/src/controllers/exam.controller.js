@@ -7,6 +7,60 @@ const questionModel = require("../models/question.model");
 const optionModel = require("../models/option.model");
 const { ITEM_PER_PAGE } = require("../configs/constant.config");
 
+// Tạo một đề thi mới
+const postCreateExam = async (req, res, next) => {
+  try {
+    const { name, attemptLimit, minuteLimit, subject, grade, questions } =
+      req.body;
+
+    if (req.headers.access_token) {
+      const decoded = await jwt.verify(
+        req.headers.access_token,
+        process.env.JWT_SECRET_KEY
+      );
+      const { userId } = decoded;
+
+      const examQuestions = [];
+
+      for (const question of questions) {
+        const options = [];
+        let correctOption;
+
+        for (const option of question.options) {
+          const { _id } = await optionModel.create({ content: option });
+          options.push(_id);
+
+          if (question.correctOption === option) correctOption = _id;
+        }
+
+        const { _id } = await questionModel.create({
+          content: question.content,
+          correctOption,
+          options,
+        });
+        examQuestions.push(_id);
+      }
+
+      const exam = await examModel.create({
+        name,
+        attemptLimit,
+        minuteLimit,
+        subject,
+        grade,
+        creator: mongoose.Types.ObjectId(userId),
+        questions: examQuestions,
+      });
+
+      return res.status(200).json({ message: "Success" });
+    } else {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "Failed" });
+  }
+};
+
 const getRetrieveExams = async (req, res, next) => {
   try {
     let { page, subject } = req.query;
@@ -185,6 +239,7 @@ const getExamReview = async (req, res, next) => {
 };
 
 module.exports = {
+  postCreateExam,
   getRetrieveExams,
   getExamView,
   getExamTake,

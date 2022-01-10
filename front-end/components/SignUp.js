@@ -36,9 +36,9 @@ function SignUp() {
 			try {
 				//const url = `http://localhost:5000/login`;
 				const res = await axios.post(
-					"http://localhost:5000/users/register",
-					data,
-				);
+                    `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+                    data
+                );
 
 				if (res.data.message === "Success") {
 					const handleLogin = async () => {
