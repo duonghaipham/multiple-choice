@@ -20,9 +20,8 @@ export default function Result() {
 						access_token: localStorage.getItem("REFRESH_TOKEN"),
 					},
 				});
-				if (res.message == "Success") {
-					setExamReview(res.data);
-				}
+
+				setExamReview(res.data);
 			} catch (error) {
 				console.log("Failed to fetch exam result:", error);
 			}

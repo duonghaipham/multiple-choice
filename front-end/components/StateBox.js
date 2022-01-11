@@ -21,9 +21,13 @@ function StateBox() {
 	const [timeRemain, setTimeRemain] = useState(45 * 60);
 
 	const id = router.query.idExam;
+
 	useEffect(() => {
 		setTime(parseInt(localStorage.getItem(`time_${id}`)) * 60);
 		setTimeRemain(parseInt(localStorage.getItem(`time_${id}`)) * 60);
+	}, [localStorage.getItem(`time_${id}`)]);
+
+	useEffect(() => {
 		const remainTimeLoaded = JSON.parse(
 			localStorage.getItem(`remainTimeSaved_${id}`),
 		);
