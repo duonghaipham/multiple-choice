@@ -15,6 +15,12 @@ router.get(
   examController.getUpdateExam
 );
 
+router.put(
+  "/exams/:id/update",
+  roleExamMiddleware.roleExamMiddleware,
+  examController.putUpdateExam
+);
+
 router.get(
   "/",
   roleExamMiddleware.roleExamMiddleware,

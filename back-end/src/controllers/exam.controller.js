@@ -61,6 +61,58 @@ const postCreateExam = async (req, res, next) => {
   }
 };
 
+// Cập nhật một đề thi
+const putUpdateExam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, attemptLimit, minuteLimit, subject, grade, questions } =
+      req.body;
+
+    const examQuestions = [];
+
+    for (const question of questions) {
+      const questionOptions = [];
+      let correctOption;
+
+      for (const option of question.options) {
+        const { _id: newOptionId } = await optionModel.findOneAndUpdate(
+          { content: option },
+          { content: option },
+          { upsert: true, new: true }
+        );
+
+        if (option === question.correctOption) {
+          correctOption = newOptionId;
+        }
+
+        questionOptions.push(newOptionId);
+      }
+
+      const { _id: newQuestionId } = await questionModel.findOneAndUpdate(
+        { content: question.content },
+        { content: question.content, correctOption, options: questionOptions },
+        { upsert: true, new: true }
+      );
+
+      examQuestions.push(newQuestionId);
+    }
+
+    const exam = await examModel.findByIdAndUpdate(id, {
+      name,
+      attemptLimit,
+      minuteLimit,
+      subject,
+      grade,
+      questions: examQuestions,
+    });
+
+    return res.status(200).json({ message: `Success` });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: `Failed` });
+  }
+};
+
 // Lấy trang cập nhật đề thi
 const getUpdateExam = async (req, res, next) => {
   try {
@@ -264,6 +316,7 @@ module.exports = {
   postCreateExam,
   getRetrieveExams,
   getUpdateExam,
+  putUpdateExam,
   getExamView,
   getExamTake,
   postExamTake,
