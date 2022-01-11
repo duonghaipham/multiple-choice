@@ -30,6 +30,7 @@ function CreateQuestion({ register, errors, label }) {
 			/>
 			<textarea
 				className="w-full h-24 p-2 text-lg border border-gray-600 rounded-lg focus:outline-none"
+				placeholder="Nhập nội dung câu hỏi"
 				{...register(labelQuestion, {
 					required: true,
 				})}
@@ -67,7 +68,7 @@ function CreateQuestion({ register, errors, label }) {
 							Đáp án A
 						</span>
 						<textarea
-							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							className="mx-3 mb-3 mt-3 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
 							{...register(labelOptions[0], { required: true })}
 							type="text"
 						/>
@@ -95,7 +96,7 @@ function CreateQuestion({ register, errors, label }) {
 							Đáp án B
 						</span>
 						<textarea
-							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							className="mx-3 mb-3 mt-3 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
 							{...register(labelOptions[1], { required: true })}
 							type="text"
 						/>
@@ -123,7 +124,7 @@ function CreateQuestion({ register, errors, label }) {
 							Đáp án C
 						</span>
 						<textarea
-							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg focus:outline-none"
+							className="mx-3 mb-3 mt-3 h-14 p-2 w-full rounded-xl border  border-gray-500 bg-transparent text-lg focus:outline-none"
 							{...register(labelOptions[2], { required: "Hãy thêm đáp án C" })}
 							type="text"
 						/>
@@ -151,7 +152,7 @@ function CreateQuestion({ register, errors, label }) {
 							Đáp án D
 						</span>
 						<textarea
-							className="mx-3 my-1 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
+							className="mx-3 mb-3 mt-3 h-14 p-2 w-full rounded-xl border border-gray-500 bg-transparent text-lg focus:outline-none"
 							{...register(labelOptions[3], { required: true })}
 						/>
 					</label>

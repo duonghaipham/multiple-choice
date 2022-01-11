@@ -182,7 +182,7 @@ export default function CreateExamForm() {
 						key={item.id}
 					>
 						<div className="flex-1">
-							<span className="inline-block mt-3 mb-1 rounded p-2 bg-green-300 text-xl font-semibold">
+							<span className="inline-block mt-3 mb-3 rounded p-2 bg-green-300 text-xl font-bold">
 								Câu hỏi {index + 1}
 							</span>
 
@@ -345,7 +345,7 @@ export default function CreateExamForm() {
 					</button>
 
 					<button
-						className="block px-2 py-1 bg-blue-400 rounded text-xl text-white font-semibold"
+						className="block px-5 py-3 bg-blue-400 rounded text-xl text-white font-semibold"
 						type="submit"
 					>
 						Thêm Đề
