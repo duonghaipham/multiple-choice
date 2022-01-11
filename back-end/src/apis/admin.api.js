@@ -12,8 +12,8 @@ router.post(
 
 router.get(
   "/users",
-  adminMiddleware.adminMiddleware,
-  adminController.getRetrieveUsers
+  adminMiddleware.adminMiddleware
+  // adminController.getRetrieveUsers
 );
 
 router.get(
