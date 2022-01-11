@@ -65,7 +65,13 @@ export default function CreateExamForm() {
 					},
 				});
 
-				if (res.data.message == "Success") console.log("Success");
+				if (res.data.message == "Success")
+					router.push({
+						pathname: "exam",
+						query: {
+							subject: data.subject,
+						},
+					});
 			} catch (error) {
 				console.log("Failed to create exam:", error);
 			}

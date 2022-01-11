@@ -1,14 +1,6 @@
 import router from "next/router";
 
-function ExamItem({
-	id,
-	name,
-	subject,
-	creator,
-	openDate,
-	attemptLimit,
-	isDone,
-}) {
+function ExamItem({ id, name, subject, creator, openDate, isDone }) {
 	return (
 		<div className="py-3">
 			<div className="flex jutify-between items-center">

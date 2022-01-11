@@ -11,7 +11,6 @@ import Header from "../components/Header";
 // Done form: question-answer-rightAnswer - 14-10-2021
 
 export default function Exam() {
-	//console.log(examList);
 	const router = useRouter();
 	const user = useSelector((state) => state.user);
 	const [exams, setExams] = useState([]);
@@ -31,12 +30,6 @@ export default function Exam() {
 						access_token: token,
 					},
 				});
-
-				// const params = {
-				// 	subject: router.query.subject,
-				// };
-
-				//const res = await examApi.get(params, token);
 
 				setExams(res.data);
 			} catch (error) {
@@ -108,11 +101,10 @@ export default function Exam() {
 									subject={e.subject}
 									creator={e.creator.name}
 									openDate={moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
-									attemptLimit={e.attemptLimit}
 									isDone={e.isDone}
 								/>
 
-								{user?.role == "teacher" && (
+								{e.isEditable && user?.role == "teacher" && (
 									<div className="flex flex-col">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
