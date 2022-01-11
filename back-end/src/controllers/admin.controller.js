@@ -56,6 +56,23 @@ const putUpdateUser = async (req, res, next) => {
   }
 };
 
+// Lấy danh sách người dùng theo phân trang
+const getRetrieveUsers = async (req, res, next) => {
+  try {
+    let { page } = req.query;
+    if (page === undefined) page = 1;
+
+    const exams = await userModel
+      .find({ state: { '$ne': "deleted"} })
+      .skip((page - 1) * ITEM_PER_PAGE)
+      .limit(ITEM_PER_PAGE);
+      
+    return res.status(200).json(exams);
+  } catch (error) {
+    return res.status(400).json({ message: `Failed` });
+  }
+};
+
 // Xóa người dùng bằng cách đặt trạng thái là deleted
 const deleteUser = async (req, res, next) => {
   try {
@@ -71,6 +88,7 @@ const deleteUser = async (req, res, next) => {
 
 module.exports = {
   postCreateUser,
+  getRetrieveUsers,
   getUpdateUser,
   putUpdateUser,
   deleteUser,

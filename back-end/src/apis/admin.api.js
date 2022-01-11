@@ -7,13 +7,13 @@ const adminMiddleware = require("../middlewares/admin.middleware");
 router.post(
   "/users/create",
   adminMiddleware.adminMiddleware,
-  adminController.postCreateUser,
+  adminController.postCreateUser
 );
 
 router.get(
   "/users",
-  adminMiddleware.adminMiddleware
-  // adminController.getRetrieveUsers
+  adminMiddleware.adminMiddleware,
+  adminController.getRetrieveUsers
 );
 
 router.get(
