@@ -1,7 +1,7 @@
 function ViewQuestionResult({ index, question, correctOption, option }) {
 	return (
 		<div className="flex my-4">
-			<div className="text-lg text-green-800 font-bold bg-green-50 border-2 border-blue-200 h-1/2 px-3 py-2 text-center">
+			<div className="text-lg text-green-800 font-bold bg-green-50 border-2 border-blue-200 h-1/2 px-2 sm:px-3 py-2 text-center">
 				<h4>Câu {index + 1}</h4>
 				{option?._id == correctOption?._id ? (
 					<svg

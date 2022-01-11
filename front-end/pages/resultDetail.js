@@ -26,7 +26,8 @@ export default function ResultDetail() {
 
 			<Header />
 			<div className="flex-1 flex flex-col ml-8 md:ml-40 mr-8 md:mr-20 my-10 py-10 px-4 md:px-10 bg-gray-200 bg-opacity-25">
-				<div className="">
+				
+				<div className="mb-6 md:mb-0">
 					<span className="text-3xl font-bold text-green-800">
 						{exam?.exam?.subject} |
 					</span>
@@ -64,7 +65,8 @@ export default function ResultDetail() {
 						</div>
 					</div>
 				</div>
-				<div className="flex flex-col items-center justify-start lg:fixed top-24 right-20 bg-indigo-600 bg-opacity-20 rounded-lg p-2 m-2 md:m-10 shadow-lg">
+
+				<div className="flex flex-col items-center justify-start lg:fixed top-24 right-20 p-2 m-2 md:m-10 shadow-lg rounded-lg bg-indigo-600 bg-opacity-20">
 					<h1 className="text-3xl text-indigo-500 font-bold mb-3 p-2">
 						Kết quả
 					</h1>
@@ -77,7 +79,7 @@ export default function ResultDetail() {
 					</div>
 				</div>
 
-				<div className="mt-5 flex-1 w-full lg:w-3/5 ">
+				<div className="mt-5 flex-1 w-full lg:w-3/5">
 					{exam?.options?.map((e, i) => (
 						<ViewQuestionResult
 							key={i}
