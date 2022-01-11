@@ -186,6 +186,19 @@ const getRetrieveExams = async (req, res, next) => {
   }
 };
 
+// Xóa một đề bằng cách gán isDeleted bằng true
+const deleteExam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    await examModel.findByIdAndUpdate(id, { isDeleted: true });
+
+    return res.status(200).json({ message: "Success" });
+  } catch (error) {
+    return res.status(400).json({ message: `Failed` });
+  }
+};
+
 // Xem một đề thi, chỉ những thông tin mô tả, không bao gồm các câu hỏi
 const getExamView = async (req, res, next) => {
   try {
@@ -317,6 +330,7 @@ module.exports = {
   getRetrieveExams,
   getUpdateExam,
   putUpdateExam,
+  deleteExam,
   getExamView,
   getExamTake,
   postExamTake,

@@ -16,9 +16,15 @@ router.get(
 );
 
 router.put(
-  "/exams/:id/update",
+  "/:id/update",
   roleExamMiddleware.roleExamMiddleware,
   examController.putUpdateExam
+);
+
+router.delete(
+  "/:id/delete",
+  roleExamMiddleware.roleExamMiddleware,
+  examController.deleteExam
 );
 
 router.get(
