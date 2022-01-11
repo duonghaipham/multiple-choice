@@ -182,13 +182,12 @@ export default function EditExamForm({ exam }) {
 					},
 				});
 
-				if (res.data.message == "Success") console.log("Success");
+				if (res.data.message == "Success") router.back();
 			} catch (error) {
 				console.log("Failed to update exam:", error);
 			}
 		};
 		updateExam();
-		router.back();
 	};
 
 	return (

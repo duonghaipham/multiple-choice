@@ -18,7 +18,11 @@ export default function EditExam() {
 
 				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${id}/update`;
 				//const token = localStorage.getItem("REFRESH_TOKEN");
-				const res = await axios.get(url);
+				const res = await axios.get(url, {
+					headers: {
+						access_token: localStorage.getItem("REFRESH_TOKEN"),
+					},
+				});
 
 				if (res.data) setExam(res.data);
 			} catch (error) {
