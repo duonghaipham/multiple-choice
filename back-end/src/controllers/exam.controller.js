@@ -146,7 +146,6 @@ const getRetrieveExams = async (req, res, next) => {
     if (subject !== undefined) {
       filter.subject = subject;
     }
-
     const exams = await examModel
       .find(filter)
       .skip((page - 1) * ITEM_PER_PAGE)

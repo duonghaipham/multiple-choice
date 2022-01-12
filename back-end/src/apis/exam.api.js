@@ -2,10 +2,11 @@ const router = require("express").Router();
 
 const examController = require("../controllers/exam.controller");
 const roleExamMiddleware = require("../middlewares/roleExam.middleware");
+const teacherMiddleware = require("../middlewares/teacher.middleware");
 
 router.post(
   "/create",
-  roleExamMiddleware.roleExamMiddleware,
+  teacherMiddleware.teacherMiddleware,
   examController.postCreateExam
 );
 
@@ -23,7 +24,7 @@ router.put(
 
 router.delete(
   "/:id/delete",
-  roleExamMiddleware.roleExamMiddleware,
+  teacherMiddleware.teacherMiddleware,
   examController.deleteExam
 );
 
