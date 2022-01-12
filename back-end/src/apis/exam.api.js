@@ -12,13 +12,13 @@ router.post(
 
 router.get(
   "/:id/update",
-  roleExamMiddleware.roleExamMiddleware,
+  teacherMiddleware.teacherMiddleware,
   examController.getUpdateExam
 );
 
 router.put(
   "/:id/update",
-  roleExamMiddleware.roleExamMiddleware,
+  teacherMiddleware.teacherMiddleware,
   examController.putUpdateExam
 );
 
