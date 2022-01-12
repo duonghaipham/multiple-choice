@@ -122,7 +122,7 @@ export default function CreateExamForm() {
 							Thời gian (phút)
 						</label>
 					</div>
-					<div className="flex flex-col relative mx-2 w-ms-40">
+					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
 							{...register("subject")}
@@ -144,7 +144,7 @@ export default function CreateExamForm() {
 						</label>
 					</div>
 
-					<div className="mt-8 sm:mt-0 flex flex-col relative mx-2 w-ms-40">
+					<div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
 						<select
 							required
 							{...register("grade")}
