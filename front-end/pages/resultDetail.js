@@ -15,7 +15,12 @@ export default function ResultDetail() {
 	useEffect(() => {
 		setExam(JSON.parse(router.query.examResult));
 	}, [router.query.examResult]);
+	const takingTime = moment.utc(exam?.secondTaken * 1000).format("HH:mm:ss");
 
+	const arrDiff = takingTime.split(":");
+	const hours = parseInt(arrDiff[0]);
+	const minutes = parseInt(arrDiff[1]);
+	const seconds = parseInt(arrDiff[2]);
 	return (
 		<div>
 			<Head>
@@ -26,7 +31,6 @@ export default function ResultDetail() {
 
 			<Header />
 			<div className="flex-1 flex flex-col ml-8 md:ml-40 mr-8 md:mr-20 my-10 py-10 px-4 md:px-10 bg-gray-200 bg-opacity-25">
-				
 				<div className="mb-6 md:mb-0">
 					<span className="text-3xl font-bold text-green-800">
 						{exam?.exam?.subject} |
@@ -53,7 +57,19 @@ export default function ResultDetail() {
 							<div className="flex py-0.5 text-lg bg-blue-100">
 								<h3 className="text-right w-1/3 pr-2 font-bold">Thời gian</h3>
 								<h3 className=" w-2/3 pl-2">
-									{moment.utc(exam?.secondTaken * 1000).format("HH:mm:ss")}
+									{hours === 0
+										? null
+										: hours < 10
+										? hours + " giờ "
+										: hours + " phút "}
+									{minutes === 0
+										? hours > 0
+											? " "
+											: null
+										: minutes < 10
+										? minutes + " phút "
+										: minutes + " phút"}
+									{seconds === 0 ? "" : seconds + " giây"}
 								</h3>
 							</div>
 							<div className="flex py-0.5 text-lg bg-blue-50">
@@ -74,7 +90,7 @@ export default function ResultDetail() {
 					<div className="w-full border-t-2 border-indigo-300 flex flex-col items-center">
 						<h1 className="text-3xl text-indigo-500 font-bold pt-2">Điểm số</h1>
 						<h1 className="text-[50px] text-red-500 font-bold my-3 w-28 h-28  flex justify-center items-center rounded-full border-red-500 border-2">
-							{(exam?.outOf / exam?.exam?.questions?.length) * 10}
+							{Math.round((exam?.outOf / exam?.exam?.questions?.length) * 10)}
 						</h1>
 					</div>
 				</div>
@@ -90,7 +106,6 @@ export default function ResultDetail() {
 						/>
 					))}
 				</div>
-
 			</div>
 			<Footer />
 		</div>

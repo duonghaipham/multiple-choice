@@ -2,6 +2,7 @@ import moment from "moment";
 import router from "next/router";
 
 function ViewResult({ examReview }) {
+	console.log(examReview);
 	const takingTime = moment
 		.utc(examReview?.secondTaken * 1000)
 		.format("HH:mm:ss");
@@ -86,7 +87,7 @@ function ViewResult({ examReview }) {
 										: null
 									: minutes < 10
 									? minutes + " phút "
-									: minutes + "phút"}
+									: minutes + " phút"}
 								{seconds === 0 ? "" : seconds + " giây"}
 							</td>
 							<td className="text-center font-bold">

@@ -15,15 +15,15 @@ export default function Result() {
 
 	useEffect(() => {
 		const handleGetResult = async () => {
+			console.log(router.query.idExam);
 			try {
-				const id = router.query.idExam;
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${id}/review`;
+				const url = `${process.env.NEXT_PUBLIC_API_URL}/exams/${router.query.idExam}/review`;
 				const res = await axios.get(url, {
 					headers: {
 						access_token: localStorage.getItem("REFRESH_TOKEN"),
 					},
 				});
-
+				console.log(res.data);
 				setExamReview(res.data);
 				setLoading(true);
 			} catch (error) {
