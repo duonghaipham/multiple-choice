@@ -13,19 +13,19 @@ import Time from "./Time";
 // Done Countdown Timer: save time in localStorage when
 //                       student leave the TakeExam page
 
-function StateBox() {
+function StateBox({ id }) {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
-	const [time, setTime] = useState(45 * 60);
-	const [timeRemain, setTimeRemain] = useState(45 * 60);
+	const [time, setTime] = useState(14 * 60);
+	const [timeRemain, setTimeRemain] = useState(15 * 60);
 
-	const id = router.query.idExam;
-
+	//const id = router.query.idExam;
+	console.log(id);
 	useEffect(() => {
 		setTime(parseInt(localStorage.getItem(`time_${id}`)) * 60);
 		setTimeRemain(parseInt(localStorage.getItem(`time_${id}`)) * 60);
-	}, [localStorage.getItem(`time_${id}`)]);
+	}, []);
 
 	useEffect(() => {
 		const remainTimeLoaded = JSON.parse(
@@ -62,7 +62,7 @@ function StateBox() {
 
 			setTimeRemain(remainHours * 3600 + remainMinutes * 60 + remainSeconds);
 		}
-	}, [router.query.idExam, localStorage.getItem(`time_${id}`)]);
+	}, [router.query.idExam]);
 
 	const renderer = ({ hours, minutes, seconds, completed }) => {
 		if (completed) {
@@ -83,11 +83,11 @@ function StateBox() {
 		<div className="flex flex-col items-center justify-start md:fixed top-100 right-5 bg-indigo-300 bg-opacity-40 rounded-lg p-2 m-10">
 			<AnswersBox />
 
-			{/* <Countdown
+			<Countdown
 				date={Date.now() + (time != timeRemain ? timeRemain : time) * 1000}
 				renderer={renderer}
 				onComplete={() => dispatch(timeout(true))}
-			/> */}
+			/>
 		</div>
 	);
 }

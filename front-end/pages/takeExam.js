@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import BodyExam from "../components/BodyExam";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Loading from "../components/Loading";
 import StateBox from "../components/StateBox";
 import { initTime } from "../store/slices/timeSlice";
 
@@ -18,6 +19,7 @@ export default function TakeExam() {
 	const dispatch = useDispatch();
 
 	const [exam, setExam] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	//Fetch dữ liệu
 	useEffect(() => {
@@ -40,8 +42,9 @@ export default function TakeExam() {
 						`startTime_${router.query.idExam}`,
 						moment().format("DD/MM/YYYY HH:mm:ss"),
 					);
-
+				console.log(res.data);
 				setExam(res.data);
+				setLoading(true);
 			} catch (error) {
 				console.log("Failed to fetch exam:", error);
 			}
@@ -57,10 +60,14 @@ export default function TakeExam() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header disable={true} />
-			<div className="flex justify-between my-10 flex-col md:flex-row">
-				<BodyExam exam={exam} />
-				<StateBox />
-			</div>
+			{loading ? (
+				<div className="flex justify-between my-10 flex-col md:flex-row">
+					<BodyExam exam={exam} />
+					<StateBox id={exam._id} />
+				</div>
+			) : (
+				<Loading />
+			)}
 			<Footer disable={true} />
 		</div>
 	);

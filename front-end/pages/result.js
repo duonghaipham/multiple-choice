@@ -5,11 +5,14 @@ import Header from "../components/Header";
 import ViewResult from "../components/ViewResult";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "../components/Loading";
 // Done form: question-answer-rightAnswer - 14-10-2021
 
 export default function Result() {
 	const router = useRouter();
 	const [examReview, setExamReview] = useState();
+	const [loading, setLoading] = useState(false);
+
 	useEffect(() => {
 		const handleGetResult = async () => {
 			try {
@@ -22,6 +25,7 @@ export default function Result() {
 				});
 
 				setExamReview(res.data);
+				setLoading(true);
 			} catch (error) {
 				console.log("Failed to fetch exam result:", error);
 			}
@@ -37,7 +41,9 @@ export default function Result() {
 			</Head>
 
 			<Header />
-			<ViewResult examReview={examReview} />
+			<section className="w-full">
+				{loading ? <ViewResult examReview={examReview} /> : <Loading />}
+			</section>
 			<Footer />
 		</div>
 	);

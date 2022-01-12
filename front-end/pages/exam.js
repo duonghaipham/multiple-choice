@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import ExamItem from "../components/ExamItem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Loading from "../components/Loading";
 
 // Done form: question-answer-rightAnswer - 14-10-2021
 
@@ -14,6 +15,7 @@ export default function Exam() {
 	const router = useRouter();
 	const user = useSelector((state) => state.user);
 	const [exams, setExams] = useState([]);
+	const [loading, setLoading] = useState(false);
 	// useEffect(() => {
 	// 	setExams([...examList]);
 	// }, []);
@@ -32,6 +34,7 @@ export default function Exam() {
 				});
 
 				setExams(res.data);
+				setLoading(true);
 			} catch (error) {
 				console.log("Failed to fetch exam list:", error);
 			}
@@ -51,7 +54,6 @@ export default function Exam() {
 			});
 
 			if (res.data.message == "Success") {
-				console.log("delete Success");
 				setExams([...exams.slice(0, index), ...exams.slice(index + 1)]);
 			}
 		} catch (error) {
@@ -71,9 +73,9 @@ export default function Exam() {
 
 			<section className="flex py-5 px-5">
 				<div className="flex-1 py-5 md:py-10 p-0 sm:px-5 md:px-20 ">
-					<div className="xl:w-4/5 bg-gray-200 bg-opacity-40 p-3 sm:p-10 shadow-md">
-						<div className="flex justify-between">
-							<h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-800 mb-3">
+					<div className="xl:w-4/5 bg-gray-200 bg-opacity-40 shadow-md">
+						<div className="flex justify-between items-center sm:px-5 sm:py-3 p-3">
+							<h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-800">
 								Đề thi theo môn {router.query.subject}
 							</h1>
 							<svg
@@ -92,63 +94,87 @@ export default function Exam() {
 							</svg>
 						</div>
 
-						{exams.map((e) => (
-							<div className="flex justify-between border-t-2">
-								<ExamItem
-									key={e._id}
-									id={e._id}
-									name={e.name}
-									subject={e.subject}
-									creator={e.creator.name}
-									openDate={moment.utc(e.openedAt).local().format("DD/MM/YYYY")}
-									isDone={e.isDone}
-								/>
+						{loading ? (
+							exams.map((e) => (
+								<div
+									className="flex justify-between border-t-2 cursor-pointer px-4 py-1 hover:bg-gray-200"
+									onClick={() =>
+										router.push({
+											pathname: e.isDone ? "result" : "takeExam",
+											query: {
+												idExam: e._id,
+											},
+										})
+									}
+								>
+									<ExamItem
+										key={e._id}
+										id={e._id}
+										name={e.name}
+										minuteLimit={e.minuteLimit}
+										creator={e.creator.name}
+										openDate={moment
+											.utc(e.openedAt)
+											.local()
+											.format("DD/MM/YYYY")}
+										isDone={e.isDone}
+									/>
 
-								{e.isEditable && user?.role == "teacher" && (
-									<div className="flex flex-col">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											className="h-6 w-6 cursor-pointer mt-3"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-											onClick={() =>
-												router.push({
-													pathname: "editExam",
-													query: {
-														idExam: e._id,
-													},
-												})
-											}
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth={2}
-												d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-											/>
-										</svg>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											className="h-6 w-6 cursor-pointer mt-3"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-											onClick={() => handleDeleteExam(e._id)}
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth={2}
-												d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-											/>
-										</svg>
-									</div>
-								)}
-							</div>
-						))}
-						{exams?.length == 0 && (
-							<h1 className="text-md sm:text-xl lg:text-3xl">
+									{e.isEditable && user?.role == "teacher" && (
+										<div className="flex flex-col">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-6 w-6 cursor-pointer mt-3"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+												onClick={() =>
+													router.push({
+														pathname: "editExam",
+														query: {
+															idExam: e._id,
+														},
+													})
+												}
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+												/>
+											</svg>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-6 w-6 cursor-pointer mt-3"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+												onClick={() => handleDeleteExam(e._id)}
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+												/>
+											</svg>
+										</div>
+									)}
+								</div>
+							))
+						) : (
+							<>
+								<Loading />
+								<Loading />
+								<Loading />
+								<Loading />
+								<Loading />
+							</>
+						)}
+
+						{loading && exams?.length == 0 && (
+							<h1 className="text-md sm:text-xl lg:text-2xl p-4">
 								Chưa có đề thi của môn {router.query.subject}
 							</h1>
 						)}

@@ -12,19 +12,32 @@ function ViewResult({ examReview }) {
 	const seconds = parseInt(arrDiff[2]);
 
 	return (
-		<div className="grid place-content-center my-14 ">
-			<div className="py-12 p-8 sm:p-12 md:px-20 bg-gray-200 bg-opacity-25 shadow-lg">
-				<div>
-					<h1 className="text-3xl font-bold text-green-800 ">
+		<div className="flex justify-center my-20 md:my-14">
+			<div className=" w-full sm:w-2/3 md:w-3/4 lg:w-1/2 mx-3 px-3 py-5 lg:py-12 sm:p-12 md:px-20 bg-gray-300 bg-opacity-25 shadow-lg">
+				<div className="mb-3">
+					<span className="text-3xl font-bold text-green-800 ">
 						{examReview?.exam?.subject}
-					</h1>
-
-					<h3 className="text-yellow-500 text-2xl font-semibold cursor-pointer my-3">
+						<span> |</span>
+					</span>
+					<span className="text-yellow-500 text-2xl font-semibold cursor-pointer my-3">
+						<span>| </span>
 						{examReview?.exam?.name}
-					</h3>
+					</span>
 				</div>
 
 				<div className="border p-2">
+					<h4 className="text-md text-gray-600 font-semibold">
+						Thời gian:{" "}
+						<span className="text-yellow-500 ">
+							{examReview?.exam?.minuteLimit} phút
+						</span>
+					</h4>
+					<h4 className="text-md text-gray-600 font-semibold">
+						Số câu:{" "}
+						<span className="text-yellow-500 ">
+							{examReview?.exam?.questions?.length}
+						</span>
+					</h4>
 					<h4 className="text-md text-gray-600 font-semibold">
 						Người đăng:{" "}
 						<span className="text-yellow-500 ">
@@ -42,21 +55,8 @@ function ViewResult({ examReview }) {
 					</h4>
 				</div>
 
-				<div className="text-center my-3">
-					<h4 className="text-md text-gray-600 font-semibold">
-						Thời gian:{" "}
-						<span className="text-yellow-500 ">
-							{examReview?.exam?.minuteLimit} phút
-						</span>
-					</h4>
-					<h4 className="text-md text-gray-600 font-semibold">
-						Số câu:{" "}
-						<span className="text-yellow-500 ">
-							{examReview?.exam?.questions?.length}
-						</span>
-					</h4>
-				</div>
-				<div className="flex justify-center my-10">
+				<div className="text-center my-3"></div>
+				<div className="flex justify-center my-3 lg:my-10">
 					<table className="w-full">
 						<tr className="bg-blue-400 text-white">
 							<th className="w-1/2">Trạng thái</th>

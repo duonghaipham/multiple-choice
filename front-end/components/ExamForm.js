@@ -176,7 +176,10 @@ export default function ExamForm({ timeout, questions, idExam }) {
 						onClick={() => {
 							buttonSubmit.current.click();
 							router.push({
-								pathname: "/",
+								pathname: "result",
+								query: {
+									idExam: idExam,
+								},
 							});
 						}}
 					>

@@ -42,9 +42,6 @@ function BodyExam({ exam }) {
 							Thời gian: {exam?.minuteLimit} phút
 						</span>
 						<span className=" text-lg font-semibold mt-3">
-							Số lần thi: {exam?.attemptLimit}
-						</span>
-						<span className=" text-lg font-semibold mt-3">
 							Người ra đề: {exam?.creator?.name}
 						</span>
 					</div>
