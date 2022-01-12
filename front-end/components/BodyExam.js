@@ -65,7 +65,12 @@ function BodyExam({ exam }) {
 						<button
 							className="bg-green-400 py-2 px-8 mt-4 mr-3 font-bold text-gray-50 text-lg rounded-lg"
 							onClick={() => {
-								router.push("/result");
+								router.push({
+									pathname: "result",
+									query: {
+										idExam: exam?._id,
+									},
+								});
 							}}
 						>
 							Xem kết quả
