@@ -148,6 +148,25 @@ function UserAdmin() {
     }
   };
 
+  const handleOnSubmitEdit = async () => {
+    try {
+      const token = localStorage.getItem("REFRESH_TOKEN");
+      const res = await axios({
+        url: `${process.env.NEXT_PUBLIC_API_URL}/admin/users/${state._id}/update`,
+        method: "PUT",
+        headers: {
+          access_token: token,
+        },
+        data: state,
+      }).then(res => res);
+      if (res.data.message == "Success") {
+        router.reload();
+      }
+    } catch (error) {
+      console.log("Failed to fetch exam:", error);
+    }
+  };
+
   const handleOnChange =
     (name) =>
     ({ target }) => {
@@ -312,7 +331,7 @@ function UserAdmin() {
 
           <ModalFooter>
             {state._id ? (
-              <Button colorScheme="blue" mr={3} onClick={handleOnSubmit}>
+              <Button colorScheme="blue" mr={3} onClick={handleOnSubmitEdit}>
                 Change
               </Button>
             ) : (
