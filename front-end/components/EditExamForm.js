@@ -64,70 +64,12 @@ export default function EditExamForm({ exam }) {
 	// 	},
 	// ];
 
-	// const { register, handleSubmit } = useForm();
-	// const router = useRouter();
-	// const arr = JSON.parse(router.query.exam);
-	// // const arr = [];
-	// console.log(arr);
-
-	// const objectShema = {};
-	// arr?.forEach((e) => {
-	// 	objectShema[`q${e}`] = yup
-	// 		.string()
-	// 		.required(`Hãy thêm nội dung cho câu hỏi`);
-	// 	objectShema[`q${e}ans0`] = yup.string().required(`Hãy thêm đáp án A`);
-	// 	objectShema[`q${e}ans1`] = yup.string().required(`Hãy thêm đáp án B`);
-	// 	objectShema[`q${e}ans2`] = yup.string().required(`Hãy thêm đáp án C`);
-	// 	objectShema[`q${e}ans3`] = yup.string().required(`Hãy thêm đáp án D`);
-	// 	objectShema[`q${e}rightAnswer`] = yup.number().required();
-	// });
-	// const validationSchema = yup.object().shape(objectShema);
-	// const {
-	// 	register,
-	// 	handleSubmit,
-	// 	formState: { errors },
-	// } = useForm({
-	// 	resolver: yupResolver(validationSchema),
-	// });
-
-	// let exam = null;
-	// const onSubmit = (data) => {
-	// 	exam = modifiedQuestion(data);
-	// 	console.log(exam);
-	// 	router.push("/");
-	// };
-
-	// return (
-	// 	// <form onSubmit={handleSubmit(onSubmit)}>
-	// 	// 	{arr?.map((e, i) => (
-	// 	// 		<div key={i} className="w-auto bg-green-300 p-4">
-	// 	// 			<h4>Câu hỏi {i + 1}</h4>
-	// 	// 			<Question
-	// 	// 				register={register}
-	// 	//              errors = {errors}
-	// 	// 				label={`q${i}`}
-	// 	// 				question={e.question}
-	// 	// 				// mulChoice={`q${i}mul`}
-	// 	// 				rightAnswer={e.rightAnswer}
-	// 	// 				answers={e.answers}
-	// 	// 				labelAnswers={[`q${i}ans0`, `q${i}ans1`, `q${i}ans2`, `q${i}ans3`]}
-	// 	// 			/>
-	// 	// 		</div>
-	// 	// 	))}
-	// 	// 	<input type="submit" />
-	// 	// </form>
-	// 	<h1>Edit exam</h1>
-	// );
-
 	const router = useRouter();
 
-	//const [exam, setExam] = useState({});
 	const [name, setName] = useState("");
 	const [minuteLimit, setMinuteLimit] = useState("");
 	const [subject, setSubject] = useState("");
 	const [grade, setGrade] = useState("");
-	//const [schoolYear, setSchoolYear] = useState(exam.schoolYear);
-	//const data = JSON.parse(router.query.data);
 
 	const {
 		register,
