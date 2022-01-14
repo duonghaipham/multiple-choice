@@ -36,15 +36,6 @@ function CreateQuestion({ register, errors, label }) {
 				})}
 				type="text"
 			/>
-			{/* <div className="flex items-center">
-				<input
-					className="mx-3 h-5 w-5"
-					type="checkbox"
-					onClick={() => setCheckBox(!checkBox)}
-					{...register(mulChoice)}
-				/>
-				<label htmlFor="">Câu hỏi nhiều đáp án</label>
-			</div> */}
 			<ErrorMessage
 				errors={errors}
 				name={labelCorrectOption}

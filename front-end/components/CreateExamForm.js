@@ -163,22 +163,6 @@ export default function CreateExamForm() {
 							Lớp
 						</label>
 					</div>
-
-					{/* <div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<select
-							required
-							{...register("schoolYear")}
-							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-						>
-							<option></option>
-							<option value="2020-2021">2020-2021</option>
-							<option value="2021-2022">2021-2022</option>
-							<option value="2022-2023">2022-2023</option>
-						</select>
-						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Năm học
-						</label>
-					</div> */}
 				</div>
 			</div>
 			<ul className="w-full flex flex-col items-center b">
@@ -196,7 +180,7 @@ export default function CreateExamForm() {
 								register={register}
 								errors={errors}
 								label={`questions.${index}.`}
-								// mulChoice={`q${i}mul`}
+							// mulChoice={`q${i}mul`}
 							/>
 							<div className="text-center">
 								<button

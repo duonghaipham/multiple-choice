@@ -55,12 +55,12 @@ export default function ExamForm({ timeout, questions, idExam }) {
 					fields[`option${i}`] == e.options[0]?._id
 						? "A"
 						: fields[`option${i}`] == e.options[1]?._id
-						? "B"
-						: fields[`option${i}`] == e.options[2]?._id
-						? "C"
-						: fields[`option${i}`] == e.options[3]?._id
-						? "D"
-						: null,
+							? "B"
+							: fields[`option${i}`] == e.options[2]?._id
+								? "C"
+								: fields[`option${i}`] == e.options[3]?._id
+									? "D"
+									: null,
 				);
 			else selectedOptions.push(null);
 		});
@@ -68,8 +68,8 @@ export default function ExamForm({ timeout, questions, idExam }) {
 		const action =
 			questions?.length != null
 				? selectedOptions.some(
-						(e) => e === "A" || e === "B" || e === "C" || e === "D",
-				  )
+					(e) => e === "A" || e === "B" || e === "C" || e === "D",
+				)
 					? initAnswers(selectedOptions)
 					: initAnswers(questions?.length)
 				: initAnswers(0);
