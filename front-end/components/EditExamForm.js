@@ -191,30 +191,6 @@ export default function EditExamForm({ exam }) {
 	};
 
 	return (
-		// <form onSubmit={handleSubmit(onSubmit)}>
-		// 	{questions?.map((i) => (
-		// 		<div key={i} className="w-auto bg-green-300 p-4">
-		// 			<h4>Câu hỏi {i + 1}</h4>
-
-		// 			<CreateQuestion
-		// 				register={register}
-		// 				errors={errors}
-		// 				label={`q${i}`}
-		// 				// mulChoice={`q${i}mul`}
-		// 				labelAnswers={[`q${i}ans0`, `q${i}ans1`, `q${i}ans2`, `q${i}ans3`]}
-		// 			/>
-		// 		</div>
-		// 	))}
-
-		// 	<p
-		// 		onClick={() => {
-		// 			setQuestions([...questions, questions[questions.length - 1] + 1]);
-		// 		}}
-		// 	>
-		// 		Thêm câu hỏi
-		// 	</p>
-		// 	<input type="submit" />
-		// </form>
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="p-10 border rounded flex flex-col xl:flex-row items-center bg-green-50">
 				<div className="w-full xl:w-2/3 flex flex-col relative mx-1">
@@ -302,23 +278,6 @@ export default function EditExamForm({ exam }) {
 						</label>
 					</div>
 
-					{/* <div className="mt-8 md:mt-0 flex flex-col relative mx-2 w-ms-40">
-						<select
-							required
-							{...register("schoolYear")}
-							className="mb-1 md:mb-0 border-2 bg-transparent text-lg py-1 pl-2 focus:outline-none rounded peer"
-							value={schoolYear}
-							onChange={(e) => setSchoolYear(e.target.value)}
-						>
-							<option></option>
-							<option value="2020-2021">2020-2021</option>
-							<option value="2021-2022">2021-2022</option>
-							<option value="2022-2023">2022-2023</option>
-						</select>
-						<label className="absolute top-2 left-1 duration-200 font-medium text-gray-400 transition ease transform peer-valid:-translate-y-8 peer-focus:-translate-y-8 peer-valid:text-gray-700 peer-focus:text-gray-700">
-							Năm học
-						</label>
-					</div> */}
 				</div>
 			</div>
 			<ul className="w-full flex flex-col items-center b">
@@ -341,27 +300,16 @@ export default function EditExamForm({ exam }) {
 									item.correctOption == ""
 										? ""
 										: item.correctOption?._id == item.options[0]?._id
-										? "0"
-										: item.correctOption?._id == item.options[1]?._id
-										? "1"
-										: item.correctOption?._id == item.options[2]?._id
-										? "2"
-										: "3"
+											? "0"
+											: item.correctOption?._id == item.options[1]?._id
+												? "1"
+												: item.correctOption?._id == item.options[2]?._id
+													? "2"
+													: "3"
 								}
 								options={item.options}
 
-								// mulChoice={`q${i}mul`}
 							/>
-							{/* ) : (
-								<EditQuestion
-									register={register}
-									errors={errors}
-									label={`questions.${index}.`}
-									question={null}
-									correctAnswer={null}
-									answers={[null, null, null, null]}
-								/>
-							)} */}
 
 							<div className="text-center">
 								<button
